@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Schedule</title>
+  <link rel="stylesheet" href="stylesheets/main.css">
+</head>
+<body>
+  <!-- All of the Node.js APIs are available in this renderer process. -->
+  <!--     We are using Node.js <script>document.write(process.versions.node)</script>,
+      Chromium <script>document.write(process.versions.chrome)</script>,
+      and Electron <script>document.write(process.versions.electron)</script>.
+   -->
+  <header id="header-backdrop"><!-- This exists as an "identical copy" of the header, the purpose being that it should have the same SIZE/DIMENSIONS as the real header.  This is to achieve the sticky-header effect. -->
+    <div class="month-and-year">A</div>
+    <div class="wrapper">
+      <div class="left-gutter"></div>
+      <div class="main-container">
+        <table class="days-of-week">
+          <!-- One column per day or week -->
+          <tr>
+            <td>Mon</td>
+            <td>Tue</td>
+            <td>Wed</td>
+            <td>Thu</td>
+            <td>Fri</td>
+            <td>Sat</td>
+            <td>Sun</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </header>
+  <header id="header"><!-- This is the ACTUAL header -->
+    <table>
+      <tr>
+        <td class="month-and-year">
+          <span class="month"></span><span class="year"></span>
+        </td>
+        <td class="status">
+          <div class="status-message">Loading</div>
+        </td>
+        <td class="shift">
+          <img id='shift-left' src='images/arrow-left-crop.png' alt='shift left'>
+          <img id='shift-right' src='images/arrow-left-crop.png' alt='shift right'>
+        </td>
+      </tr>
+    </table>
+    <div class="wrapper">
+      <div class="left-gutter"></div>
+      <div class="main-container">
+        <table class="days-of-week">
+          <!-- One column per day or week -->
+          <tr>
+            <td id="weekday-header-0">
+              <div class="weekday-wrapper">
+                <div class="weekday"></div>
+                <div class="day-num"></div>
+              </div>
+            </td>
+            <td id="weekday-header-1">
+              <div class="weekday-wrapper">
+                <span class="weekday"></span>
+                <span class="day-num"></span>
+              </div>
+            </td>
+            <td id="weekday-header-2">
+              <div class="weekday-wrapper">
+                <span class="weekday"></span>
+                <span class="day-num"></span>
+              </div>
+            </td>
+            <td id="weekday-header-3">
+              <div class="weekday-wrapper">
+                <span class="weekday"></span>
+                <span class="day-num"></span>
+              </div>
+            </td>
+            <td id="weekday-header-4">
+              <div class="weekday-wrapper">
+                <span class="weekday"></span>
+                <span class="day-num"></span>
+              </div>
+            </td>
+            <td id="weekday-header-5">
+              <div class="weekday-wrapper">
+                <span class="weekday"></span>
+                <span class="day-num"></span>
+              </div>
+            </td>
+            <td id="weekday-header-6">
+              <div class="weekday-wrapper">
+                <span class="weekday"></span>
+                <span class="day-num"></span>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </header>
+  <div id="content-of-week-wrapper" class="wrapper">
+    <div id="times-gutter" class="left-gutter">
+      <table>
+        <tr><td id='0am'>12 AM</td></tr>
+        <tr><td id='1am'>1 AM</td></tr>
+        <tr><td id='2am'>2 AM</td></tr>
+        <tr><td id='3am'>3 AM</td></tr>
+        <tr><td id='4am'>4 AM</td></tr>
+        <tr><td id='5am'>5 AM</td></tr>
+        <tr><td id='6am'>6 AM</td></tr>
+        <tr><td id='7am'>7 AM</td></tr>
+        <tr><td id='8am'>8 AM</td></tr>
+        <tr><td id='9am'>9 AM</td></tr>
+        <tr><td id='10am'>10 AM</td></tr>
+        <tr><td id='11am'>11 AM</td></tr>
+        <tr><td id='12pm'>12 PM</td></tr>
+        <tr><td id='1pm'>1 PM</td></tr>
+        <tr><td id='2pm'>2 PM</td></tr>
+        <tr><td id='3pm'>3 PM</td></tr>
+        <tr><td id='4pm'>4 PM</td></tr>
+        <tr><td id='5pm'>5 PM</td></tr>
+        <tr><td id='6pm'>6 PM</td></tr>
+        <tr><td id='7pm'>7 PM</td></tr>
+        <tr><td id='8pm'>8 PM</td></tr>
+        <tr><td id='9pm'>9 PM</td></tr>
+        <tr><td id='10pm'>10 PM</td></tr>
+        <tr><td id='11pm'>11 PM</td></tr>
+        <tr><td id='12am'>12 AM</td></tr>
+      </table>
+    </div>
+    <div class="main-container">
+      <table id="content-of-week-backdrop" class="content-of-week">
+        <!-- One column per day or week -->
+        <tr>
+          <td><!--Monday-->
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour last-hour"></div>
+          </td>
+          <td><!--Tuesday-->
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour last-hour"></div>
+          </td>
+          <td><!--Wednesday-->
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour last-hour"></div>
+          </td>
+          <td><!--Thursday-->
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour last-hour"></div>
+          </td>
+          <td><!--Friday-->
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour last-hour"></div>
+          </td>
+          <td><!--Saturday-->
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour last-hour"></div>
+          </td>
+          <td><!--Sunday-->
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour"></div>
+            <div class="hour last-hour"></div>
+          </td>
+        </tr>
+      </table>
+      <table id="content-of-week" class="content-of-week">
+        <!-- One column per day or week -->
+        <tr>
+          <td id="weekday-0" class="content-of-weekday"></td>
+          <td id="weekday-1" class="content-of-weekday"></td>
+          <td id="weekday-2" class="content-of-weekday"></td>
+          <td id="weekday-3" class="content-of-weekday"></td>
+          <td id="weekday-4" class="content-of-weekday"></td>
+          <td id="weekday-5" class="content-of-weekday"></td>
+          <td id="weekday-6" class="content-of-weekday"></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <script>
+    // You can also require other files to run in this process
+    require('./scripts/mymain.js')
+  </script>
+</body>
+</html>
