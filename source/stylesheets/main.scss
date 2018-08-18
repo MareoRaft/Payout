@@ -2,191 +2,71 @@
 
 
 /* GLOBAL THINGS */
-$hour-height: 54px;
 html {
-	width: 100%;
-	font-family: -apple-system, Helvetica, Arial, sans-serif;
-	color: black;
-}
-body {
-	width: 100%;
+	font-family: monospace, Courier;
 }
 
 
-/* WRAPPER PATTERN */
-.wrapper {
-    display: flex;
-    align-items: stretch;
-    flex-flow: row nowrap;
-    justify-content: space-between;
-}
-$left-gutter-width: 61px;
-.left-gutter {
-    min-width: $left-gutter-width;
-    width: $left-gutter-width;
-    padding-right: 5px;
-	font-size: smaller;
-}
+/* MAIN THINGS */
 .main-container {
-	width: 100%;
-	position: relative; /* allows children to be position 'absolute' relative to this container */
-}
-
-
-/* HEADER */
-header {
-	width: 100%;
-}
-#header-backdrop {
-	opacity: 0;
-	color: transparent;
-}
-#header {
-	position: fixed;
-	top: 0px;
-	z-index: 2;
-	background-color: white; /* solid background color to cover up the #header-backdrop */
-}
-#header table {
-	width: 100%;
-}
-.month-and-year {
-	font-size: 30px;
-	padding: 9px;
-	padding-left: 14px;
-}
-.year {
-	font-weight: 100; /* to make font thin */
-}
-.status {
-	vertical-align: middle;
-}
-$status-background-color: red;
-.status-message {
-	height: 30px;
-	font-size: 20px;
-	text-align: center;
-	border: 4px solid;
-	border-radius: 8px;
-	border-color: $status-background-color;
-	background-color: $status-background-color;
-	color: white;
-}
-.shift {
-	padding: 9px;
-	padding-right: 14px;
-	text-align: right;
-}
-.shift img {
-	height: 20px;
-	margin-left: 20px;
-	filter: grayscale(100%);
-	opacity: 0.5;
-}
-.shift img:hover {
-	opacity: 1;
-}
-#shift-right {
-	transform: rotate(180deg);
-}
-$table-height: 28px; // must be set for table AND weekday-wrapper to get 12 PM to appear in correct vertical position
-.days-of-week {
-	height: $table-height;
-	width: 100%;
-	table-layout: fixed; /* for equal horizontal spacing */
-	color: #333;
-}
-.days-of-week td {
-	text-align: center;
-}
-.weekday-wrapper {
-	// this wrapper is necessary as to not interfere with the td which is tied to table-layout: fixed
-	height: $table-height;
-	display: flex;
-	flex-wrap: nowrap;
-	justify-content: center;
-	align-items: center;
-	align-content: center;
-}
-.weekday {
-	// put a gap between weekday and day num
-	margin-right: 6px;
-}
-$circle-diameter: 28px;
-.day-num {
-	display: flex;
-	flex-wrap: nowrap;
-	justify-content: center;
-	align-items: center;
-	align-content: center;
-}
-.today-num {
-	@extend .today-num;
-	min-height: $circle-diameter;
-	min-width: $circle-diameter;
-	background-image: url(../images/circle.svg);
-	background-repeat: no-repeat;
-	background-position: center;
-	background-size: contain;
-	color: white;
-}
-
-/* CONTENT */
-#content-of-week-wrapper {
-}
-#times-gutter {
-	color: #C1C1C1;
-}
-#times-gutter > table{
-	width: 100%;
-}
-#times-gutter td {
-	height: $hour-height;
-	text-align: right;
-}
-.content-of-week {
-	position: absolute; /* parent element is non-static, so this gets positioned to 0,8 relative to it's parent */
-	top: 8px; /* budge down slightly to align with the first typed hour '12 AM' */
-	left: 0px;
-	width: 100%;
-	height: 100%;
-	table-layout: fixed; /* for equal horizontal spacing */
-}
-#content-of-week-backdrop {
-}
-$hour-line-color: black;
-#content-of-week-backdrop .hour {
-	height: $hour-height;
-	border-top: 1px solid $hour-line-color;
-}
-#content-of-week-backdrop .last-hour {
-	height: calc($hour-height + 1px); /* extra pixel for the bottom border */
-	border-bottom: 1px solid $hour-line-color;
-}
-#content-of-week {
-	z-index: 1; /* not necessary, but guarantees that #content-of-week appears above #content-of-week-backdrop */
-	opacity: 0.9;
-}
-#content-of-week td {
-	position: relative; /* so events can be absolutely positioned relative to this */
-	padding: 0px 1px; /* so events horizontally next to each other don't touch */
-	background-color: white; /* by some insane glitch, the padding doesn't work unless a background color is set and not transparent */
-}
-.block {
+	/* force it to take up the entire window */
 	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	/* flex */
+	display: flex;
+	background-color: yellow;
+}
+.left-container {
+	width: 240px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	background-color: red;
+}
+.left-spacer-1 {
+	height: 20%;
+	background-color: yellow;
+}
+.logo {
+	height: 20%;
+	background-color: green;
+}
+.left-spacer-2 {
+	height: 20%;
+	background-color: blue;
+}
+nav {
+	height: 20%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	background-color: purple;
+}
+.nav-item {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	text-align: center;
+	font-size: 1.9em;
+	background-color: red;
+}
+.left-spacer-3 {
+	height: 20%;
+}
+.right-container {
+	/* take up as much space as possible */
 	width: 100%;
-	padding: 6px;
-	overflow: hidden; /* 'scroll' or 'hidden' depending on browser */
-	word-break: break-all;
-	font-size: smaller;
+	display: flex;
+	flex-direction: column;
+	background-color: pink;
 }
-.event {
-	@extend .block;
-	background-color: #DAF2D3;
-	color: #008A16;
+.transaction-settings {
+	height: 30%;
+	background-color: lightblue;
 }
-.forecast {
-	@extend .block;
-	/* colors and opacity populated by javascript */
+.transaction-list {
+	height: 70%;
+	background-color: lightgreen;
 }
-

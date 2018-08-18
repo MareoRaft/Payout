@@ -1,5 +1,5 @@
 {
-  "name": "Payout",
+  "name": "payout",
   "productName": "Payout",
   "version": "1.0.0",
   "description": "Pay out ERC20 tokens to many people at once.",
@@ -50,6 +50,7 @@
   },
   "dependencies": {
     "electron-compile": "^6.4.3",
+    "electron-reload": "^1.2.5",
     "electron-squirrel-startup": "^1.0.0"
   },
   "devDependencies": {

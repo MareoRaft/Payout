@@ -24,6 +24,9 @@ time, mark, audio, video {
     outline: none; /* disables ugly gray outline on focus. See http://stackoverflow.com/questions/1371517/disable-grey-border-on-anchor-a-elements-on-focus for IE compatible ways */
     box-sizing: border-box; /* I think this only affects things that are not display: inline */
 }
+html, body {
+    width: 100%;
+}
 input, textarea {
     box-sizing: border-box;
 }

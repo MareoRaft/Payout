@@ -50,3 +50,6 @@ It could look good with a high refresh rate
 ideas for application name:
 payout, erc20 payout, erc20 automator, token automator, dispatch,
 
+packaging.  there's actually quite a bit you can do with gulp:
+https://stackoverflow.com/questions/30445766/live-reload-for-electron-application
+

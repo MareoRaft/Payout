@@ -5,6 +5,10 @@ if (require('electron-squirrel-startup')) { // eslint-disable-line global-requir
   app.quit();
 }
 
+// This SHOULD be removed in the make process
+// This enabled automatic reload for dev convenience
+require('electron-reload')(__dirname);
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
@@ -12,8 +16,10 @@ let mainWindow;
 const createWindow = () => {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 1440,
-    height: 900,
+    width: 720,
+    height: 720,
+    minWidth: 500,
+    minHeight: 300,
   });
 
   // and load the index.html of the app.
