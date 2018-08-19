@@ -48,8 +48,11 @@ consider using javascript!
 It could look good with a high refresh rate
 
 ideas for application name:
-payout, erc20 payout, erc20 automator, token automator, dispatch,
+Send Tokens, send-tokens, payout, erc20 payout, erc20 automator, token automator, dispatch,
 
 packaging.  there's actually quite a bit you can do with gulp:
 https://stackoverflow.com/questions/30445766/live-reload-for-electron-application
+
+understanding asynchronous stuff in node.  async/await is just like using yeild in python:
+https://blog.risingstack.com/mastering-async-await-in-nodejs/
 
