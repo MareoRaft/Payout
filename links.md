@@ -56,3 +56,10 @@ https://stackoverflow.com/questions/30445766/live-reload-for-electron-applicatio
 understanding asynchronous stuff in node.  async/await is just like using yeild in python:
 https://blog.risingstack.com/mastering-async-await-in-nodejs/
 
+hex encoding / decoding:
+https://stackoverflow.com/questions/6182315/how-to-do-base64-encoding-in-node-js
+
+1 digit of hex is:
+4 bits of information, or 0.5 bytes of information
+64 digits of hex is:
+256 bits of information, or 32 bytes of information
