@@ -52,6 +52,7 @@
     "electron-compile": "^6.4.3",
     "electron-reload": "^1.2.5",
     "electron-squirrel-startup": "^1.0.0",
+    "gulp-for-compass": "0.0.2",
     "send-tokens": "^1.5.1"
   },
   "devDependencies": {

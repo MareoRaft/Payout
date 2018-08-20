@@ -1,10 +1,62 @@
 @import 'reset';
+@import 'argon';
 
+// this defines the 'Pacifico' font to be used in font-family
+@font-face {
+  font-family: Lato;
+  src: url(../assets/Lato/Lato-Black.ttf);
+  font-weight: normal;
+}
+@font-face {
+  font-family: Pacifico;
+  src: url(../assets/Pacifico/Pacifico-Regular.ttf);
+  font-weight: normal;
+}
 
 /* GLOBAL THINGS */
 html {
-	font-family: monospace, Courier;
+	// font-family: Lato, Pacifico, cursive;
+
+
 }
+h2 {
+	padding-top: 14px;
+	padding-left: 20px;
+	padding-bottom: 14px;
+	font-size: 40px;
+}
+section {
+}
+.flex-wrapper {
+	position: relative;
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-content: space-between;
+	padding-left: 40px;
+	padding-right: 20px;
+	padding-bottom: 20px;
+	background-color: orange;
+}
+.content-wrapper {
+	padding-right: 20px;
+	padding-bottom: 20px;
+	background-color: lightgreen;
+}
+.button-wrapper {
+	align-self: flex-end;
+	background-color: yellow;
+	visibility: hidden;
+}
+.sticky {
+	position: absolute;
+	right: 20px;
+	bottom: 20px;
+}
+button {
+}
+
 
 
 /* MAIN THINGS */
@@ -63,10 +115,9 @@ nav {
 	background-color: pink;
 }
 .transaction-settings {
-	height: 30%;
-	background-color: lightblue;
+	color: white;
+	background-color: #880044;
 }
 .transaction-list {
-	height: 70%;
 	background-color: lightgreen;
 }

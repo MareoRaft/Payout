@@ -26,7 +26,7 @@ async function run() {
 	let contract_address = '0x2e98a6804e4b6c832ed0ca876a943abd3400b224' //$('.contract-address').val()
 	let to_address = '0x1e512fc62f01b6becf955b673a72085ca0e2ec2c' //$('.to-address').val()
 	let amount = '1' //$('.amount').val()
-	let private_key = $('.private-key').val()
+	// let private_key = //$('.private-key').val()
 	// construct inputs for send-tokens
 	let options = {
 		gasPrice: '20', //gwei,

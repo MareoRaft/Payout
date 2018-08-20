@@ -18,19 +18,40 @@
 			<div class="left-spacer-3"></div>
 		</div>
 		<div class="right-container">
-			<div class="transaction-settings">
-				gwei <input class="gwei" type="text" />
-				amount <input class="amount" type="text" />
-				contract address <input class="contract-address" type="text" />
-				to address <input class="to-address" type="text" />
-				private key <input class="private-key" type="text" />
-				<button class="submit">Submit</button>
-			</div>
-			<div class="transaction-list">
-				<div>transaction1</div>
-				<div>transaction2</div>
-				<div>transaction3</div>
-			</div>
+			<section class="transaction-settings">
+				<h2>Settings</h2>
+				<div class="flex-wrapper">
+					<div class="content-wrapper">
+						gwei <input class="gwei" type="text" />
+						<br />amount <input class="amount" type="text" />
+						<br />contract address <input class="contract-address" type="text" />
+						<br /><div class="more-settings">
+							to address <input class="to-address" type="text" />
+							<br />private key <input class="private-key" type="text" />
+						</div>
+					</div>
+					<div class="button-wrapper">
+						<button class="show-more-less-settings btn">Show more settings</button>
+					</div>
+					<button class="show-more-less-settings btn sticky">Show more settings</button>
+				</div>
+			</section>
+			<section class="transaction-queue">
+				<table>
+					<tr><th>To address</th><th>Amount, in 10^(-18) token</th><th>Status</th></tr>
+					<tr><td>0x1e512fc62f01b6becf955b673a72085ca0e2ec2c</td><td>200</td><td>not sent</td></tr>
+				</table>
+			</section>
+			<section class="transaction-payout">
+				Here are some words and explanation.
+				<button class="payout">Payout</button>
+			</section>
+			<section class="successful-transactions">
+				same table as above, all statuses "sent"
+			</section>
+			<section class="reset">
+				reset button
+			</section>
 		</div>
 	</div>
 	<script>
