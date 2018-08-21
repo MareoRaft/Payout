@@ -32,11 +32,19 @@ h2 {
 	padding-left: $buffer;
 	font-size: 40px;
 }
+.table-flex-wrapper {
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: center;
+	align-items: flex-start;
+	align-content: flex-start;
+}
+.table-centerer {
+	flex-grow: 1;
+}
 table {
-	// center the table
-	margin-left: auto;
-	margin-right: auto;
-	font-size: 100%;
+	margin-left: $buffer;
+	margin-right: $buffer;
 	border-collapse: collapse;
 	background-color: pink;
 }
