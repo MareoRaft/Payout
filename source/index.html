@@ -18,9 +18,9 @@
 			<div class="left-spacer-3"></div>
 		</div>
 		<div class="right-container">
-			<section class="transaction-settings">
+			<section class="settings">
 				<h2>Settings</h2>
-				<div class="flex-wrapper">
+				<div class="settings-flex-wrapper">
 					<div class="content-wrapper">
 						gwei <input class="gwei" type="text" />
 						<br />amount <input class="amount" type="text" />
@@ -36,17 +36,22 @@
 					<button class="show-more-less-settings btn sticky">Show more settings</button>
 				</div>
 			</section>
-			<section class="transaction-queue">
+			<section class="queue">
+				<div class="queue-flex-wrapper">
+					<h2>Transaction Queue</h2>
+					<button class="add-to-queue-invisible btn">Add transactions to queue</button>
+					<button class="add-to-queue btn">Add transactions to queue</button>
+				</div>
 				<table>
 					<tr><th>To address</th><th>Amount, in 10^(-18) token</th><th>Status</th></tr>
 					<tr><td>0x1e512fc62f01b6becf955b673a72085ca0e2ec2c</td><td>200</td><td>not sent</td></tr>
 				</table>
 			</section>
-			<section class="transaction-payout">
+			<section class="payout">
 				Here are some words and explanation.
 				<button class="payout">Payout</button>
 			</section>
-			<section class="successful-transactions">
+			<section class="success">
 				same table as above, all statuses "sent"
 			</section>
 			<section class="reset">

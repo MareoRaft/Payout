@@ -13,34 +13,49 @@
   font-weight: normal;
 }
 
-/* GLOBAL THINGS */
+/* GLOBAL VARIABLES */
+// The global 'margin' or 'buffer' for the left and right gutters of the page, and bottom of sections
+$buffer: 20px;
+// The buffer space below a section title
+// not now
+// How close things can get to each other
+$crash-buffer: $buffer;
+$button-height: 43px;
+
+/* GLOBAL STYLES */
 html {
 	// font-family: Lato, Pacifico, cursive;
-
-
 }
 h2 {
-	padding-top: 14px;
-	padding-left: 20px;
-	padding-bottom: 14px;
+	padding-top: $buffer - 6px;
+	padding-left: $buffer;
 	font-size: 40px;
 }
 section {
 }
-.flex-wrapper {
+table {
+	// center the table
+	margin-left: auto;
+	margin-right: auto;
+	background-color: pink;
+}
+
+/* SETTINGS */
+.settings-flex-wrapper {
 	position: relative;
 	width: 100%;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
 	align-content: space-between;
-	padding-left: 40px;
-	padding-right: 20px;
-	padding-bottom: 20px;
+	margin-top: 14px;
+	padding-left: $buffer + 20px;
+	padding-right: $buffer;
+	padding-bottom: $buffer;
 	background-color: orange;
 }
 .content-wrapper {
-	padding-right: 20px;
+	padding-right: 10px;
 	padding-bottom: 20px;
 	background-color: lightgreen;
 }
@@ -51,13 +66,35 @@ section {
 }
 .sticky {
 	position: absolute;
-	right: 20px;
-	bottom: 20px;
+	right: $buffer;
+	bottom: $buffer;
 }
 button {
 }
 
-
+/* QUEUE */
+.queue-flex-wrapper {
+	min-height: $buffer + $button-height + $buffer;
+	position: relative;
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-content: flex-start;
+	padding-right: $buffer;
+	background-color: yellow;
+}
+.add-to-queue-invisible {
+	height: $button-height;
+	margin-left: $crash-buffer;
+	margin-top: $crash-buffer;
+	visibility: hidden;
+}
+.add-to-queue {
+	position: absolute;
+	right: $buffer;
+	bottom: $buffer;
+}
 
 /* MAIN THINGS */
 .main-container {
@@ -112,12 +149,12 @@ nav {
 	width: 100%;
 	display: flex;
 	flex-direction: column;
-	background-color: pink;
+	background-color: lightblue;
 }
-.transaction-settings {
+section.settings {
 	color: white;
 	background-color: #880044;
 }
-.transaction-list {
+section.queue {
 	background-color: lightgreen;
 }
