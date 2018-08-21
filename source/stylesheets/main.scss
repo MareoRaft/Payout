@@ -1,7 +1,7 @@
 @import 'reset';
 @import 'argon';
+@import 'layout';
 
-// this defines the 'Pacifico' font to be used in font-family
 @font-face {
   font-family: Lato;
   src: url(../assets/Lato/Lato-Black.ttf);
@@ -25,22 +25,49 @@ $button-height: 43px;
 /* GLOBAL STYLES */
 html {
 	// font-family: Lato, Pacifico, cursive;
+	// verdana,helvetica,arial,sans-serif;
 }
 h2 {
 	padding-top: $buffer - 6px;
 	padding-left: $buffer;
 	font-size: 40px;
 }
-section {
-}
 table {
 	// center the table
 	margin-left: auto;
 	margin-right: auto;
+	font-size: 100%;
+	border-collapse: collapse;
 	background-color: pink;
+}
+th {
+  padding: 3px;
+  vertical-align: top;
+  text-align: left;
+  border: 1px solid #555;
+  color: #fff;
+  background-color: #555;
+}
+tr:nth-child(odd) {
+  background-color: #f1f1f1;
+}
+tr:nth-child(even) {
+  background-color: white;
+}
+td {
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  vertical-align: top;
+  line-height: 130%;
+  border: 1px solid #d4d4d4;
 }
 
 /* SETTINGS */
+section.settings {
+	padding-bottom: $buffer;
+}
 .settings-flex-wrapper {
 	position: relative;
 	width: 100%;
@@ -51,28 +78,30 @@ table {
 	margin-top: 14px;
 	padding-left: $buffer + 20px;
 	padding-right: $buffer;
-	padding-bottom: $buffer;
 	background-color: orange;
 }
-.content-wrapper {
-	padding-right: 10px;
-	padding-bottom: 20px;
+.settings-content-wrapper {
 	background-color: lightgreen;
 }
-.button-wrapper {
+.settings-button-invisible {
 	align-self: flex-end;
-	background-color: yellow;
+	margin-left: 0;
+	margin-top: $crash-buffer;
 	visibility: hidden;
 }
-.sticky {
+.settings-button {
 	position: absolute;
 	right: $buffer;
-	bottom: $buffer;
+	bottom: 0;
 }
 button {
 }
 
 /* QUEUE */
+section.queue {
+	padding-bottom: $buffer;
+	background-color: orange;
+}
 .queue-flex-wrapper {
 	min-height: $buffer + $button-height + $buffer;
 	position: relative;
@@ -84,77 +113,47 @@ button {
 	padding-right: $buffer;
 	background-color: yellow;
 }
-.add-to-queue-invisible {
+.queue-button-invisible {
 	height: $button-height;
 	margin-left: $crash-buffer;
 	margin-top: $crash-buffer;
 	visibility: hidden;
 }
-.add-to-queue {
+.queue-button {
 	position: absolute;
 	right: $buffer;
 	bottom: $buffer;
 }
 
-/* MAIN THINGS */
-.main-container {
-	/* force it to take up the entire window */
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	/* flex */
-	display: flex;
-	background-color: yellow;
+/* PAYOUT AND RESET */
+section.payout {
+	background-color: lime;
 }
-.left-container {
-	width: 240px;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	background-color: red;
-}
-.left-spacer-1 {
-	height: 20%;
-	background-color: yellow;
-}
-.logo {
-	height: 20%;
-	background-color: green;
-}
-.left-spacer-2 {
-	height: 20%;
-	background-color: blue;
-}
-nav {
-	height: 20%;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	background-color: purple;
-}
-.nav-item {
-	margin-top: 5px;
-	margin-bottom: 5px;
-	text-align: center;
-	font-size: 1.9em;
-	background-color: red;
-}
-.left-spacer-3 {
-	height: 20%;
-}
-.right-container {
-	/* take up as much space as possible */
+.payout-flex-wrapper {
+	min-height: $buffer + $button-height + $buffer;
+	position: relative;
 	width: 100%;
 	display: flex;
-	flex-direction: column;
-	background-color: lightblue;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-content: flex-start;
+	padding-right: $buffer;
+	background-color: yellow;
 }
-section.settings {
-	color: white;
-	background-color: #880044;
+.payout-button-invisible {
+	height: $button-height;
+	margin-left: $crash-buffer;
+	margin-top: $crash-buffer;
+	visibility: hidden;
 }
-section.queue {
-	background-color: lightgreen;
+.payout-button {
+	position: absolute;
+	right: $buffer;
+	bottom: $buffer;
+}
+
+/* SUCCESS */
+section.success {
+	padding-bottom: $buffer;
+	background-color: pink;
 }
