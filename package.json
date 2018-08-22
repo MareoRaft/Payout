@@ -11,6 +11,7 @@
     "publish": "electron-forge publish",
     "lint": "eslint src --color"
   },
+  "repository": "https://github.com/MareoRaft/Payout",
   "keywords": [],
   "author": "Matthew Lancellotti",
   "license": "MIT",
@@ -39,8 +40,8 @@
       "electronInstallerDebian": {},
       "electronInstallerRedhat": {},
       "github_repository": {
-        "owner": "",
-        "name": ""
+        "owner": "mareoraft",
+        "name": "Payout"
       },
       "windowsStoreConfig": {
         "packageName": "",

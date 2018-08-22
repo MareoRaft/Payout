@@ -63,3 +63,6 @@ https://stackoverflow.com/questions/6182315/how-to-do-base64-encoding-in-node-js
 4 bits of information, or 0.5 bytes of information
 64 digits of hex is:
 256 bits of information, or 32 bytes of information
+
+electron + angular:
+https://www.intertech.com/Blog/electron-tutorial-getting-started-with-electron-and-angular-cli/
