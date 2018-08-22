@@ -14,6 +14,12 @@ require('./date_extend.js')
 
 //////////////////// GLOBALS ////////////////////
 // let socket = undefined
+const sections = ['settings', 'queue', 'payout', 'success', 'reset']
+// the 'help' explanation for each section
+const section_to_message = {
+	'settings': 'Please input all transaction settings here.<br /><br />The \'amount\' is in 10^(-18) of a token.',
+	'queue': 'this yo\' txs bro',
+}
 
 
 ///////////////// HELPERS /////////////////
@@ -41,9 +47,27 @@ async function run() {
 	}
 }
 
+function showOverlay(section) {
+	let message = section_to_message[section]
+	$('.message').html(message)
+	$('.overlay').css('opacity', '1')
+	$('.overlay').css('pointer-events', 'auto')
+}
+
+function hideOverlay() {
+	$('.overlay').css('opacity', '0')
+	$('.overlay').css('pointer-events', 'none')
+}
 
 function initTriggers() {
 	$('.submit').click(run)
+	$('.okay-button').click(hideOverlay)
+	for (let section of sections) {
+		let identifier = `section.${section} h2`
+		$(identifier).click(function() {
+			showOverlay(section)
+		})
+	}
 }
 
 function initGlobals() {
