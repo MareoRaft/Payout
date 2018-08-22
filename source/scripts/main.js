@@ -7,7 +7,7 @@ const $ = require('./lib/jquery.js')
 const is = require('./lib/check-types.js')
 require('./lib/date.js')
 const {sendTokens} = require('send-tokens')
-const parse = require('csv-parse')
+// const parse = require('csv-parse')
 
 require('./date_extend.js')
 // const Socket = require('./socket.js')
@@ -49,7 +49,7 @@ async function run() {
 }
 
 function alertPretty(message) {
-	alert('hi')
+	console.log('hi')
 	// Just like 'alert', but prettier for the user
 	$('.message').html(message)
 	$('.overlay').css('opacity', '1')
