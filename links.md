@@ -69,3 +69,20 @@ https://fonts.google.com
 
 flexbox tricks:
 https://stackoverflow.com/questions/38948102/center-and-right-align-flexbox-elements
+
+nodejs csv stuff:
+this library will grow with you:
+https://www.npmjs.com/package/csv
+more specifically:
+http://csv.adaltas.com/parse/
+and you can find examples of usage if you scroll down on:
+https://stackoverflow.com/questions/23080413/nodejs-reading-csv-file#23085938
+
+to SLIM the application once finished:
+  * module 'csv' is not needed.  'csv-parse' is enough
+  * in a SEPARATE branch, remove all deps from package.json, and repeatedly rerun the application, installing things to address errors
+  * make sure to use --save-dev for deps that are only for development
+  * see if there is a css slim tool
+  * remove argon and manually re-add the styles that are relevant
+  * use the 'exclude' option or whatever its called in the electron-forge package/make options to exclude all unnecessary files
+

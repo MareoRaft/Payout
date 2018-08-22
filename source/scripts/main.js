@@ -7,6 +7,7 @@ const $ = require('./lib/jquery.js')
 const is = require('./lib/check-types.js')
 require('./lib/date.js')
 const {sendTokens} = require('send-tokens')
+const parse = require('csv-parse')
 
 require('./date_extend.js')
 // const Socket = require('./socket.js')
@@ -47,8 +48,9 @@ async function run() {
 	}
 }
 
-function showOverlay(section) {
-	let message = section_to_message[section]
+function alertPretty(message) {
+	alert('hi')
+	// Just like 'alert', but prettier for the user
 	$('.message').html(message)
 	$('.overlay').css('opacity', '1')
 	$('.overlay').css('pointer-events', 'auto')
@@ -59,13 +61,35 @@ function hideOverlay() {
 	$('.overlay').css('pointer-events', 'none')
 }
 
+// function populateQueue(
+
+function parseCsv(err, file_content) {
+	if (err) {
+		throw err
+	} else {
+		let result = parse(file_content)
+		alertPretty(result)
+	}
+}
+
+
+function readCsv() {
+	let path_file = prompt
+	fs.readFile(path_file, 'utf-8', parseCsv)
+}
+
+
+
 function initTriggers() {
 	$('.submit').click(run)
 	$('.okay-button').click(hideOverlay)
+	console.log('initting triggers')
 	for (let section of sections) {
 		let identifier = `section.${section} h2`
 		$(identifier).click(function() {
-			showOverlay(section)
+			console.log('section')
+			let message = section_to_message[section]
+			alertPretty(message)
 		})
 	}
 }
@@ -75,6 +99,7 @@ function initGlobals() {
 }
 
 $(document).ready(function(){
+	console.log('start')
 	initGlobals()
 	initTriggers()
 })
