@@ -86,3 +86,5 @@ to SLIM the application once finished:
   * remove argon and manually re-add the styles that are relevant
   * use the 'exclude' option or whatever its called in the electron-forge package/make options to exclude all unnecessary files
 
+dealing with files:
+https://nodejs.org/docs/v0.3.1/api/fs.html#fs.readFile

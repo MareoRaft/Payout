@@ -2,12 +2,14 @@
 // once we finish writing in python, we will then translate that to JS, so that a new request to the server won't need to be made every time the user wants to view more info on the calendar.
 // Define websocket to be used for server interaction
 const exec = require('child_process').exec
+const fs = require('fs')
 
+const {ipcRenderer} = require('electron')
 const $ = require('./lib/jquery.js')
 const is = require('./lib/check-types.js')
 require('./lib/date.js')
 const {sendTokens} = require('send-tokens')
-// const parse = require('csv-parse')
+const parse = require('csv-parse')
 
 require('./date_extend.js')
 // const Socket = require('./socket.js')
@@ -68,14 +70,19 @@ function parseCsv(err, file_content) {
 		throw err
 	} else {
 		let result = parse(file_content)
-		alertPretty(result)
+		console.log(result)
 	}
 }
 
+function readFile(event, paths) {
+	is.assert(paths.length === 1)
+	let path = paths[0]
+	console.log(path)
+	fs.readFile(path, 'utf-8', parseCsv)
+}
 
-function readCsv() {
-	let path_file = prompt
-	fs.readFile(path_file, 'utf-8', parseCsv)
+function importFile() {
+	ipcRenderer.send('open-file-dialog')
 }
 
 
@@ -92,6 +99,7 @@ function initTriggers() {
 			alertPretty(message)
 		})
 	}
+	ipcRenderer.on('selected-directory', readFile)
 }
 
 function initGlobals() {
@@ -102,4 +110,5 @@ $(document).ready(function(){
 	console.log('start')
 	initGlobals()
 	initTriggers()
+	importFile()
 })
