@@ -10,13 +10,14 @@ const is = require('./lib/check-types.js')
 require('./lib/date.js')
 const {sendTokens} = require('send-tokens')
 const parse = require('csv-parse/lib/sync')
+const _ = require('lodash')
 
 require('./date_extend.js')
 // const Socket = require('./socket.js')
 
 
 //////////////////// GLOBALS ////////////////////
-// let socket = undefined
+let callback_ok = _.noop
 const sections = ['settings', 'queue', 'payout', 'success', 'reset']
 // the 'help' explanation for each section
 const section_to_message = {
@@ -63,16 +64,33 @@ function hideOverlay() {
 	$('.overlay').css('pointer-events', 'none')
 }
 
+
 function populateQueue(data) {
+	// add the data to the queue
 	for (let row of data) {
 		let to_address = row['to-address']
 		let amount = row['amount']
-		// could do sanitization or sanity check here
 		$('section.queue table .header-row').after(
 			`<tr><td>${to_address}</td><td>${amount}</td><td>not sent</td></tr>`
 		)
 		console.log('done populating queue')
 	}
+}
+
+function verifyCsv(data) {
+	// first verify that the inputted data is correct, by asking the user
+	let message = 'Does this look okay?' +
+		'<br /><br />' +
+		'<table>' +
+		'<tr class="header-row"><th>To address</th><th>Amount</th>'
+	for (let row of data) {
+		let to_address = row['to-address']
+		let amount = row['amount']
+		message += `<tr><td>${to_address}</td><td>${amount}</td></tr>`
+	}
+	message += '</table>'
+	callback_ok = () => populateQueue(data)
+	alertPretty(message)
 }
 
 function parseCsv(err, file_content) {
@@ -86,7 +104,7 @@ function parseCsv(err, file_content) {
 			trim: true,
 		}
 		let data = parse(file_content, options)
-		populateQueue(data)
+		verifyCsv(data)
 	}
 }
 
@@ -103,12 +121,16 @@ function importFile() {
 
 function initTriggers() {
 	$('.submit').click(run)
-	$('.okay-button').click(hideOverlay)
+	$('.queue-button').click(importFile)
+	$('.cancel-button').click(hideOverlay)
+	$('.okay-button').click(function(){
+		hideOverlay()
+		callback_ok()
+	})
 	console.log('initting triggers')
 	for (let section of sections) {
 		let identifier = `section.${section} h2`
 		$(identifier).click(function() {
-			console.log('section')
 			let message = section_to_message[section]
 			alertPretty(message)
 		})
@@ -124,5 +146,4 @@ $(document).ready(function(){
 	console.log('start')
 	initGlobals()
 	initTriggers()
-	readFile(undefined, ['/Users/Matthew/programming/webwrap/Payout/test/test.csv'])
 })
