@@ -17,6 +17,8 @@ require('./date_extend.js')
 
 
 //////////////////// GLOBALS ////////////////////
+// the queue of transactions to-be-sent
+let queue = []
 let callback_ok = _.noop
 const sections = ['settings', 'queue', 'payout', 'success', 'reset']
 // the 'help' explanation for each section
@@ -30,12 +32,10 @@ const section_to_message = {
 
 
 /////////////////// MAIN ///////////////////
-async function run() {
+async function payout() {
 	// get user input
 	let gwei = $('.gwei').val()
 	let contract_address = '0x2e98a6804e4b6c832ed0ca876a943abd3400b224' //$('.contract-address').val()
-	let to_address = '0x1e512fc62f01b6becf955b673a72085ca0e2ec2c' //$('.to-address').val()
-	let amount = '1' //$('.amount').val()
 	// let private_key = //$('.private-key').val()
 	// construct inputs for send-tokens
 	let options = {
@@ -44,8 +44,14 @@ async function run() {
 		onTxId: console.log,
 	}
 	// feed into send-tokens
+	console.log('paying out')
 	try {
-		let receipt = await sendTokens(contract_address, to_address, amount, options)
+		let receipts = []
+		for (let row of queue) {
+			// let receipt = await sendTokens(contract_address, row.to_address, row.amount, options)
+			// receipts.push(receipt)
+		}
+		console.log(receipts)
 	} catch(error) {
 		alert(error)
 	}
@@ -120,7 +126,7 @@ function importFile() {
 }
 
 function initTriggers() {
-	$('.submit').click(run)
+	$('.payout-button').click(payout)
 	$('.queue-button').click(importFile)
 	$('.cancel-button').click(hideOverlay)
 	$('.okay-button').click(function(){
@@ -146,4 +152,5 @@ $(document).ready(function(){
 	console.log('start')
 	initGlobals()
 	initTriggers()
+	readFile(undefined, ['/Users/Matthew/programming/webwrap/Payout/test/test.csv'])
 })
