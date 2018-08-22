@@ -9,7 +9,7 @@ const $ = require('./lib/jquery.js')
 const is = require('./lib/check-types.js')
 require('./lib/date.js')
 const {sendTokens} = require('send-tokens')
-const parse = require('csv-parse')
+const parse = require('csv-parse/lib/sync')
 
 require('./date_extend.js')
 // const Socket = require('./socket.js')
@@ -63,14 +63,30 @@ function hideOverlay() {
 	$('.overlay').css('pointer-events', 'none')
 }
 
-// function populateQueue(
+function populateQueue(data) {
+	for (let row of data) {
+		let to_address = row['to-address']
+		let amount = row['amount']
+		// could do sanitization or sanity check here
+		$('section.queue table .header-row').after(
+			`<tr><td>${to_address}</td><td>${amount}</td><td>not sent</td></tr>`
+		)
+		console.log('done populating queue')
+	}
+}
 
 function parseCsv(err, file_content) {
 	if (err) {
 		throw err
 	} else {
-		let result = parse(file_content)
-		console.log(result)
+		let options = {
+			columns: ['to-address', 'amount'],
+			comment: '#',
+			skip_empty_lines: true,
+			trim: true,
+		}
+		let data = parse(file_content, options)
+		populateQueue(data)
 	}
 }
 
@@ -84,8 +100,6 @@ function readFile(event, paths) {
 function importFile() {
 	ipcRenderer.send('open-file-dialog')
 }
-
-
 
 function initTriggers() {
 	$('.submit').click(run)
@@ -103,12 +117,12 @@ function initTriggers() {
 }
 
 function initGlobals() {
-	// socket = new Socket(onmessage)
+	// here we init any globals that needed to wait for document.ready
 }
 
 $(document).ready(function(){
 	console.log('start')
 	initGlobals()
 	initTriggers()
-	importFile()
+	readFile(undefined, ['/Users/Matthew/programming/webwrap/Payout/test/test.csv'])
 })
