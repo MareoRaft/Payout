@@ -27,6 +27,8 @@ html {
 	// font-family: Lato, Pacifico, cursive;
 	// verdana,helvetica,arial,sans-serif;
 }
+body {
+}
 h2 {
 	padding-top: $buffer - 6px;
 	padding-left: $buffer;
@@ -95,6 +97,7 @@ td {
 	color: #222;
 }
 .alert-flex-wrapper {
+	max-height: 80%;
 	display: flex;
 	flex-direction: column;
 	flex-wrap: nowrap;
@@ -102,13 +105,16 @@ td {
 	background-color: lightgreen;
 }
 .message {
+	overflow: scroll;
 	text-align: center;
 }
 .buttons-flex-wrapper {
+	height: $button-height;
+	min-height: $button-height;
 	margin-top: $crash-buffer;
 	display: flex;
 	flex-wrap: nowrap;
-	justify-content: space-around;
+	justify-content: flex-end;
 	align-items: flex-start;
 	align-content: flex-start;
 	background-color: pink;
