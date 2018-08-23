@@ -1,6 +1,6 @@
-//This is a TEMPLATE (notice the "{{privacy}}" variable drop-in).
-// once we finish writing in python, we will then translate that to JS, so that a new request to the server won't need to be made every time the user wants to view more info on the calendar.
-// Define websocket to be used for server interaction
+/* This is not the 'main' electron javascript process, but rather the 'main' point of entry for all javascript files that I wrote in this app. */
+
+//////////////////// IMPORTS ////////////////////
 const exec = require('child_process').exec
 const fs = require('fs')
 
@@ -12,8 +12,8 @@ const {sendTokens} = require('send-tokens')
 const parse = require('csv-parse/lib/sync')
 const _ = require('lodash')
 
-require('./date_extend.js')
-// const Socket = require('./socket.js')
+require('./date-extend.js')
+const tables = require('./queue-data-binding.js')
 
 
 //////////////////// GLOBALS ////////////////////
@@ -74,13 +74,10 @@ function hideOverlay() {
 function populateQueue(data) {
 	// add the data to the queue
 	for (let row of data) {
-		let to_address = row['to-address']
-		let amount = row['amount']
-		$('section.queue table .header-row').after(
-			`<tr><td>${to_address}</td><td>${amount}</td><td>not sent</td></tr>`
-		)
-		console.log('done populating queue')
+		queue.push(row)
 	}
+	console.log('done populating queue')
+	tables.update(queue)
 }
 
 function verifyCsv(data) {
@@ -151,6 +148,8 @@ function initGlobals() {
 $(document).ready(function(){
 	console.log('start')
 	initGlobals()
+	tables.init()
 	initTriggers()
 	readFile(undefined, ['/Users/Matthew/programming/webwrap/Payout/test/test.csv'])
 })
+

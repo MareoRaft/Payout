@@ -85,6 +85,7 @@ to SLIM the application once finished:
   * see if there is a css slim tool
   * remove argon and manually re-add the styles that are relevant
   * use the 'exclude' option or whatever its called in the electron-forge package/make options to exclude all unnecessary files
+  * seperate INIT things into initBeforeDomLoad and initAfterDomLoad.  Put as many things before as possible, to speed up application load.
 
 dealing with files:
 https://nodejs.org/docs/v0.3.1/api/fs.html#fs.readFile
