@@ -77,7 +77,7 @@ function populateQueue(data) {
 		queue.push(row)
 	}
 	console.log('done populating queue')
-	tables.update(queue)
+	tables.update('queue-table', queue)
 }
 
 function verifyCsv(data) {
@@ -148,7 +148,7 @@ function initGlobals() {
 $(document).ready(function(){
 	console.log('start')
 	initGlobals()
-	tables.init()
+	tables.init('queue-table')
 	initTriggers()
 	readFile(undefined, ['/Users/Matthew/programming/webwrap/Payout/test/test.csv'])
 })
