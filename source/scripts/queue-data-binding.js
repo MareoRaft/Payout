@@ -29,7 +29,6 @@ function initHeader(table_id){
 }
 
 function init(table_id) {
-	console.log('initting data binding')
 	// get handles
 	let table = d3.select('#' + table_id)
 	table.append('thead')
@@ -44,7 +43,8 @@ function initMany(table_ids) {
 }
 
 function update(table_id, tx_queue) {
-	console.log('updating')
+	is.assert.assigned(table_id)
+	is.assert.assigned(tx_queue)
 	let rows = d3.select('#' + table_id).select('tbody').selectAll('tr')
 	// what to bind, and uniqueness
 	let bound_rows = rows.data(tx_queue, generateTxId)
@@ -68,8 +68,9 @@ function update(table_id, tx_queue) {
 	bound_rows.exit().remove()
 }
 
-function updateMany(table_ids) {
-	for (let table_id of table_ids) {
-		update(table_id)
+function updateMany(list) {
+	is.assert.array(list)
+	for (let [table_id, tx_queue] of list) {
+		update(table_id, tx_queue)
 	}
 }

@@ -210,10 +210,16 @@ section.payout {
 	margin-top: $crash-buffer;
 	visibility: hidden;
 }
+.reset-button-invisible {
+	@extend .payout-button-invisible;
+}
 .payout-button {
 	position: absolute;
 	right: $buffer;
 	bottom: $buffer;
+}
+.reset-button {
+	@extend .payout-button;
 }
 
 /* SUCCESS */

@@ -49,6 +49,7 @@ async function payout() {
 	let receipts = []
 	let queue_fail = []
 	while (is.nonEmptyArray(queue)) {
+		console.log('still not empty')
 		let tx = queue.shift()
 		try{
 			// let receipt = await sendTokens(contract_address, row.to_address, row.amount, options)
@@ -66,8 +67,8 @@ async function payout() {
 		queue.push(tx)
 	}
 	tables.updateMany([
-		('queue-table', queue),
-		('success-table', queue_success),
+		['queue-table', queue],
+		['success-table', queue_success],
 	])
 }
 
@@ -78,13 +79,13 @@ function reset() {
 		queue_history.push(tx)
 	}
 	while (is.nonEmptyArray(queue)) {
-		let tx = queue_success.shift()
+		let tx = queue.shift()
 		queue_history.push(tx)
 	}
 	tables.updateMany([
-		('queue-table', queue),
-		('success-table', queue_success),
-		('history-table', queue_history),
+		['queue-table', queue],
+		['success-table', queue_success],
+		['history-table', queue_history],
 	])
 }
 
@@ -152,11 +153,9 @@ function importFile() {
 
 function toHistory() {
 	$('.main-container-history').css('z-index', '1')
-	$('.main-container').css('z-index', '-1')
 }
 function toPayout() {
 	$('.main-container-history').css('z-index', '-1')
-	$('.main-container').css('z-index', '1')
 }
 
 function initTriggers() {
@@ -169,6 +168,7 @@ function initTriggers() {
 	$('.okay-button').click(function(){
 		hideOverlay()
 		callback_ok()
+		callback_ok = _.noop
 	})
 	for (let section of sections) {
 		let identifier = `section.${section} h2`
@@ -188,6 +188,5 @@ $(document).ready(function(){
 	initGlobals()
 	tables.initMany(['queue-table', 'success-table', 'history-table'])
 	initTriggers()
-	// readFile(undefined, ['/Users/Matthew/programming/webwrap/Payout/test/test.csv'])
 })
 
