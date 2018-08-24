@@ -14,6 +14,7 @@ const _ = require('lodash')
 
 require('./date-extend.js')
 const tables = require('./queue-data-binding.js')
+const section_to_message = require('../assets/help.json')
 
 
 //////////////////// GLOBALS ////////////////////
@@ -24,10 +25,6 @@ let queue_history = []
 let callback_ok = _.noop
 const sections = ['settings', 'queue', 'payout', 'success', 'reset']
 // the 'help' explanation for each section
-const section_to_message = {
-	'settings': 'Please input all transaction settings here.<br /><br />The \'amount\' is in 10^(-18) of a token.',
-	'queue': 'this yo\' txs bro',
-}
 let SKIP_CSV_VERIFICATION = true
 
 
@@ -190,7 +187,7 @@ function showMoreLessSettings() {
 }
 
 function initTriggers() {
-	// nav
+	// navigation
 	$('.nav-history').click(toHistory)
 	$('.nav-payout').click(toPayout)
 	// buttons
@@ -204,7 +201,7 @@ function initTriggers() {
 		callback_ok()
 		callback_ok = _.noop
 	})
-	// help
+	// help messages
 	for (let section of sections) {
 		let identifier = `section.${section} h2`
 		$(identifier).click(function() {
@@ -212,7 +209,7 @@ function initTriggers() {
 			alertPretty(message)
 		})
 	}
-	// electron
+	// electron things
 	ipcRenderer.on('selected-file', readFile)
 }
 
@@ -224,6 +221,5 @@ $(document).ready(function(){
 	initGlobals()
 	tables.initMany(['queue-table', 'success-table', 'history-table'])
 	initTriggers()
-	importFile()
 })
 

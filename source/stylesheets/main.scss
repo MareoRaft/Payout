@@ -106,13 +106,7 @@ td {
 	background-color: lightgreen;
 }
 .message {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	align-content: center;
 	overflow: scroll;
-	text-align: center;
 }
 .buttons-flex-wrapper {
 	height: $button-height;

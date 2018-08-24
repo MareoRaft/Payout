@@ -105,5 +105,11 @@ the EASIEST solution by far is to make an exact copy of the entire "main contain
 electron + angular:
 https://www.intertech.com/Blog/electron-tutorial-getting-started-with-electron-and-angular-cli/
 
+how to read json synchronously or asynchronously:
+https://www.codementor.io/codementorteam/how-to-use-json-files-in-node-js-85hndqt32
+
 the next step is to crack open the RECEIPT object and use it to update the status and timestamps accordingly
 
+look into making links open in DEFAULT BROWSER, not within the app
+
+add CSS to automatically number and indent your ordered and unordered lists
