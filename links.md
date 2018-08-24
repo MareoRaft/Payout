@@ -86,6 +86,20 @@ to SLIM the application once finished:
   * remove argon and manually re-add the styles that are relevant
   * use the 'exclude' option or whatever its called in the electron-forge package/make options to exclude all unnecessary files
   * seperate INIT things into initBeforeDomLoad and initAfterDomLoad.  Put as many things before as possible, to speed up application load.
+  * try out http://code.iamkate.com/javascript/queues/ if large spreadsheets lead to terrible performance due to shift operation
 
 dealing with files:
 https://nodejs.org/docs/v0.3.1/api/fs.html#fs.readFile
+
+to disable security warnings:
+ELECTRON_DISABLE_SECURITY_WARNINGS=true npm start
+
+create a "Send Tokens" application which is only the "Settings" part of this application.  It would 'literally' be the GUI for send-tokens.  This would be nice because the GitHub can link to send-tokens and vice-versa.
+
+possible tabs resources:
+https://www.npmjs.com/package/@minna-ui/tabs
+https://www.npmjs.com/package/@vaadin/vaadin-tabs
+https://www.npmjs.com/package/@material/tab
+the EASIEST solution by far is to make an exact copy of the entire "main container", and use z-index to make the correct one on top.  This would work flawlessly with the CSS, so we should probably just do it this way!
+
+

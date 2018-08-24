@@ -12,11 +12,14 @@
 			<div class="logo">the ambia func</div>
 			<div class="left-spacer-2"></div>
 			<nav>
-				<div class="nav-item">Payout</div>
-				<div class="nav-item">History</div>
+				<div class="nav-item nav-payout">Payout</div>
+				<div class="nav-item nav-history">History</div>
 			</nav>
 			<div class="left-spacer-3"></div>
 		</div>
+
+
+		<!-- Right Container -->
 		<div class="right-container">
 
 			<!-- Settings -->
@@ -60,8 +63,14 @@
 
 			<!-- Success -->
 			<section class="success">
-				<h2>Success</h2>
-				<!-- populate once everything working -->
+				<div class="queue-flex-wrapper">
+					<h2>Success</h2>
+				</div>
+				<div class="table-flex-wrapper">
+					<div class="table-centerer"></div>
+					<table id="success-table"><!-- populated by javascript --></table>
+					<div class="table-centerer"></div>
+				</div>
 			</section>
 
 			<!-- Reset -->
@@ -74,7 +83,28 @@
 			</section>
 
 		</div>
+
+
+		<!-- History Right Container -->
+		<div class="right-container right-container-history">
+
+			<!-- History -->
+			<section class="history">
+				<div class="queue-flex-wrapper">
+					<h2>History</h2>
+				</div>
+				<div class="table-flex-wrapper">
+					<div class="table-centerer"></div>
+					<table id="history-table"><!-- populated by javascript --></table>
+					<div class="table-centerer"></div>
+				</div>
+			</section>
+
+		</div>
 	</div>
+
+
+	<!-- Overlay -->
 	<div class="overlay">
 		<div class="alert-flex-wrapper">
 			<div class="message">
@@ -87,7 +117,6 @@
 		</div>
 	</div>
 	<script>
-		// You can also require other files to run in this process
 		require('./scripts/main.js')
 	</script>
 </body>

@@ -2,12 +2,10 @@
 
 ////////////////// IMPORTS //////////////////
 const d3 = require('d3')
+const is = require('./lib/check-types.js')
 
 ////////////////// EXPORTS //////////////////
-module.exports = {
-	init,
-	update,
-}
+module.exports = {init, initMany, update, updateMany}
 
 ////////////////// GLOBALS //////////////////
 const COLUMNS = ['to address', 'amount', 'status']
@@ -39,6 +37,12 @@ function init(table_id) {
 	initHeader(table_id)
 }
 
+function initMany(table_ids) {
+	for (let table_id of table_ids) {
+		init(table_id)
+	}
+}
+
 function update(table_id, tx_queue) {
 	console.log('updating')
 	let rows = d3.select('#' + table_id).select('tbody').selectAll('tr')
@@ -62,4 +66,10 @@ function update(table_id, tx_queue) {
 		.text('not sent')
 	// how to remove a row
 	bound_rows.exit().remove()
+}
+
+function updateMany(table_ids) {
+	for (let table_id of table_ids) {
+		update(table_id)
+	}
 }

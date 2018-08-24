@@ -176,7 +176,6 @@ section.queue {
 	justify-content: space-between;
 	align-content: flex-start;
 	padding-right: $buffer;
-	background-color: yellow;
 }
 .queue-button-invisible {
 	height: $button-height;
@@ -221,4 +220,10 @@ section.payout {
 section.success {
 	padding-bottom: $buffer;
 	background-color: pink;
+}
+
+/* HISTORY */
+section.history {
+	padding-bottom: $buffer;
+	background-color: purple;
 }

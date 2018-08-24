@@ -19,6 +19,8 @@ const tables = require('./queue-data-binding.js')
 //////////////////// GLOBALS ////////////////////
 // the queue of transactions to-be-sent
 let queue = []
+let queue_success = []
+let queue_history = []
 let callback_ok = _.noop
 const sections = ['settings', 'queue', 'payout', 'success', 'reset']
 // the 'help' explanation for each section
@@ -44,21 +46,49 @@ async function payout() {
 		onTxId: console.log,
 	}
 	// feed into send-tokens
-	console.log('paying out')
-	try {
-		let receipts = []
-		for (let row of queue) {
+	let receipts = []
+	let queue_fail = []
+	while (is.nonEmptyArray(queue)) {
+		let tx = queue.shift()
+		try{
 			// let receipt = await sendTokens(contract_address, row.to_address, row.amount, options)
-			// receipts.push(receipt)
+			let receipt = null
+			receipts.push(receipt)
+			queue_success.push(tx)
+		} catch(error) {
+			console.log(error)
+			queue_fail.push(tx)
 		}
-		console.log(receipts)
-	} catch(error) {
-		alert(error)
 	}
+	console.log(receipts)
+	while (is.nonEmptyArray(queue_fail)) {
+		let tx = queue_fail.shift()
+		queue.push(tx)
+	}
+	tables.updateMany([
+		('queue-table', queue),
+		('success-table', queue_success),
+	])
+}
+
+function reset() {
+	// this function empties the queue and success queue, moving the transactions to the history queue
+	while (is.nonEmptyArray(queue_success)) {
+		let tx = queue_success.shift()
+		queue_history.push(tx)
+	}
+	while (is.nonEmptyArray(queue)) {
+		let tx = queue_success.shift()
+		queue_history.push(tx)
+	}
+	tables.updateMany([
+		('queue-table', queue),
+		('success-table', queue_success),
+		('history-table', queue_history),
+	])
 }
 
 function alertPretty(message) {
-	console.log('hi')
 	// Just like 'alert', but prettier for the user
 	$('.message').html(message)
 	$('.overlay').css('opacity', '1')
@@ -76,7 +106,6 @@ function populateQueue(data) {
 	for (let row of data) {
 		queue.push(row)
 	}
-	console.log('done populating queue')
 	tables.update('queue-table', queue)
 }
 
@@ -114,7 +143,6 @@ function parseCsv(err, file_content) {
 function readFile(event, paths) {
 	is.assert(paths.length === 1)
 	let path = paths[0]
-	console.log(path)
 	fs.readFile(path, 'utf-8', parseCsv)
 }
 
@@ -122,15 +150,22 @@ function importFile() {
 	ipcRenderer.send('open-file-dialog')
 }
 
+function toHistory() {
+	$('.right-container').css('visibility', 'hidden')
+	$('.right-container-history').css('visibility', 'visible')
+}
+
 function initTriggers() {
-	$('.payout-button').click(payout)
+	$('.nav-history').click(toHistory)
+	// $('.nav-payout').click(toPayout)
 	$('.queue-button').click(importFile)
+	$('.payout-button').click(payout)
+	$('.reset-button').click(reset)
 	$('.cancel-button').click(hideOverlay)
 	$('.okay-button').click(function(){
 		hideOverlay()
 		callback_ok()
 	})
-	console.log('initting triggers')
 	for (let section of sections) {
 		let identifier = `section.${section} h2`
 		$(identifier).click(function() {
@@ -146,9 +181,8 @@ function initGlobals() {
 }
 
 $(document).ready(function(){
-	console.log('start')
 	initGlobals()
-	tables.init('queue-table')
+	tables.initMany(['queue-table', 'success-table', 'history-table'])
 	initTriggers()
 	readFile(undefined, ['/Users/Matthew/programming/webwrap/Payout/test/test.csv'])
 })
