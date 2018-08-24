@@ -6,35 +6,127 @@
 	<link rel="stylesheet" href="stylesheets/main.css">
 </head>
 <body>
-	<div class="main-container">
+	<!-- Main Container Payout -->
+	<div class="main-container-payout">
 		<div class="left-container">
 			<div class="left-spacer-1"></div>
 			<div class="logo">the ambia func</div>
 			<div class="left-spacer-2"></div>
 			<nav>
-				<div class="nav-item">Queue</div>
-				<div class="nav-item">History</div>
+				<div class="nav-item nav-payout">Payout</div>
+				<div class="nav-item nav-history">History</div>
 			</nav>
 			<div class="left-spacer-3"></div>
 		</div>
 		<div class="right-container">
-			<div class="transaction-settings">
-				gwei <input class="gwei" type="text" />
-				amount <input class="amount" type="text" />
-				contract address <input class="contract-address" type="text" />
-				to address <input class="to-address" type="text" />
-				private key <input class="private-key" type="text" />
-				<button class="submit">Submit</button>
+
+			<!-- Settings -->
+			<section class="settings">
+				<h2>Settings</h2>
+				<div class="settings-flex-wrapper">
+					<div class="content-wrapper">
+						gwei <input class="gwei" type="text" />
+						<br />contract address <input class="contract-address" type="text" />
+						<div class="more-settings">
+							private key <input class="private-key" type="text" />
+						</div>
+					</div>
+					<button class="settings-button-invisible btn">Show more settings</button>
+					<button class="settings-button btn sticky">Show more settings</button>
+				</div>
+			</section>
+
+			<!-- Queue -->
+			<section class="queue">
+				<div class="queue-flex-wrapper">
+					<h2>Queue</h2>
+					<button class="queue-button-invisible btn">Add transactions to queue</button>
+					<button class="queue-button btn">Add transactions to queue</button>
+				</div>
+				<div class="table-flex-wrapper">
+					<div class="table-centerer"></div>
+					<table id="queue-table"><!-- populated by javascript --></table>
+					<div class="table-centerer"></div>
+				</div>
+			</section>
+
+			<!-- Payout -->
+			<section class="payout">
+				<div class="payout-flex-wrapper">
+					<h2>Payout</h2>
+					<button class="payout-button-invisible btn">Payout</button>
+					<button class="payout-button btn">Payout</button>
+				</div>
+			</section>
+
+			<!-- Success -->
+			<section class="success">
+				<div class="queue-flex-wrapper">
+					<h2>Success</h2>
+				</div>
+				<div class="table-flex-wrapper">
+					<div class="table-centerer"></div>
+					<table id="success-table"><!-- populated by javascript --></table>
+					<div class="table-centerer"></div>
+				</div>
+			</section>
+
+			<!-- Reset -->
+			<section class="reset">
+				<div class="payout-flex-wrapper">
+					<h2>Reset</h2>
+					<button class="reset-button-invisible btn">Reset</button>
+					<button class="reset-button btn">Reset</button>
+				</div>
+			</section>
+
+		</div>
+	</div>
+
+
+	<!-- Main Container History -->
+	<div class="main-container-history">
+		<div class="left-container">
+			<div class="left-spacer-1"></div>
+			<div class="logo">the ambia func</div>
+			<div class="left-spacer-2"></div>
+			<nav>
+				<div class="nav-item nav-payout">Payout</div>
+				<div class="nav-item nav-history">History</div>
+			</nav>
+			<div class="left-spacer-3"></div>
+		</div>
+		<div class="right-container">
+
+			<!-- History -->
+			<section class="history">
+				<div class="queue-flex-wrapper">
+					<h2>History</h2>
+				</div>
+				<div class="table-flex-wrapper">
+					<div class="table-centerer"></div>
+					<table id="history-table"><!-- populated by javascript --></table>
+					<div class="table-centerer"></div>
+				</div>
+			</section>
+
+		</div>
+	</div>
+
+
+	<!-- Overlay -->
+	<div class="overlay">
+		<div class="alert-flex-wrapper">
+			<div class="message">
+				This is a message for the user.
 			</div>
-			<div class="transaction-list">
-				<div>transaction1</div>
-				<div>transaction2</div>
-				<div>transaction3</div>
+			<div class="buttons-flex-wrapper">
+				<button class="okay-button btn">Okay</button>
+				<button class="cancel-button btn">Cancel</button>
 			</div>
 		</div>
 	</div>
 	<script>
-		// You can also require other files to run in this process
 		require('./scripts/main.js')
 	</script>
 </body>

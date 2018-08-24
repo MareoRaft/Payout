@@ -1,72 +1,235 @@
 @import 'reset';
+@import 'argon';
+@import 'layout';
 
+@font-face {
+  font-family: Lato;
+  src: url(../assets/Lato/Lato-Black.ttf);
+  font-weight: normal;
+}
+@font-face {
+  font-family: Pacifico;
+  src: url(../assets/Pacifico/Pacifico-Regular.ttf);
+  font-weight: normal;
+}
 
-/* GLOBAL THINGS */
+/* GLOBAL VARIABLES */
+// The global 'margin' or 'buffer' for the left and right gutters of the page, and bottom of sections
+$buffer: 20px;
+// The buffer space below a section title
+// not now
+// How close things can get to each other
+$crash-buffer: $buffer;
+$button-height: 43px;
+
+/* GLOBAL STYLES */
 html {
-	font-family: monospace, Courier;
+	// font-family: Lato, Pacifico, cursive;
+	// verdana,helvetica,arial,sans-serif;
 }
-
-
-/* MAIN THINGS */
-.main-container {
-	/* force it to take up the entire window */
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	/* flex */
-	display: flex;
-	background-color: yellow;
+body {
 }
-.left-container {
-	width: 240px;
+h2 {
+	padding-top: $buffer - 6px;
+	padding-left: $buffer;
+	font-size: 40px;
+}
+.table-flex-wrapper {
 	display: flex;
-	flex-direction: column;
+	flex-wrap: nowrap;
 	justify-content: center;
-	background-color: red;
+	align-items: flex-start;
+	align-content: flex-start;
 }
-.left-spacer-1 {
-	height: 20%;
-	background-color: yellow;
+.table-centerer {
+	flex-grow: 1;
 }
-.logo {
-	height: 20%;
-	background-color: green;
-}
-.left-spacer-2 {
-	height: 20%;
-	background-color: blue;
-}
-nav {
-	height: 20%;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	background-color: purple;
-}
-.nav-item {
-	margin-top: 5px;
-	margin-bottom: 5px;
-	text-align: center;
-	font-size: 1.9em;
-	background-color: red;
-}
-.left-spacer-3 {
-	height: 20%;
-}
-.right-container {
-	/* take up as much space as possible */
-	width: 100%;
-	display: flex;
-	flex-direction: column;
+table {
+	margin-left: $buffer;
+	margin-right: $buffer;
+	border-collapse: collapse;
 	background-color: pink;
 }
-.transaction-settings {
-	height: 30%;
-	background-color: lightblue;
+th {
+  padding: 3px;
+  vertical-align: top;
+  text-align: left;
+  border: 1px solid #555;
+  color: #fff;
+  background-color: #555;
 }
-.transaction-list {
-	height: 70%;
+tr:nth-child(odd) {
+  background-color: #f1f1f1;
+}
+tr:nth-child(even) {
+  background-color: white;
+}
+td {
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  vertical-align: top;
+  line-height: 130%;
+  border: 1px solid #d4d4d4;
+}
+
+/* OVERLAY */
+// The overlay is what appears whenever there is an 'alert'.  If a user clicks on something for more info, the overlay basically darkens or brightens the screen and displays a message to them along with an OK button
+.overlay {
+	// note that z-index ONLY works on positioned elements, so something like the below is *necessary*
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: center;
+	align-items: center;
+	align-content: center;
+	// hidden by default, made visible by JavaScript when needed
+	pointer-events: none;
+	opacity: 0;
+	transition: opacity 0.4s linear;
+	background-color: rgba(255, 255, 255, 0.9);
+	color: #222;
+}
+.alert-flex-wrapper {
+	max-width: 80%;
+	max-height: 80%;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: center;
 	background-color: lightgreen;
+}
+.message {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	align-content: center;
+	overflow: scroll;
+	text-align: center;
+}
+.buttons-flex-wrapper {
+	height: $button-height;
+	min-height: $button-height;
+	margin-top: $crash-buffer;
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: flex-end;
+	align-items: flex-start;
+	align-content: flex-start;
+	background-color: pink;
+}
+
+.okay-button {
+}
+
+/* SETTINGS */
+section.settings {
+	padding-bottom: $buffer;
+}
+.settings-flex-wrapper {
+	position: relative;
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-content: space-between;
+	margin-top: 14px;
+	padding-left: $buffer + 20px;
+	padding-right: $buffer;
+	background-color: orange;
+}
+.settings-content-wrapper {
+	background-color: lightgreen;
+}
+.settings-button-invisible {
+	align-self: flex-end;
+	margin-left: 0;
+	margin-top: $crash-buffer;
+	visibility: hidden;
+}
+.settings-button {
+	position: absolute;
+	right: $buffer;
+	bottom: 0;
+}
+button {
+}
+
+/* QUEUE */
+section.queue {
+	padding-bottom: $buffer;
+	background-color: orange;
+}
+.queue-flex-wrapper {
+	min-height: $buffer + $button-height + $buffer;
+	position: relative;
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-content: flex-start;
+	padding-right: $buffer;
+}
+.queue-button-invisible {
+	height: $button-height;
+	margin-left: $crash-buffer;
+	margin-top: $crash-buffer;
+	visibility: hidden;
+}
+.queue-button {
+	position: absolute;
+	right: $buffer;
+	bottom: $buffer;
+}
+
+/* PAYOUT AND RESET */
+section.payout {
+	background-color: lime;
+}
+.payout-flex-wrapper {
+	min-height: $buffer + $button-height + $buffer;
+	position: relative;
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-content: flex-start;
+	padding-right: $buffer;
+	background-color: yellow;
+}
+.payout-button-invisible {
+	height: $button-height;
+	margin-left: $crash-buffer;
+	margin-top: $crash-buffer;
+	visibility: hidden;
+}
+.reset-button-invisible {
+	@extend .payout-button-invisible;
+}
+.payout-button {
+	position: absolute;
+	right: $buffer;
+	bottom: $buffer;
+}
+.reset-button {
+	@extend .payout-button;
+}
+
+/* SUCCESS */
+section.success {
+	padding-bottom: $buffer;
+	background-color: pink;
+}
+
+/* HISTORY */
+section.history {
+	padding-bottom: $buffer;
+	background-color: purple;
 }

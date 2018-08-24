@@ -4,6 +4,7 @@ build
 # package-lock SHOULD actually be checked in, but for now I'm lazy
 package-lock.json
 ignore
+*.orig
 
 
 ### Sass ###

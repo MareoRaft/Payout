@@ -64,5 +64,44 @@ https://stackoverflow.com/questions/6182315/how-to-do-base64-encoding-in-node-js
 64 digits of hex is:
 256 bits of information, or 32 bytes of information
 
+google fonts:
+https://fonts.google.com
+
+flexbox tricks:
+https://stackoverflow.com/questions/38948102/center-and-right-align-flexbox-elements
+
+nodejs csv stuff:
+this library will grow with you:
+https://www.npmjs.com/package/csv
+more specifically:
+http://csv.adaltas.com/parse/
+and you can find examples of usage if you scroll down on:
+https://stackoverflow.com/questions/23080413/nodejs-reading-csv-file#23085938
+
+to SLIM the application once finished:
+  * module 'csv' is not needed.  'csv-parse' is enough
+  * in a SEPARATE branch, remove all deps from package.json, and repeatedly rerun the application, installing things to address errors
+  * make sure to use --save-dev for deps that are only for development
+  * see if there is a css slim tool
+  * remove argon and manually re-add the styles that are relevant
+  * use the 'exclude' option or whatever its called in the electron-forge package/make options to exclude all unnecessary files
+  * seperate INIT things into initBeforeDomLoad and initAfterDomLoad.  Put as many things before as possible, to speed up application load.
+  * try out http://code.iamkate.com/javascript/queues/ if large spreadsheets lead to terrible performance due to shift operation
+
+dealing with files:
+https://nodejs.org/docs/v0.3.1/api/fs.html#fs.readFile
+
+to disable security warnings:
+ELECTRON_DISABLE_SECURITY_WARNINGS=true npm start
+
+create a "Send Tokens" application which is only the "Settings" part of this application.  It would 'literally' be the GUI for send-tokens.  This would be nice because the GitHub can link to send-tokens and vice-versa.
+
+possible tabs resources:
+https://www.npmjs.com/package/@minna-ui/tabs
+https://www.npmjs.com/package/@vaadin/vaadin-tabs
+https://www.npmjs.com/package/@material/tab
+the EASIEST solution by far is to make an exact copy of the entire "main container", and use z-index to make the correct one on top.  This would work flawlessly with the CSS, so we should probably just do it this way!
+
 electron + angular:
 https://www.intertech.com/Blog/electron-tutorial-getting-started-with-electron-and-angular-cli/
+

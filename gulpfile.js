@@ -11,6 +11,9 @@ const autoprefixer = require('gulp-autoprefixer')
 
 
 /////////////////// GLOBALS ///////////////////
+const src_assets = 'source/assets'
+const src_assets_targeted = src_assets + '/**/*'
+const bld_assets = 'build/assets'
 const src_scss = 'source/stylesheets'
 const src_scss_targeted = src_scss + '/**/*.scss'
 const bld_scss = 'build/stylesheets'
@@ -58,6 +61,11 @@ gulp.task('img', function() {
 		.pipe(gulp.dest(bld_img))
 })
 
+gulp.task('assets', function() {
+	gulp.src(src_assets_targeted)
+		.pipe(gulp.dest(bld_assets))
+})
+
 
 
 gulp.task('watch', function() {
@@ -73,6 +81,9 @@ gulp.task('watch', function() {
 	// image watcher
 	var watch_img = gulp.watch(src_img, ['img'])
 	watch_img.on('change', log_standard)
+	// assets watcher
+	var watch_assets = gulp.watch(src_assets_targeted, ['assets'])
+	watch_assets.on('change', log_standard)
 })
 
-gulp.task('default', ['js', 'html', 'css', 'img', 'watch'])
+gulp.task('default', ['js', 'html', 'css', 'img', 'assets', 'watch'])
