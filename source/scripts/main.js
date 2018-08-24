@@ -151,13 +151,17 @@ function importFile() {
 }
 
 function toHistory() {
-	$('.right-container').css('visibility', 'hidden')
-	$('.right-container-history').css('visibility', 'visible')
+	$('.main-container-history').css('z-index', '1')
+	$('.main-container').css('z-index', '-1')
+}
+function toPayout() {
+	$('.main-container-history').css('z-index', '-1')
+	$('.main-container').css('z-index', '1')
 }
 
 function initTriggers() {
 	$('.nav-history').click(toHistory)
-	// $('.nav-payout').click(toPayout)
+	$('.nav-payout').click(toPayout)
 	$('.queue-button').click(importFile)
 	$('.payout-button').click(payout)
 	$('.reset-button').click(reset)
@@ -184,6 +188,6 @@ $(document).ready(function(){
 	initGlobals()
 	tables.initMany(['queue-table', 'success-table', 'history-table'])
 	initTriggers()
-	readFile(undefined, ['/Users/Matthew/programming/webwrap/Payout/test/test.csv'])
+	// readFile(undefined, ['/Users/Matthew/programming/webwrap/Payout/test/test.csv'])
 })
 

@@ -2,14 +2,23 @@
 
 .main-container {
 	/* force it to take up the entire window */
-	position: absolute;
+	position: fixed;
 	top: 0;
 	bottom: 0;
 	left: 0;
 	right: 0;
-	/* flex */
 	display: flex;
+}
+.main-container-payout {
+	@extend .main-container;
+	z-index: 1;
 	background-color: yellow;
+}
+.main-container-history {
+	@extend .main-container;
+	background-color: lightgreen;
+	// hide it by putting it behind
+	z-index: -1;
 }
 .left-container {
 	width: 240px;
@@ -54,8 +63,4 @@ nav {
 	flex-direction: column;
 	overflow: scroll;
 	background-color: lightblue;
-}
-.right-container-history {
-	background-color: lightgreen;
-	visibility: hidden;
 }
