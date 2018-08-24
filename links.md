@@ -86,7 +86,7 @@ to SLIM the application once finished:
   * remove argon and manually re-add the styles that are relevant
   * use the 'exclude' option or whatever its called in the electron-forge package/make options to exclude all unnecessary files
   * seperate INIT things into initBeforeDomLoad and initAfterDomLoad.  Put as many things before as possible, to speed up application load.
-  * try out http://code.iamkate.com/javascript/queues/ if large spreadsheets lead to terrible performance due to shift operation
+  * try out some queue module if large spreadsheets lead to terrible performance due to shift operation
 
 dealing with files:
 https://nodejs.org/docs/v0.3.1/api/fs.html#fs.readFile
@@ -104,4 +104,6 @@ the EASIEST solution by far is to make an exact copy of the entire "main contain
 
 electron + angular:
 https://www.intertech.com/Blog/electron-tutorial-getting-started-with-electron-and-angular-cli/
+
+the next step is to crack open the RECEIPT object and use it to update the status and timestamps accordingly
 

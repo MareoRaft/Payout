@@ -63,7 +63,7 @@ function update(table_id, tx_queue) {
 	new_row
 		.append('td')
 		.classed('status', true)
-		.text('not sent')
+		.text(tx => tx['status'])
 	// how to remove a row
 	bound_rows.exit().remove()
 }
