@@ -158,9 +158,23 @@ function toPayout() {
 	$('.main-container-history').css('z-index', '-1')
 }
 
+function showMoreLessSettings() {
+	// If just the basic settings are currently shown, show all settings.  If all the settings are shown, show only the basic settings.
+	let $more_settings = $('.more-settings')
+	let $button = $('.settings-button, .settings-button-invisible')
+	if ($more_settings.is(':visible')) {
+		$more_settings.hide()
+		$button.html('Show more settings')
+	} else {
+		$more_settings.show()
+		$button.html('Show less settings')
+	}
+}
+
 function initTriggers() {
 	$('.nav-history').click(toHistory)
 	$('.nav-payout').click(toPayout)
+	$('.settings-button').click(showMoreLessSettings)
 	$('.queue-button').click(importFile)
 	$('.payout-button').click(payout)
 	$('.reset-button').click(reset)

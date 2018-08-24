@@ -159,7 +159,9 @@ section.settings {
 	right: $buffer;
 	bottom: 0;
 }
-button {
+button:hover {
+	// argon button drop shadow should go here.  This should also fix hover glitch when clicking on 'show more settings'
+	background-color: blue;
 }
 
 /* QUEUE */
