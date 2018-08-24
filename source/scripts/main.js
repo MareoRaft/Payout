@@ -177,7 +177,7 @@ function initTriggers() {
 			alertPretty(message)
 		})
 	}
-	ipcRenderer.on('selected-directory', readFile)
+	ipcRenderer.on('selected-file', readFile)
 }
 
 function initGlobals() {

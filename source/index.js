@@ -69,7 +69,7 @@ function openFileDialog(event) {
     },
     function(files) {
       if (files) {
-        event.sender.send('selected-directory', files)
+        event.sender.send('selected-file', files)
       }
     }
   )
