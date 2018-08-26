@@ -11,6 +11,7 @@ require('./lib/date.js')
 const {sendTokens} = require('send-tokens')
 const parse = require('csv-parse/lib/sync')
 const _ = require('lodash')
+const request = require('request')
 
 require('./date-extend.js')
 const tables = require('./queue-data-binding.js')
@@ -33,6 +34,30 @@ let SKIP_CSV_VERIFICATION = true
 
 
 /////////////////// MAIN ///////////////////
+
+function setRecommendedGasPrice(price) {
+	// given a price (in gwei), set it as the GWEI value in settings
+	// alternatively we could just put a box next to gwei that says the current recommendation
+	$('.gwei').val(price)
+}
+
+function respondToRecommendedGasPrice(error, response, body) {
+	if (error) {
+		throw error
+	} else {
+		let info = JSON.parse(body)
+		let recommended_gas_price_raw = info['average']
+		// add 1 because Tyler says it's a good rule of thumb
+		let recommended_gas_price_in_gwei = (recommended_gas_price_raw / 10) + 1
+		setRecommendedGasPrice(recommended_gas_price_in_gwei)
+	}
+}
+
+function requestRecommendedGasPrice() {
+	// gets the recommended gas price from https://ethgasstation.info
+	request("https://ethgasstation.info/json/ethgasAPI.json", respondToRecommendedGasPrice)
+}
+
 function getSettings() {
 	let gwei = $('.gwei').val()
 	let contract_address = '0x2e98a6804e4b6c832ed0ca876a943abd3400b224' //$('.contract-address').val()
@@ -221,5 +246,6 @@ function initTriggers() {
 $(document).ready(function(){
 	tables.initMany(['queue-table', 'success-table', 'history-table'])
 	initTriggers()
+	requestRecommendedGasPrice()
 })
 
