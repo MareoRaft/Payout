@@ -213,6 +213,7 @@ function initTriggers() {
 	$('.nav-history').click(toHistory)
 	$('.nav-payout').click(toPayout)
 	// buttons
+	$('.gas-price-button').click(requestRecommendedGasPrice)
 	$('.settings-button').click(showMoreLessSettings)
 	$('.queue-button').click(importFile)
 	$('.payout-button').click(payout)
@@ -246,6 +247,5 @@ function initTriggers() {
 $(document).ready(function(){
 	tables.initMany(['queue-table', 'success-table', 'history-table'])
 	initTriggers()
-	requestRecommendedGasPrice()
 })
 
