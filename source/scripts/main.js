@@ -208,11 +208,33 @@ function showMoreLessSettings() {
 	}
 }
 
+function initPrivateKey() {
+	let $key = $('.private-key')
+	$key.val('')
+	$key.prop('type', 'text')
+	let $button = $('.private-key-button')
+	$button.html('Hide private key')
+	// remove old click events if they exist
+	$button.off()
+	$button.click(hidePrivateKey)
+}
+
+function hidePrivateKey() {
+	let $key = $('.private-key')
+	$key.prop('type', 'password')
+	let $button = $('.private-key-button')
+	$button.html('Reset private key')
+	// remove old click events if they exist
+	$button.off()
+	$button.click(initPrivateKey)
+}
+
 function initTriggers() {
 	// navigation
 	$('.nav-history').click(toHistory)
 	$('.nav-payout').click(toPayout)
 	// buttons
+	initPrivateKey()
 	$('.gas-price-button').click(requestRecommendedGasPrice)
 	$('.settings-button').click(showMoreLessSettings)
 	$('.queue-button').click(importFile)
