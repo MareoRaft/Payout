@@ -16,10 +16,11 @@
 /* GLOBAL VARIABLES */
 // The global 'margin' or 'buffer' for the left and right gutters of the page, and bottom of sections
 $buffer: 20px;
-// The buffer space below a section title
-// not now
 // How close things can get to each other
-$crash-buffer: $buffer;
+$buffer-crash: $buffer;
+// the buffer to the left of a list
+$buffer-list: $buffer;
+// other stuff
 $button-height: 43px;
 
 /* GLOBAL STYLES */
@@ -77,6 +78,16 @@ td {
   line-height: 130%;
   border: 1px solid #d4d4d4;
 }
+ul, ol {
+	margin-left: $buffer-list + 20px;
+	margin-top: $buffer-list;
+}
+ul {
+	list-style-type: disc;
+}
+ol {
+	list-style-type: decimal;
+}
 
 /* OVERLAY */
 // The overlay is what appears whenever there is an 'alert'.  If a user clicks on something for more info, the overlay basically darkens or brightens the screen and displays a message to them along with an OK button
@@ -117,7 +128,7 @@ td {
 .buttons-flex-wrapper {
 	height: $button-height;
 	min-height: $button-height;
-	margin-top: $crash-buffer;
+	margin-top: $buffer-crash;
 	display: flex;
 	flex-wrap: nowrap;
 	justify-content: flex-end;
@@ -151,7 +162,7 @@ section.settings {
 .settings-button-invisible {
 	align-self: flex-end;
 	margin-left: 0;
-	margin-top: $crash-buffer;
+	margin-top: $buffer-crash;
 	visibility: hidden;
 }
 .settings-button {
@@ -181,8 +192,8 @@ section.queue {
 }
 .queue-button-invisible {
 	height: $button-height;
-	margin-left: $crash-buffer;
-	margin-top: $crash-buffer;
+	margin-left: $buffer-crash;
+	margin-top: $buffer-crash;
 	visibility: hidden;
 }
 .queue-button {
@@ -208,8 +219,8 @@ section.payout {
 }
 .payout-button-invisible {
 	height: $button-height;
-	margin-left: $crash-buffer;
-	margin-top: $crash-buffer;
+	margin-left: $buffer-crash;
+	margin-top: $buffer-crash;
 	visibility: hidden;
 }
 .reset-button-invisible {

@@ -110,10 +110,6 @@ https://www.codementor.io/codementorteam/how-to-use-json-files-in-node-js-85hndq
 
 the next step is to crack open the RECEIPT object and use it to update the status and timestamps accordingly
 
-look into making links open in DEFAULT BROWSER, not within the app
-
-add CSS to automatically number and indent your ordered and unordered lists
-
 google doc:
 https://docs.google.com/document/d/1_P_ciPyGb21ebSfVH_u54TpUOldzS9ugVNhOCzkJSbo/edit
 
