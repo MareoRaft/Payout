@@ -2,7 +2,7 @@
 
 ////////////////// IMPORTS //////////////////
 const d3 = require('d3')
-const is = require('./lib/check-types.js')
+const is = require('check-types')
 
 ////////////////// EXPORTS //////////////////
 module.exports = {init, initMany, update, updateMany}

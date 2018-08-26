@@ -2,9 +2,8 @@
 
 ////////////////// IMPORTS //////////////////
 const _ = require('lodash')
-
-const is = require('./lib/check-types.js')
-const $ = require('./lib/jquery.js')
+const is = require('check-types')
+const $ = require('jquery')
 
 ////////////////// GLOBALS //////////////////
 

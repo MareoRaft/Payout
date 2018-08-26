@@ -93,6 +93,8 @@ td {
 	justify-content: center;
 	align-items: center;
 	align-content: center;
+	// must appear above everything when it does show up
+	z-index: 2;
 	// hidden by default, made visible by JavaScript when needed
 	pointer-events: none;
 	opacity: 0;

@@ -5,8 +5,8 @@ const exec = require('child_process').exec
 const fs = require('fs')
 
 const {ipcRenderer} = require('electron')
-const $ = require('./lib/jquery.js')
-const is = require('./lib/check-types.js')
+const $ = require('jquery')
+const is = require('check-types')
 require('./lib/date.js')
 const {sendTokens} = require('send-tokens')
 const parse = require('csv-parse/lib/sync')
@@ -24,7 +24,7 @@ let queue = []
 let queue_success = []
 let queue_history = []
 const prompt = new Prompt('.buttons-flex-wrapper')
-const sections = ['settings', 'queue', 'payout', 'success', 'reset']
+const sections = ['settings', 'queue', 'payout', 'success', 'reset', 'history']
 // the 'help' explanation for each section
 let SKIP_CSV_VERIFICATION = true
 
@@ -193,6 +193,15 @@ function initTriggers() {
 	$('.payout-button').click(payout)
 	$('.reset-button').click(reset)
 	// help messages
+	$('.help').click(function() {
+		let message = section_to_message['help']
+		prompt.alert(message, [
+			{
+				text: 'Okay',
+				callback: _.noop,
+			},
+		])
+	})
 	for (let section of sections) {
 		let identifier = `section.${section} h2`
 		$(identifier).click(function() {
