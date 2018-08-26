@@ -1,4 +1,4 @@
-import {app, BrowserWindow, ipcMain, dialog} from 'electron'
+import {app, BrowserWindow, ipcMain, dialog, shell} from 'electron'
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
@@ -27,6 +27,9 @@ const createWindow = () => {
 
   // and load the index.html of the app.
   mainWindow.loadURL(`file://${__dirname}/index.html`)
+
+  // if a user clicks a link, make it open externally
+  mainWindow.webContents.on('will-navigate', handleRedirect)
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools()
@@ -75,6 +78,15 @@ function openFileDialog(event) {
   )
 }
 ipcMain.on('open-file-dialog', openFileDialog)
+
+// helper for opening links in a new window (used by `.webContents.on('will-navigate', handleRedirect)`)
+function handleRedirect(event, url) {
+  // opens certain URLs in user's default browser
+  if (url !== event.sender.getURL()) {
+    event.preventDefault()
+    shell.openExternal(url)
+  }
+}
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
