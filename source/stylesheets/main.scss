@@ -33,6 +33,10 @@ h2 {
 	padding-top: $buffer - 6px;
 	padding-left: $buffer;
 	font-size: 40px;
+	background-color: pink;
+}
+h2:hover {
+	cursor: pointer;
 }
 .table-flex-wrapper {
 	display: flex;

@@ -15,6 +15,7 @@ const _ = require('lodash')
 require('./date-extend.js')
 const tables = require('./queue-data-binding.js')
 const section_to_message = require('../assets/help.json')
+const Prompt = require('./prompt.js')
 
 
 //////////////////// GLOBALS ////////////////////
@@ -22,7 +23,7 @@ const section_to_message = require('../assets/help.json')
 let queue = []
 let queue_success = []
 let queue_history = []
-let callback_ok = _.noop
+const prompt = new Prompt('.buttons-flex-wrapper')
 const sections = ['settings', 'queue', 'payout', 'success', 'reset']
 // the 'help' explanation for each section
 let SKIP_CSV_VERIFICATION = true
@@ -94,19 +95,6 @@ function reset() {
 	])
 }
 
-function alertPretty(message) {
-	// Just like 'alert', but prettier for the user
-	$('.message').html(message)
-	$('.overlay').css('opacity', '1')
-	$('.overlay').css('pointer-events', 'auto')
-}
-
-function hideOverlay() {
-	$('.overlay').css('opacity', '0')
-	$('.overlay').css('pointer-events', 'none')
-}
-
-
 function populateQueue(data) {
 	// add the data to the queue
 	for (let row of data) {
@@ -120,8 +108,9 @@ function populateQueue(data) {
 }
 
 function verifyCsv(data) {
+	let proceed = () => populateQueue(data)
 	if (SKIP_CSV_VERIFICATION) {
-		populateQueue(data)
+		proceed()
 	} else {
 		// first verify that the inputted data is correct, by asking the user
 		let message = 'Does this look okay?' +
@@ -134,8 +123,16 @@ function verifyCsv(data) {
 			message += `<tr><td>${to_address}</td><td>${amount}</td></tr>`
 		}
 		message += '</table>'
-		callback_ok = () => populateQueue(data)
-		alertPretty(message)
+		prompt.alert(message, [
+			{
+				text: 'Yes',
+				callback: proceed,
+			},
+			{
+				text: 'No',
+				callback: _.noop,
+			},
+		])
 	}
 }
 
@@ -195,30 +192,24 @@ function initTriggers() {
 	$('.queue-button').click(importFile)
 	$('.payout-button').click(payout)
 	$('.reset-button').click(reset)
-	$('.cancel-button').click(hideOverlay)
-	$('.okay-button').click(function(){
-		hideOverlay()
-		callback_ok()
-		callback_ok = _.noop
-	})
 	// help messages
 	for (let section of sections) {
 		let identifier = `section.${section} h2`
 		$(identifier).click(function() {
 			let message = section_to_message[section]
-			alertPretty(message)
+			prompt.alert(message, [
+				{
+					text: 'Okay',
+					callback: _.noop,
+				},
+			])
 		})
 	}
 	// electron things
 	ipcRenderer.on('selected-file', readFile)
 }
 
-function initGlobals() {
-	// here we init any globals that needed to wait for document.ready
-}
-
 $(document).ready(function(){
-	initGlobals()
 	tables.initMany(['queue-table', 'success-table', 'history-table'])
 	initTriggers()
 })
