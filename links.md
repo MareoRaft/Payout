@@ -113,3 +113,10 @@ the next step is to crack open the RECEIPT object and use it to update the statu
 google doc:
 https://docs.google.com/document/d/1_P_ciPyGb21ebSfVH_u54TpUOldzS9ugVNhOCzkJSbo/edit
 
+next, SAVE settings and restore them when application is relaunched
+https://medium.com/cameron-nokes/how-to-store-user-data-in-electron-3ba6bf66bc1e
+keep reading because it seems there is a "electron-config" electron-store" module that already does it for you!
+https://github.com/sindresorhus/electron-store
+arguably "Prefs" should SUBCLASS because then the full API of electron-store is 'easily' accessible.  of course one could just write prefs.storage.
+working, but saves in Application Support/Electron instead of Payout.  Might be fixed in the dist tho...
+

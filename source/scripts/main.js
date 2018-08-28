@@ -17,7 +17,8 @@ require('./date-extend.js')
 const tables = require('./queue-data-binding.js')
 const section_to_message = require('../assets/help.json')
 const Prompt = require('./prompt.js')
-
+const Prefs = require('./prefs.js')
+const settings = require('./settings.js')
 
 //////////////////// GLOBALS ////////////////////
 // the queue of transactions to-be-sent
@@ -25,20 +26,18 @@ let queue = []
 let queue_success = []
 let queue_history = []
 const prompt = new Prompt('.buttons-flex-wrapper')
+const prefs = new Prefs()
 const sections = ['settings', 'queue', 'payout', 'success', 'reset', 'history']
 // the 'help' explanation for each section
 let SKIP_CSV_VERIFICATION = true
 
-
 ///////////////// HELPERS /////////////////
 
-
 /////////////////// MAIN ///////////////////
-
 function setRecommendedGasPrice(price) {
 	// given a price (in gwei), set it as the GWEI value in settings
 	// alternatively we could just put a box next to gwei that says the current recommendation
-	$('.gwei').val(price)
+	$('.gas-price').val(price)
 }
 
 function respondToRecommendedGasPrice(error, response, body) {
@@ -58,22 +57,9 @@ function requestRecommendedGasPrice() {
 	request("https://ethgasstation.info/json/ethgasAPI.json", respondToRecommendedGasPrice)
 }
 
-function getSettings() {
-	let gwei = $('.gwei').val()
-	let contract_address = '0x2e98a6804e4b6c832ed0ca876a943abd3400b224' //$('.contract-address').val()
-	// let private_key = //$('.private-key').val()
-	// construct inputs for send-tokens
-	let options = {
-		gasPrice: '20', //gwei,
-		key: '0x14459019f82f53ad0d2dd45d4a16f47dc1c008cbf361ba442ac44c19452dd053', // private_key,
-		onTxId: console.log,
-	}
-	return [contract_address, options]
-}
-
 async function payout() {
 	// get user input
-	let [contract_address, options] = getSettings()
+	let [contract_address, options] = settings.getPayoutOptions()
 	// feed into send-tokens
 	let receipts = []
 	let queue_fail = []
@@ -195,19 +181,6 @@ function toPayout() {
 	$('.main-container-history').css('z-index', '-1')
 }
 
-function showMoreLessSettings() {
-	// If just the basic settings are currently shown, show all settings.  If all the settings are shown, show only the basic settings.
-	let $more_settings = $('.more-settings')
-	let $button = $('.settings-button, .settings-button-invisible')
-	if ($more_settings.is(':visible')) {
-		$more_settings.hide()
-		$button.html('Show more settings')
-	} else {
-		$more_settings.show()
-		$button.html('Show less settings')
-	}
-}
-
 function initPrivateKey() {
 	let $key = $('.private-key')
 	$key.val('')
@@ -236,7 +209,6 @@ function initTriggers() {
 	// buttons
 	initPrivateKey()
 	$('.gas-price-button').click(requestRecommendedGasPrice)
-	$('.settings-button').click(showMoreLessSettings)
 	$('.queue-button').click(importFile)
 	$('.payout-button').click(payout)
 	$('.reset-button').click(reset)
@@ -268,6 +240,7 @@ function initTriggers() {
 
 $(document).ready(function(){
 	tables.initMany(['queue-table', 'success-table', 'history-table'])
+	settings.init(prefs)
 	initTriggers()
 })
 

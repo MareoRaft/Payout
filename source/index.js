@@ -1,4 +1,5 @@
 import {app, BrowserWindow, ipcMain, dialog, shell} from 'electron'
+const windowStateKeeper = require('electron-window-state')
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
@@ -17,13 +18,24 @@ require('electron-reload')(__dirname, {
 let mainWindow
 
 const createWindow = () => {
+  // get previous window state with fallback to defaults
+  let mainWindowState = windowStateKeeper({
+    defaultWidth: 720,
+    defaultHeight: 720,
+  })
+
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 720,
-    height: 720,
+    x: mainWindowState.x,
+    y: mainWindowState.y,
+    width: mainWindowState.width,
+    height: mainWindowState.height,
     minWidth: 500,
     minHeight: 300,
   })
+
+  // register 'resize' and move listeners on the window
+  mainWindowState.manage(mainWindow)
 
   // and load the index.html of the app.
   mainWindow.loadURL(`file://${__dirname}/index.html`)
