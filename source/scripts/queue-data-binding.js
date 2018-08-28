@@ -13,7 +13,7 @@ const COLUMNS = ['to address', 'amount', 'status']
 /////////////////// MAIN ///////////////////
 function generateTxId(tx) {
 	// given a transaction object tx, return it's identifier
-	return `${tx['to_address']}---${tx['amount']}`
+	return `${tx['to_address']}---${tx['amount']}---${tx['status']}`
 }
 
 function initHeader(table_id){

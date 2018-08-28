@@ -19,12 +19,13 @@ const section_to_message = require('../assets/help.json')
 const Prompt = require('./prompt.js')
 const Prefs = require('./prefs.js')
 const settings = require('./settings.js')
+const Queue = require('./queue.js')
 
 //////////////////// GLOBALS ////////////////////
 // the queue of transactions to-be-sent
-let queue = []
-let queue_success = []
-let queue_history = []
+let queue = new Queue()
+let queue_success = new Queue()
+let queue_history = new Queue()
 const prompt = new Prompt('.buttons-flex-wrapper')
 const prefs = new Prefs()
 const sections = ['settings', 'queue', 'payout', 'success', 'reset', 'history']
@@ -62,9 +63,9 @@ async function payout() {
 	let [contract_address, options] = settings.getPayoutOptions()
 	// feed into send-tokens
 	let receipts = []
-	let queue_fail = []
+	let queue_fail = new Queue()
 	while (is.nonEmptyArray(queue)) {
-		let tx = queue.shift()
+		let tx = queue.dequeue()
 		try{
 			// let receipt = await sendTokens(contract_address, tx['to-address'], tx['amount'], options)
 			let receipt = null
@@ -72,17 +73,15 @@ async function payout() {
 			tx['status'] = 'sent'
 			tables.update('queue-table', queue)
 			receipts.push(receipt)
-			queue_success.push(tx)
+			queue_success.enqueue(tx)
 			tables.update('success-table', queue_success)
 		} catch(error) {
 			console.log(error)
-			queue_fail.push(tx)
+			tx['status'] = 'failed'
+			queue_fail.enqueue(tx)
 		}
 	}
-	while (is.nonEmptyArray(queue_fail)) {
-		let tx = queue_fail.shift()
-		queue.push(tx)
-	}
+	queue.enqueueAll(queue_fail.dequeueAll())
 	tables.updateMany([
 		['queue-table', queue],
 		['success-table', queue_success],
@@ -91,14 +90,8 @@ async function payout() {
 
 function reset() {
 	// this function empties the queue and success queue, moving the transactions to the history queue
-	while (is.nonEmptyArray(queue_success)) {
-		let tx = queue_success.shift()
-		queue_history.push(tx)
-	}
-	while (is.nonEmptyArray(queue)) {
-		let tx = queue.shift()
-		queue_history.push(tx)
-	}
+	queue_history.enqueueAll(queue_success.dequeueAll())
+	queue_history.enqueueAll(queue.dequeueAll())
 	tables.updateMany([
 		['queue-table', queue],
 		['success-table', queue_success],
@@ -113,7 +106,7 @@ function populateQueue(data) {
 		let tx = row
 		tx['status'] = 'not sent'
 		// add it to the queue
-		queue.push(tx)
+		queue.enqueue(tx)
 	}
 	tables.update('queue-table', queue)
 }

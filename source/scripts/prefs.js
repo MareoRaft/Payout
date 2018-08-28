@@ -10,7 +10,7 @@ class Prefs {
 	constructor() {
 		let defaults = {
 			// misc user prefs
-
+			// -- nothing here YET!
 			// settings
 			settings: {
 				'gwei': 20,
