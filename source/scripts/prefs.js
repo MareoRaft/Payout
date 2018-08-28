@@ -1,4 +1,4 @@
-/* Our custom user preferences object */
+/* Our custom user data / user preferences object */
 
 ////////////////// IMPORTS //////////////////
 const Store = require('electron-store')
@@ -9,9 +9,9 @@ const Store = require('electron-store')
 class Prefs {
 	constructor() {
 		let defaults = {
-			// misc user prefs
-			// -- nothing here YET!
-			// settings
+			// history of transactions
+			history: [],
+			// settings in the 'Settings' section
 			settings: {
 				'gwei': 20,
 				'contract-address': '0x2e98a6804e4b6c832ed0ca876a943abd3400b224',

@@ -4,13 +4,13 @@
 const $ = require('jquery')
 
 ////////////////// GLOBALS //////////////////
-let prefs = undefined
+let user_data = undefined
 let SETTINGS_NAMES = ['gas-price', 'contract-address', 'private-key']
 
 /////////////////// MAIN ///////////////////
 function init(preferences) {
 	// create pref handle
-	prefs = preferences
+	user_data = preferences
 	// restore saved settings to GUI
 	set()
 	// init triggers
@@ -33,7 +33,7 @@ function get() {
 
 function set() {
 	// take the user's preferred settings and set them into the GUI
-	let settings = prefs.get('settings')
+	let settings = user_data.get('settings')
 	for (let name of SETTINGS_NAMES) {
 		$('.' + name).val(settings[name])
 	}
@@ -42,7 +42,7 @@ function set() {
 function save() {
 	// take the settings currently inputted in the GUI and save them to disk
 	let settings = get()
-	prefs.set('settings', settings)
+	user_data.set('settings', settings)
 }
 
 function getPayoutOptions() {

@@ -8,15 +8,15 @@ const is = require('check-types')
 
 /////////////////// MAIN ///////////////////
 class Queue extends Array {
-	constructor(enqueue_action=_.noop) {
+	constructor(onchange=_.noop) {
 		// or maybe it should be this = super(), but it doesn't matter for our particular situation, since we always initialize our queue's as blank arrays
 		super()
-		this.enqueue_action = enqueue_action
+		this.onchange = onchange
 	}
 
 	enqueue(item) {
 		this.push(item)
-		this.enqueue_action(item)
+		this.onchange(item)
 	}
 
 	enqueueAll(iterable) {
@@ -26,14 +26,19 @@ class Queue extends Array {
 	}
 
 	dequeue() {
-		return this.shift()
+		let item = this.shift()
+		this.onchange(item)
+		return item
 	}
 
 	dequeueAll() {
 		// make a COPY of the array
 		let items = this.slice()
 		// delete everything
-		this.length = 0
+		// could be faster with this.length = 0, but simplicity is more valuable than speed here
+		while (is.nonEmptyArray(this)) {
+			this.dequeue()
+		}
 		// return the list
 		return items
 	}

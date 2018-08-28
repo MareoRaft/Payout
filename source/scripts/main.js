@@ -22,12 +22,19 @@ const settings = require('./settings.js')
 const Queue = require('./queue.js')
 
 //////////////////// GLOBALS ////////////////////
-// the queue of transactions to-be-sent
-let queue = new Queue()
-let queue_success = new Queue()
-let queue_history = new Queue()
 const prompt = new Prompt('.buttons-flex-wrapper')
-const prefs = new Prefs()
+const user_data = new Prefs()
+// the queue of transactions to-be-sent
+let queue = new Queue(onchange=function() {
+	tables.update('queue-table', queue)
+})
+let queue_success = new Queue(onchange=function() {
+	tables.update('success-table', queue_success)
+})
+let queue_history = new Queue(onchange=function() {
+	tables.update('history-table', queue_history)
+	user_data.set('history', queue_history)
+})
 const sections = ['settings', 'queue', 'payout', 'success', 'reset', 'history']
 // the 'help' explanation for each section
 let SKIP_CSV_VERIFICATION = true
@@ -71,10 +78,8 @@ async function payout() {
 			let receipt = null
 			// mark transaction as sent immediately
 			tx['status'] = 'sent'
-			tables.update('queue-table', queue)
 			receipts.push(receipt)
 			queue_success.enqueue(tx)
-			tables.update('success-table', queue_success)
 		} catch(error) {
 			console.log(error)
 			tx['status'] = 'failed'
@@ -82,21 +87,12 @@ async function payout() {
 		}
 	}
 	queue.enqueueAll(queue_fail.dequeueAll())
-	tables.updateMany([
-		['queue-table', queue],
-		['success-table', queue_success],
-	])
 }
 
 function reset() {
 	// this function empties the queue and success queue, moving the transactions to the history queue
 	queue_history.enqueueAll(queue_success.dequeueAll())
 	queue_history.enqueueAll(queue.dequeueAll())
-	tables.updateMany([
-		['queue-table', queue],
-		['success-table', queue_success],
-		['history-table', queue_history],
-	])
 }
 
 function populateQueue(data) {
@@ -108,7 +104,6 @@ function populateQueue(data) {
 		// add it to the queue
 		queue.enqueue(tx)
 	}
-	tables.update('queue-table', queue)
 }
 
 function verifyCsv(data) {
@@ -195,6 +190,15 @@ function hidePrivateKey() {
 	$button.click(initPrivateKey)
 }
 
+function clearHistory() {
+	queue_history.dequeueAll()
+}
+
+function initHistory() {
+	let history = user_data.get('history')
+	queue_history.enqueueAll(history)
+}
+
 function initTriggers() {
 	// navigation
 	$('.nav-history').click(toHistory)
@@ -205,6 +209,7 @@ function initTriggers() {
 	$('.queue-button').click(importFile)
 	$('.payout-button').click(payout)
 	$('.reset-button').click(reset)
+	$('.clear-history-button').click(clearHistory)
 	// help messages
 	$('.help').click(function() {
 		let message = section_to_message['help']
@@ -233,7 +238,8 @@ function initTriggers() {
 
 $(document).ready(function(){
 	tables.initMany(['queue-table', 'success-table', 'history-table'])
-	settings.init(prefs)
+	settings.init(user_data)
 	initTriggers()
+	initHistory()
 })
 
