@@ -50,9 +50,11 @@
     }
   },
   "dependencies": {
+    "bignumber.js": "^7.2.1",
     "check-types": "^7.4.0",
     "csv-parse": "^2.5.0",
     "d3": "^5.6.0",
+    "datejs": "^1.0.0-rc3",
     "electron": "^2.0.8",
     "electron-compile": "^6.4.3",
     "electron-reload": "^1.2.5",
