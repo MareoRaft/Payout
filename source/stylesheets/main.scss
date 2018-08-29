@@ -20,6 +20,8 @@ $buffer: 20px;
 $buffer-crash: $buffer;
 // the buffer to the left of a list
 $buffer-list: $buffer;
+// the buffer BETWEEN buttons.  be careful, some 8px spaces you see are actually from ARGON!
+$buffer-button: 8px;
 // other stuff
 $button-height: 43px;
 
@@ -137,9 +139,6 @@ ol {
 	background-color: pink;
 }
 
-.okay-button {
-}
-
 /* SETTINGS */
 section.settings {
 	padding-bottom: $buffer;
@@ -243,6 +242,22 @@ section.success {
 
 /* HISTORY */
 section.history {
-	padding-bottom: $buffer;
+	// the buttons have a margin-bottom which we must subtract away
+	padding-bottom: $buffer - $buffer-button;
 	background-color: purple;
 }
+.history-buttons-flex-wrapper {
+	margin-top: $buffer-crash;
+	margin-left: $buffer;
+	margin-right: $buffer;
+	display: flex;
+	justify-content: flex-end;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	align-content: flex-start;
+	background-color: yellow;
+}
+.history-buttons-flex-wrapper button {
+	margin-bottom: $buffer-button;
+}
+

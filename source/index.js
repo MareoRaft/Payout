@@ -77,19 +77,34 @@ app.on('activate', () => {
   }
 })
 
-// open a file-chooser dialog when asked to
+// open a existing-file-chooser dialog when asked to
 function openFileDialog(event) {
-  dialog.showOpenDialog({
-      properties: ['openFile'],
-    },
-    function(files) {
-      if (files) {
-        event.sender.send('selected-file', files)
-      }
+  let options = {
+    properties: ['openFile'],
+  }
+  dialog.showOpenDialog(options, function(files) {
+    if (files) {
+      event.sender.send('selected-file', files)
     }
-  )
+  })
 }
 ipcMain.on('open-file-dialog', openFileDialog)
+
+// open a save-dialog for the history log, a dialog to ask the user where to save a new file
+function saveHistoryDialog(event) {
+  console.log('almost there...')
+  let options = {
+    title: 'Choose location for history file.',
+    filters: [
+      {name: 'Logs', extensions: ['json', 'txt']},
+    ],
+  }
+  dialog.showSaveDialog(options, function(path) {
+    console.log('sending message...')
+    event.sender.send('history-path-chosen', path)
+  })
+}
+ipcMain.on('history-save-dialog', saveHistoryDialog)
 
 // helper for opening links in a new window (used by `.webContents.on('will-navigate', handleRedirect)`)
 function handleRedirect(event, url) {

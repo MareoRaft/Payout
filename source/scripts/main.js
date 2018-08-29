@@ -190,8 +190,58 @@ function hidePrivateKey() {
 	$button.click(initPrivateKey)
 }
 
+function exportHistory(event, path) {
+	// export the history to path
+	if (!path) {
+		let message = 'No file to export to was selected.  No action was taken.'
+		prompt.alert(message, [
+			{
+				text: 'Okay',
+				callback: _.noop,
+			},
+		])
+		return false
+	}
+	try {
+		let history_string = JSON.stringify(queue_history, null, 2)
+		fs.writeFileSync(path, history_string)
+		let message = `Successfully exported history log to "${path}".`
+		prompt.alert(message, [
+			{
+				text: 'Okay',
+				callback: _.noop,
+			},
+		])
+	}
+	catch(error) {
+		console.log(error)
+		let message = 'An error occured.  Failed to export history.'
+		prompt.alert(message, [
+			{
+				text: 'Okay',
+				callback: _.noop,
+			},
+		])
+	}
+}
+
 function clearHistory() {
 	queue_history.dequeueAll()
+}
+
+function requestClearHistory() {
+	// ask the user if they really do want to clear the history!
+	let message = 'Are you sure you want to clear the history?<br /><br />Your transaction history will be permanently removed from this application.  If you need a record of your history, it is recommended that you export your history to a file.  If you have already exported your history to a file, that file will remain intact.'
+	prompt.alert(message, [
+		{
+			text: 'Yes',
+			callback: clearHistory,
+		},
+		{
+			text: 'No',
+			callback: _.noop,
+		},
+	])
 }
 
 function initHistory() {
@@ -209,7 +259,10 @@ function initTriggers() {
 	$('.queue-button').click(importFile)
 	$('.payout-button').click(payout)
 	$('.reset-button').click(reset)
-	$('.clear-history-button').click(clearHistory)
+	$('.clear-history-button').click(requestClearHistory)
+	$('.export-history-button').click(function() {
+		ipcRenderer.send('history-save-dialog')
+	})
 	// help messages
 	$('.help').click(function() {
 		let message = section_to_message['help']
@@ -234,6 +287,7 @@ function initTriggers() {
 	}
 	// electron things
 	ipcRenderer.on('selected-file', readFile)
+	ipcRenderer.on('history-path-chosen', exportHistory)
 }
 
 $(document).ready(function(){
