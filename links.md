@@ -120,3 +120,27 @@ https://github.com/sindresorhus/electron-store
 arguably "Prefs" should SUBCLASS because then the full API of electron-store is 'easily' accessible.  of course one could just write prefs.storage.
 working, but saves in Application Support/Electron instead of Payout.  Might be fixed in the dist tho...
 
+electron choose file glitch:
+ticket
+https://github.com/electron/electron/issues/14368
+
+to do next:
+keep going through the google doc
+
+receipt object = {
+	blockHash: "0x..."
+	blockNumber
+	cumulativeGasUsed: 909939
+	events: [
+		{
+		args: {
+			contract address, from, to, value(amount!)
+			}
+		}
+	]
+	from: the from address
+	gasUsed: 36717
+	status: true
+	to: the token contract address
+	transactionHash: the transaction id
+}

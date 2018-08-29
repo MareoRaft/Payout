@@ -7,14 +7,14 @@ const fs = require('fs')
 const {ipcRenderer} = require('electron')
 const $ = require('jquery')
 const is = require('check-types')
-require('./lib/date.js')
 const {sendTokens} = require('send-tokens')
 const parse = require('csv-parse/lib/sync')
 const _ = require('lodash')
 const request = require('request')
+const BigNumber = require('bignumber.js') // 'bignumber.js' is a different library than 'bignumber'
 
-require('./date-extend.js')
-const tables = require('./queue-data-binding.js')
+const {initDateExtend, getTimestamp} = require('./date-extend.js')
+const tables = require('./tables.js')
 const section_to_message = require('../assets/help.json')
 const Prompt = require('./prompt.js')
 const Prefs = require('./prefs.js')
@@ -37,7 +37,8 @@ let queue_history = new Queue(onchange=function() {
 })
 const sections = ['settings', 'queue', 'payout', 'success', 'reset', 'history']
 // the 'help' explanation for each section
-let SKIP_CSV_VERIFICATION = true
+let SKIP_CONFIRM_CSV = true
+let SKIP_CONFIRM_PAYOUT = true
 
 ///////////////// HELPERS /////////////////
 
@@ -69,24 +70,49 @@ async function payout() {
 	// get user input
 	let [contract_address, options] = settings.getPayoutOptions()
 	// feed into send-tokens
-	let receipts = []
 	let queue_fail = new Queue()
 	while (is.nonEmptyArray(queue)) {
 		let tx = queue.dequeue()
 		try{
 			// let receipt = await sendTokens(contract_address, tx['to-address'], tx['amount'], options)
-			let receipt = null
-			// mark transaction as sent immediately
+			let receipt = {transactionHash: 'tx hash here'}
+			console.log(receipt)
+			tx['time'] = getTimestamp()
 			tx['status'] = 'sent'
-			receipts.push(receipt)
+			tx['info'] = receipt['transactionHash']
 			queue_success.enqueue(tx)
 		} catch(error) {
 			console.log(error)
+			tx['time'] = getTimestamp()
 			tx['status'] = 'failed'
+			// there is an error.name and an error.message, either of which could be useful
+			tx['info'] = error.message
 			queue_fail.enqueue(tx)
 		}
 	}
 	queue.enqueueAll(queue_fail.dequeueAll())
+}
+
+function requestPayout() {
+	if (SKIP_CONFIRM_PAYOUT) {
+		payout()
+	} else {
+		// give the user some info and ask if they with to proceed to payout
+		let amounts = _.map(queue, tx => BigNumber(tx['amount']))
+		console.log(amounts)
+		let amount_total = _.reduce(amounts, (x, y) => x.plus(y))
+		let message = `Payout will now attempt to send a total of ${amount_total} tokens.<br /><br />Do you wish to proceed?`
+		prompt.alert(message, [
+			{
+				text: 'Yes',
+				callback: payout,
+			},
+			{
+				text: 'No',
+				callback: _.noop,
+			},
+		])
+	}
 }
 
 function reset() {
@@ -108,7 +134,7 @@ function populateQueue(data) {
 
 function verifyCsv(data) {
 	let proceed = () => populateQueue(data)
-	if (SKIP_CSV_VERIFICATION) {
+	if (SKIP_CONFIRM_CSV) {
 		proceed()
 	} else {
 		// first verify that the inputted data is correct, by asking the user
@@ -150,7 +176,8 @@ function parseCsv(err, file_content) {
 	}
 }
 
-function readFile(event, paths) {
+function readCsvFile(event, paths) {
+	is.assert.array(paths)
 	is.assert(paths.length === 1)
 	let path = paths[0]
 	fs.readFile(path, 'utf-8', parseCsv)
@@ -257,7 +284,7 @@ function initTriggers() {
 	initPrivateKey()
 	$('.gas-price-button').click(requestRecommendedGasPrice)
 	$('.queue-button').click(importFile)
-	$('.payout-button').click(payout)
+	$('.payout-button').click(requestPayout)
 	$('.reset-button').click(reset)
 	$('.clear-history-button').click(requestClearHistory)
 	$('.export-history-button').click(function() {
@@ -286,14 +313,17 @@ function initTriggers() {
 		})
 	}
 	// electron things
-	ipcRenderer.on('selected-file', readFile)
+	ipcRenderer.on('selected-file', readCsvFile)
 	ipcRenderer.on('history-path-chosen', exportHistory)
 }
 
 $(document).ready(function(){
+	initDateExtend()
 	tables.initMany(['queue-table', 'success-table', 'history-table'])
-	settings.init(user_data)
+	// settings.init(user_data)
 	initTriggers()
+	settings.init(user_data) // temp
 	initHistory()
+	readCsvFile(event, ['/Users/Matthew/programming/webwrap/Payout/test/test.csv'])
 })
 
