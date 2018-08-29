@@ -8,7 +8,7 @@ const is = require('check-types')
 module.exports = {init, initMany, update, updateMany}
 
 ////////////////// GLOBALS //////////////////
-const COLUMNS = ['to address', 'amount', 'status']
+const COLUMNS = ['to address', 'amount', 'status', 'info', 'time']
 
 /////////////////// MAIN ///////////////////
 function generateTxId(tx) {
@@ -64,6 +64,14 @@ function update(table_id, tx_queue) {
 		.append('td')
 		.classed('status', true)
 		.text(tx => tx['status'])
+	new_row
+		.append('td')
+		.classed('info', true)
+		.text(tx => tx['info'])
+	new_row
+		.append('td')
+		.classed('time', true)
+		.text(tx => tx['time'])
 	// how to remove a row
 	bound_rows.exit().remove()
 }
