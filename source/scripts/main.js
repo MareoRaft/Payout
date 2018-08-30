@@ -15,11 +15,12 @@ const BigNumber = require('bignumber.js') // 'bignumber.js' is a different libra
 
 const {initDateExtend, getTimestamp} = require('./date-extend.js')
 const tables = require('./tables.js')
-const section_to_message = require('../assets/help.json')
+const settings = require('./settings.js')
+const license = require('./license.js')
 const Prompt = require('./prompt.js')
 const Prefs = require('./prefs.js')
-const settings = require('./settings.js')
 const Queue = require('./queue.js')
+const section_to_message = require('../assets/help.json')
 
 //////////////////// GLOBALS ////////////////////
 const prompt = new Prompt('.buttons-flex-wrapper')
@@ -66,36 +67,43 @@ function requestRecommendedGasPrice() {
 	request("https://ethgasstation.info/json/ethgasAPI.json", respondToRecommendedGasPrice)
 }
 
-async function payout() {
+async function payout(num_tries=3) {
+	// attempt to pay out all transactions in queue using send-tokens
 	// get user input
 	let [contract_address, options] = settings.getPayoutOptions()
 	// feed into send-tokens
 	let queue_fail = new Queue()
-	while (is.nonEmptyArray(queue)) {
-		let tx = queue.dequeue()
-		try{
-			// let receipt = await sendTokens(contract_address, tx['to-address'], tx['amount'], options)
-			let receipt = {transactionHash: 'tx hash here'}
-			console.log(receipt)
-			tx['time'] = getTimestamp()
-			tx['status'] = 'sent'
-			tx['info'] = receipt['transactionHash']
-			queue_success.enqueue(tx)
-		} catch(error) {
-			console.log(error)
-			tx['time'] = getTimestamp()
-			tx['status'] = 'failed'
-			// there is an error.name and an error.message, either of which could be useful
-			tx['info'] = error.message
-			queue_fail.enqueue(tx)
+	// since transactions sometimes fail, we attempt to send multiple times
+	for (let _ = 0; _ < num_tries; _++) {
+		// if you ever change the type of queue, you should also change the is.nonEmptyArray(queue) line too
+		is.assert.array(queue)
+		while (is.nonEmptyArray(queue)) {
+			let tx = queue.dequeue()
+			try{
+				// let receipt = await sendTokens(contract_address, tx['to-address'], tx['amount'], options)
+				let receipt = {transactionHash: 'tx hash here'}
+				console.log(receipt)
+				tx['time'] = getTimestamp()
+				tx['status'] = 'sent'
+				tx['info'] = receipt['transactionHash']
+				queue_success.enqueue(tx)
+			} catch(error) {
+				console.log(error)
+				tx['time'] = getTimestamp()
+				tx['status'] = 'failed'
+				// there is an error.name and an error.message, either of which could be useful
+				tx['info'] = error.message
+				queue_fail.enqueue(tx)
+			}
 		}
+		queue.enqueueAll(queue_fail.dequeueAll())
 	}
-	queue.enqueueAll(queue_fail.dequeueAll())
 }
 
 function requestPayout() {
+	let proceed = license.requestValidation
 	if (SKIP_CONFIRM_PAYOUT) {
-		payout()
+		proceed()
 	} else {
 		// give the user some info and ask if they with to proceed to payout
 		let amounts = _.map(queue, tx => BigNumber(tx['amount']))
@@ -105,7 +113,7 @@ function requestPayout() {
 		prompt.alert(message, [
 			{
 				text: 'Yes',
-				callback: payout,
+				callback: proceed,
 			},
 			{
 				text: 'No',
@@ -318,11 +326,12 @@ function initTriggers() {
 }
 
 $(document).ready(function(){
+	license.init(prompt, payout)
 	initDateExtend()
 	tables.initMany(['queue-table', 'success-table', 'history-table'])
 	// settings.init(user_data)
 	initTriggers()
-	settings.init(user_data) // temp
+	settings.init(user_data) // temporary, so we can store the private key
 	initHistory()
 	readCsvFile(event, ['/Users/Matthew/programming/webwrap/Payout/test/test.csv'])
 })

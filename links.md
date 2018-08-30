@@ -144,3 +144,21 @@ receipt object = {
 	to: the token contract address
 	transactionHash: the transaction id
 }
+
+possible ways to identify a computer:
+os.cpus()
+os.platform()
+os.type() similar to platform
+https://stackoverflow.com/questions/98516/how-do-i-obtain-equipment-serial-numbers-programmatically#98546
+https://stackoverflow.com/questions/13357073/identify-computer-using-javascript
+https://samy.pl/evercookie/
+https://stackoverflow.com/questions/32672533/python-core-speed/32672771#32672771
+linux command line utility "dmidecode"
+https://stackoverflow.com/questions/2461141/get-a-unique-computer-id-in-python-on-windows-and-linux
+for macs:
+/usr/sbin/system_profiler SPHardwareDataType | fgrep 'Serial' | awk '{print $NF}'
+this is the way to go:
+https://github.com/automation-stack/node-machine-id
+
+
+think about whether it sends the transactions in sequence or not, and how to make it send them all at once.
