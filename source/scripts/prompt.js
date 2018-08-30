@@ -49,7 +49,9 @@ class Prompt {
 		// }
 		is.assert.object(choice)
 		is.assert('text' in choice)
+		is.assert.string(choice['text'])
 		is.assert('callback' in choice)
+		is.assert.function(choice['callback'])
 	}
 
 	initChoice(choice) {
@@ -58,7 +60,7 @@ class Prompt {
 		// remember the choice for later
 		this.choices.push(choice)
 		// setup
-		let button_class = choice['text'].toLowerCase().replace(' ', '-') + '-button'
+		let button_class = choice['text'].toLowerCase().replace(/ /g, '-') + '-button'
 		let button_selector = '.' + button_class
 		// create the button for the choice in the html
 		$(this.buttons_container_selector).append(

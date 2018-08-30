@@ -9,13 +9,12 @@ const {machineId} = require('node-machine-id')
 ////////////////// GLOBALS //////////////////
 const HOSTNAME = 'localhost' // learnnation.org
 let payout = undefined
-const Prompt = require('./prompt.js')
-const prompt = new Prompt('.buttons-flex-wrapper')
+let prompt = undefined
 
 /////////////////// MAIN ///////////////////
 function init(prompt_obj, payout_func) {
-	// is.assert.assigned(prompt_obj)
-	// prompt = prompt_obj
+	is.assert.assigned(prompt_obj)
+	prompt = prompt_obj
 	is.assert.assigned(payout_func)
 	payout = payout_func
 }
