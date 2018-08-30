@@ -5,18 +5,31 @@ const _ = require('lodash')
 const request = require('request')
 const is = require('check-types')
 const {machineId} = require('node-machine-id')
+const Store = require('electron-store')
 
 ////////////////// GLOBALS //////////////////
 const HOSTNAME = 'localhost' // learnnation.org
 let payout = undefined
 let prompt = undefined
+let user_data = undefined
+let storage = undefined
 
 /////////////////// MAIN ///////////////////
 function init(prompt_obj, payout_func) {
+	// populate globals
 	is.assert.assigned(prompt_obj)
 	prompt = prompt_obj
 	is.assert.assigned(payout_func)
 	payout = payout_func
+	// license storage
+	let defaults = {
+		license: '',
+	}
+	let options = {
+		name: 'license',
+		defaults: defaults,
+	}
+	storage = new Store(options)
 }
 
 function promptRequest() {
@@ -47,15 +60,15 @@ async function requestNew() {
 
 function respondToRequest(error, response, body) {
 	// save the license that the server sends you
-	// TODO
-	alert('got a license yo')
+	let license = body
+	storage.set('license', license)
 }
 
 async function requestValidation() {
 	// request a server response that indicates whether user has purchased a license
 	// get computer id
 	let id = await machineId()
-	let license = 'testme' // also requested from server
+	let license = storage.get('license')
 	// request license validation from server
 	let url = `http://${HOSTNAME}/Payout/request-license-validation?id=${id}&license=${license}`
 	request(url, respondToValidation)
@@ -70,8 +83,6 @@ function respondToValidation(error, response, body) {
 		if (has_license) {
 			payout()
 		} else {
-			console.log('first messaging user')
-			console.log(prompt)
 			let message = 'You are either disconnected from the internet or you have not purchased a license.  Payout cannot proceed.'
 			prompt.alert(message, [
 				{
