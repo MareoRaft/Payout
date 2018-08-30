@@ -170,4 +170,6 @@ stack overflow on starting an smtp server on your local machine
 https://stackoverflow.com/questions/5619914/sendmail-errno61-connection-refused#7422843
 special article on using python to send emails from gmail specifically
 https://stackoverflow.com/questions/778202/smtplib-and-gmail-python-script-problems
+to be cooler, let's use mailchimp:
+https://pypi.org/project/mailchimp3/
 

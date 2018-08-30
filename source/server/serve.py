@@ -27,11 +27,11 @@ class NewLicenseHandler (RequestHandler):
 		# email the license
 		email_message = EmailMessage()
 		email_message['Subject'] = 'Your new Payout license.'
-		email_message['From'] = 'mvlancellotti+payout@gmail.com'
+		email_message['From'] = 'mvlancellotti@gmail.com'
 		# email_message['To'] = email_address
-		email_message['To'] = 'mvlancellotti@icloud.com'
+		email_message['To'] = 'mvlancellotti@gmail.com'
 		email_message.set_content('Your new Payout license is "{}"!  Save this for your records in case you ever need to transfer the license to a new/different computer.'.format(license))
-		server = smtplib.SMTP('localhost', 1025)
+		server = smtplib.SMTP('localhost', 8025)
 		server.send_message(email_message)
 		server.quit()
 		# respond
