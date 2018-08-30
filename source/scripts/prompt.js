@@ -68,10 +68,13 @@ class Prompt {
 		)
 		// add the trigger to the button with the appropriate callback
 		let action = (function() {
+			// this first so user doesn't see anything weird
 			this.hide()
-			choice['callback']()
+			let callback = choice['callback']
 			// clear all actions immediately to ensure idempotence of the action
 			this.clearChoices()
+			// we must clear choices BEFORE calling the callback bc the callback may start a new prompt
+			callback()
 		}).bind(this)
 		$(button_selector).click(action)
 	}
