@@ -162,3 +162,12 @@ https://github.com/automation-stack/node-machine-id
 
 
 think about whether it sends the transactions in sequence or not, and how to make it send them all at once.
+
+email:
+py docs on sending email
+https://docs.python.org/3/library/email.examples.html
+stack overflow on starting an smtp server on your local machine
+https://stackoverflow.com/questions/5619914/sendmail-errno61-connection-refused#7422843
+special article on using python to send emails from gmail specifically
+https://stackoverflow.com/questions/778202/smtplib-and-gmail-python-script-problems
+

@@ -54,7 +54,7 @@ async function requestNew() {
 	let email = undefined
 	// make the request
 	let id = await machineId()
-	let url = `http://${HOSTNAME}/Payout/request-license?id=${id}`
+	let url = `http://${HOSTNAME}/Payout/request-new-license?id=${id}`
 	request(url, respondToRequest)
 }
 
