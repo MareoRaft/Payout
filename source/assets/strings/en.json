@@ -60,7 +60,7 @@
 
 "export-success": "Successfully exported history log to '{}'.",
 
-"payout-confirm": "Payout will now attempt to send a total of {} tokens.<br /><br />Do you wish to proceed?",
+"payout-confirm": "Payout will now attempt to send a total amount of {}.<br /><br />Do you wish to proceed?",
 
 "clear-history-confirm": "Are you sure you want to clear the history?<br /><br />Your transaction history will be permanently removed from this application.  If you need a record of your history, it is recommended that you export your history to a file.  If you have already exported your history to a file, that file will remain intact.",
 
@@ -68,7 +68,11 @@
 
 "no-license": "You have not purchased a license.  Payout cannot proceed.",
 
-"help": {
+"help-settings": {
+	"gas-price": "The gas price limit for each transaction, in gwei.<br /><br />If you leave this blank, a recommended gas price limit will be calculated from <a href='https://www.ethgasstation.info'>ETH Gas Station</a> and used automatically.  It is recommended to leave this blank."
+},
+
+"help-sections": {
 	"help": "Payout is an application that allows you to pay out ERC20 tokens to many people at once.  We welcome you to view our <a href=''>video tutorial</a> on how to use Payout.<br /><br />Payout is built on the <a href='https://github.com/cluracan/send-tokens'>send-tokens</a> library.  It is basically a GUI for <a href='https://github.com/cluracan/send-tokens'>send-tokens</a>, with the following additional features:<ul><li>Payout can import a CSV file that contains a list of transactions.  This is useful if you keep a spreadsheet of people you need to pay, because you can pay them all in one go.</li><li>Payout has a history page where you can look up all of your previous transactions.</li><li>Payout remembers your transaction settings, so once you configure things to your needs, you won't need to worry about it again.</li></ul><br /><br />Each section in Payout has it's own 'help' message just like this one, so you can be in-the-know.  For example, if you click on the big 'Settings' section title, you will get details about the different settings available to you and how to use them.<br /><br />If you need further assistance, feel free to email me at <a href='mailto:mvlancellotti+payout@gmail.com'>mvlancellotti+payout@gmail.com</a>.  You can also raise an issue or report a bug on our GitHub <a href='https://github.com/MareoRaft/Payout/issues'>issue tracker</a>.",
 
 	"settings": "These are the transaction settings that will be used when attempting to execute your queue'd transactions (which occurs when you click the 'Payout' button).<br /><br />Payout runs on the <a href='https://github.com/cluracan/send-tokens'>send-tokens</a> library, so the settings here are exactly the same as the settings there.  Scroll down and read the 'All Options' section which explains the settings available to you briefly, and then scroll further down and read the 'Full sendTokens() Options' section which explains the settings in further detail.<br /><br />If you need further assistance, feel free to email me at <a href='mailto:mvlancellotti+payout@gmail.com'>mvlancellotti+payout@gmail.com</a>.",

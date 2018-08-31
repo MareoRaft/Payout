@@ -174,3 +174,6 @@ https://mozilla.github.io/nunjucks/
 https://github.com/mozilla/nunjucks
 https://www.npmjs.com/package/swig-templates
 
+repeated transactions:
+https://ethereum.stackexchange.com/questions/27256/error-replacement-transaction-underpriced
+

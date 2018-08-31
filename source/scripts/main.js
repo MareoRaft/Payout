@@ -44,29 +44,6 @@ let SKIP_CONFIRM_PAYOUT = false
 ///////////////// HELPERS /////////////////
 
 /////////////////// MAIN ///////////////////
-function setRecommendedGasPrice(price) {
-	// given a price (in gwei), set it as the GWEI value in settings
-	// alternatively we could just put a box next to gwei that says the current recommendation
-	$('.gas-price').val(price)
-}
-
-function respondToRecommendedGasPrice(error, response, body) {
-	if (error) {
-		throw error
-	} else {
-		let info = JSON.parse(body)
-		let recommended_gas_price_raw = info['average']
-		// add 1 because Tyler says it's a good rule of thumb
-		let recommended_gas_price_in_gwei = (recommended_gas_price_raw / 10) + 1
-		setRecommendedGasPrice(recommended_gas_price_in_gwei)
-	}
-}
-
-function requestRecommendedGasPrice() {
-	// gets the recommended gas price from https://ethgasstation.info
-	request("https://ethgasstation.info/json/ethgasAPI.json", respondToRecommendedGasPrice)
-}
-
 async function payout(num_tries=3) {
 	// attempt to pay out all transactions in queue using send-tokens
 	// get user input
@@ -80,13 +57,14 @@ async function payout(num_tries=3) {
 		while (is.nonEmptyArray(queue)) {
 			let tx = queue.dequeue()
 			try{
-				// let receipt = await sendTokens(contract_address, tx['to-address'], tx['amount'], options)
-				let receipt = {transactionHash: 'tx hash here'}
-				console.log(receipt)
-				tx['time'] = getTimestamp()
-				tx['status'] = STRING['sent']
-				tx['info'] = receipt['transactionHash']
-				queue_success.enqueue(tx)
+				// sendTokens returns a Promise
+				sendTokens(contract_address, tx['to-address'], tx['amount'], options).then(function(receipt) {
+					// let receipt = {transactionHash: 'tx hash here'}
+					tx['time'] = getTimestamp()
+					tx['status'] = STRING['sent']
+					tx['info'] = receipt['transactionHash']
+					queue_success.enqueue(tx)
+				})
 			} catch(error) {
 				console.log(error)
 				tx['time'] = getTimestamp()
@@ -99,6 +77,18 @@ async function payout(num_tries=3) {
 		queue.enqueueAll(queue_fail.dequeueAll())
 	}
 }
+
+// function amountToTokens(amount) {
+// 	// use the decimals setting to calculate how many tokens the 'amount' corresponds to
+// 	let settings = settings.get()
+// 	let decimals = parseInt(settings['decimals'])
+// 	let contract = createFlexContract(token, opts)
+// 	let contract_decimals = await resolveDecimals(contract)
+// 	let smallest_unit = 0.1 * 10**contract_decimals
+// 	let unit = smallest_unit * 10**decimals
+// 	let tokens = amount * unit
+// 	return tokens
+// }
 
 function requestPayout() {
 	let proceed = license.requestValidation
@@ -282,23 +272,10 @@ function initHistory() {
 	queue_history.enqueueAll(history)
 }
 
-function initTriggers() {
-	// navigation
-	$('.nav-history').click(toHistory)
-	$('.nav-payout').click(toPayout)
-	// buttons
-	initPrivateKey()
-	$('.gas-price-button').click(requestRecommendedGasPrice)
-	$('.queue-button').click(importFile)
-	$('.payout-button').click(requestPayout)
-	$('.reset-button').click(reset)
-	$('.clear-history-button').click(requestClearHistory)
-	$('.export-history-button').click(function() {
-		ipcRenderer.send('history-save-dialog')
-	})
-	// help messages
+function initHelpTriggers() {
+	// 'help' navigation tab
 	$('.nav-help').click(function() {
-		let message = STRING['help']['help']
+		let message = STRING['help-sections']['help']
 		prompt.alert(message, [
 			{
 				text: STRING['ok'],
@@ -306,10 +283,11 @@ function initTriggers() {
 			},
 		])
 	})
-	for (let section of SECTIONS) {
+	// help for each section
+	for (let section in STRING['help-sections']) {
 		let identifier = `section.${section} h2`
 		$(identifier).click(function() {
-			let message = STRING['help'][section]
+			let message = STRING['help-sections'][section]
 			prompt.alert(message, [
 				{
 					text: STRING['ok'],
@@ -318,6 +296,36 @@ function initTriggers() {
 			])
 		})
 	}
+	// help for each setting in Settings
+	for (let name in STRING['help-settings']) {
+		let identifier = `.help-${name}`
+		$(identifier).click(function() {
+			let message = STRING['help-settings'][name]
+			prompt.alert(message, [
+				{
+					text: STRING['ok'],
+					callback: _.noop,
+				},
+			])
+		})
+	}
+}
+
+function initTriggers() {
+	// navigation
+	$('.nav-history').click(toHistory)
+	$('.nav-payout').click(toPayout)
+	// buttons
+	initPrivateKey()
+	$('.queue-button').click(importFile)
+	$('.payout-button').click(requestPayout)
+	$('.reset-button').click(reset)
+	$('.clear-history-button').click(requestClearHistory)
+	$('.export-history-button').click(function() {
+		ipcRenderer.send('history-save-dialog')
+	})
+	// help messages
+	initHelpTriggers()
 	// electron things
 	ipcRenderer.on('selected-file', readCsvFile)
 	ipcRenderer.on('history-path-chosen', exportHistory)
