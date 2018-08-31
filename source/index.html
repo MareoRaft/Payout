@@ -13,9 +13,9 @@
 			<div class="logo">the ambia func</div>
 			<div class="left-spacer-2"></div>
 			<nav>
-				<div class="nav-item nav-payout">Payout</div>
-				<div class="nav-item nav-history">History</div>
-				<div class="nav-item help">Help</div>
+				<div class="nav-item nav-payout"></div>
+				<div class="nav-item nav-history"></div>
+				<div class="nav-item nav-help"></div>
 			</nav>
 			<div class="left-spacer-3"></div>
 		</div>
@@ -23,30 +23,30 @@
 
 			<!-- Settings -->
 			<section class="settings">
-				<h2>Settings</h2>
+				<h2></h2>
 				<div class="settings-flex-wrapper">
 					<div class="content-wrapper">
 						gas price: <input class="gas-price" type="text" /> gwei. <button class="gas-price-button btn">Use recommended price</button>
 						<br />contract address <input class="contract-address" type="text" />
 						<div class="more-settings">
-							private key: <input class="private-key" type="text" /> <button class="private-key-button btn">Hide private key</button>
+							private key: <input class="private-key" type="text" /> <button class="private-key-button btn hide-private-key"></button>
 						</div>
 					</div>
-					<button class="settings-button-invisible btn">Show more settings</button>
-					<button class="settings-button btn sticky">Show more settings</button>
+					<button class="settings-button-invisible btn show-more-settings"></button>
+					<button class="settings-button btn sticky show-more-settings"></button>
 				</div>
 			</section>
 
 			<!-- Queue -->
 			<section class="queue">
 				<div class="queue-flex-wrapper">
-					<h2>Queue</h2>
-					<button class="queue-button-invisible btn">Add transactions to queue</button>
-					<button class="queue-button btn">Add transactions to queue</button>
+					<h2></h2>
+					<button class="queue-button-invisible btn add-transactions-to-queue"></button>
+					<button class="queue-button btn add-transactions-to-queue"></button>
 				</div>
 				<div class="table-flex-wrapper">
 					<div class="table-centerer"></div>
-					<table id="queue-table"><!-- populated by javascript --></table>
+					<table id="queue-table"></table>
 					<div class="table-centerer"></div>
 				</div>
 			</section>
@@ -54,20 +54,20 @@
 			<!-- Payout -->
 			<section class="payout">
 				<div class="payout-flex-wrapper">
-					<h2>Payout</h2>
-					<button class="payout-button-invisible btn">Payout</button>
-					<button class="payout-button btn">Payout</button>
+					<h2></h2>
+					<button class="payout-button-invisible btn payout-action"></button>
+					<button class="payout-button btn payout-action"></button>
 				</div>
 			</section>
 
 			<!-- Success -->
 			<section class="success">
 				<div class="queue-flex-wrapper">
-					<h2>Success</h2>
+					<h2></h2>
 				</div>
 				<div class="table-flex-wrapper">
 					<div class="table-centerer"></div>
-					<table id="success-table"><!-- populated by javascript --></table>
+					<table id="success-table"></table>
 					<div class="table-centerer"></div>
 				</div>
 			</section>
@@ -75,9 +75,9 @@
 			<!-- Reset -->
 			<section class="reset">
 				<div class="payout-flex-wrapper">
-					<h2>Reset</h2>
-					<button class="reset-button-invisible btn">Reset</button>
-					<button class="reset-button btn">Reset</button>
+					<h2></h2>
+					<button class="reset-button-invisible btn reset-action"></button>
+					<button class="reset-button btn reset-action"></button>
 				</div>
 			</section>
 
@@ -92,9 +92,9 @@
 			<div class="logo">the ambia func</div>
 			<div class="left-spacer-2"></div>
 			<nav>
-				<div class="nav-item nav-payout">Payout</div>
-				<div class="nav-item nav-history">History</div>
-				<div class="nav-item help">Help</div>
+				<div class="nav-item nav-payout"></div>
+				<div class="nav-item nav-history"></div>
+				<div class="nav-item nav-help"></div>
 			</nav>
 			<div class="left-spacer-3"></div>
 		</div>
@@ -103,16 +103,16 @@
 			<!-- History -->
 			<section class="history">
 				<div class="queue-flex-wrapper">
-					<h2>History</h2>
+					<h2></h2>
 				</div>
 				<div class="table-flex-wrapper">
 					<div class="table-centerer"></div>
-					<table id="history-table"><!-- populated by javascript --></table>
+					<table id="history-table"></table>
 					<div class="table-centerer"></div>
 				</div>
 				<div class="history-buttons-flex-wrapper">
-					<button class="export-history-button btn">Export history to file</button>
-					<button class="clear-history-button btn">Clear history</button>
+					<button class="export-history-button btn"></button>
+					<button class="clear-history-button btn"></button>
 				</div>
 			</section>
 
@@ -123,10 +123,8 @@
 	<!-- Overlay -->
 	<div class="overlay">
 		<div class="alert-flex-wrapper">
-			<div class="message">
-				This is a message for the user.
-			</div>
-			<div class="buttons-flex-wrapper"><!-- populated by javascript --></div>
+			<div class="message"></div>
+			<div class="buttons-flex-wrapper"></div>
 		</div>
 	</div>
 	<script>

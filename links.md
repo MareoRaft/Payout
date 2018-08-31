@@ -162,3 +162,15 @@ https://github.com/automation-stack/node-machine-id
 
 
 think about whether it sends the transactions in sequence or not, and how to make it send them all at once.
+
+templating:
+https://www.npmjs.com/package/template
+maybe handlebars is best:
+https://www.npmjs.com/package/handlebars
+also try jinja like stuff:
+npm jinja
+i think this is the one, very similar to jinja2, highly used, has feature i probably want
+https://mozilla.github.io/nunjucks/
+https://github.com/mozilla/nunjucks
+https://www.npmjs.com/package/swig-templates
+
