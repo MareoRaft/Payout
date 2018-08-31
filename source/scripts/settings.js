@@ -2,6 +2,7 @@
 
 ////////////////// IMPORTS //////////////////
 const $ = require('jquery')
+const {STRING} = require('./locale.js')
 
 ////////////////// GLOBALS //////////////////
 let user_data = undefined
@@ -64,10 +65,10 @@ function showMoreLess() {
 	let $button = $('.settings-button, .settings-button-invisible')
 	if ($more_settings.is(':visible')) {
 		$more_settings.hide()
-		$button.html('Show more settings')
+		$button.html(STRING['show-more-settings'])
 	} else {
 		$more_settings.show()
-		$button.html('Show less settings')
+		$button.html(STRING['show-less-settings'])
 	}
 }
 

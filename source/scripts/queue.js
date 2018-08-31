@@ -36,6 +36,7 @@ class Queue extends Array {
 		let items = this.slice()
 		// delete everything
 		// could be faster with this.length = 0, but simplicity is more valuable than speed here
+		is.assert.array(this)
 		while (is.nonEmptyArray(this)) {
 			this.dequeue()
 		}

@@ -3,17 +3,20 @@
 ////////////////// IMPORTS //////////////////
 const d3 = require('d3')
 const is = require('check-types')
+const _ = require('lodash')
 
-////////////////// EXPORTS //////////////////
-module.exports = {init, initMany, update, updateMany}
+const {STRING} = require('./locale.js')
 
 ////////////////// GLOBALS //////////////////
-const COLUMNS = ['to address', 'amount', 'status', 'info', 'time']
+const COLUMNS = _.map(
+	['to-address', 'amount', 'status', 'info', 'time'],
+	key => STRING['table'][key]
+)
 
 /////////////////// MAIN ///////////////////
 function generateTxId(tx) {
 	// given a transaction object tx, return it's identifier
-	return `${tx['to_address']}---${tx['amount']}---${tx['status']}`
+	return `${tx['to_address']}--${tx['amount']}--${tx['status']}--${tx['info']}`
 }
 
 function initHeader(table_id){
@@ -82,3 +85,7 @@ function updateMany(list) {
 		update(table_id, tx_queue)
 	}
 }
+
+////////////////// EXPORTS //////////////////
+module.exports = {init, initMany, update, updateMany}
+

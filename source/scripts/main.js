@@ -20,7 +20,7 @@ const license = require('./license.js')
 const Prompt = require('./prompt.js')
 const Prefs = require('./prefs.js')
 const Queue = require('./queue.js')
-const section_to_message = require('../assets/help.json')
+const {STRING, format, initStrings} = require('./locale.js')
 
 //////////////////// GLOBALS ////////////////////
 const prompt = new Prompt('.buttons-flex-wrapper')
@@ -36,10 +36,10 @@ let queue_history = new Queue(onchange=function() {
 	tables.update('history-table', queue_history)
 	user_data.set('history', queue_history)
 })
-const sections = ['settings', 'queue', 'payout', 'success', 'reset', 'history']
+const SECTIONS = ['settings', 'queue', 'payout', 'success', 'reset', 'history']
 // the 'help' explanation for each section
 let SKIP_CONFIRM_CSV = true
-let SKIP_CONFIRM_PAYOUT = true
+let SKIP_CONFIRM_PAYOUT = false
 
 ///////////////// HELPERS /////////////////
 
@@ -84,13 +84,13 @@ async function payout(num_tries=3) {
 				let receipt = {transactionHash: 'tx hash here'}
 				console.log(receipt)
 				tx['time'] = getTimestamp()
-				tx['status'] = 'sent'
+				tx['status'] = STRING['sent']
 				tx['info'] = receipt['transactionHash']
 				queue_success.enqueue(tx)
 			} catch(error) {
 				console.log(error)
 				tx['time'] = getTimestamp()
-				tx['status'] = 'failed'
+				tx['status'] = STRING['failed']
 				// there is an error.name and an error.message, either of which could be useful
 				tx['info'] = error.message
 				queue_fail.enqueue(tx)
@@ -109,7 +109,7 @@ function requestPayout() {
 		let amounts = _.map(queue, tx => BigNumber(tx['amount']))
 		console.log(amounts)
 		let amount_total = _.reduce(amounts, (x, y) => x.plus(y))
-		let message = `Payout will now attempt to send a total of ${amount_total} tokens.<br /><br />Do you wish to proceed?`
+		let message = format(STRING['payout-confirm'], amount_total)
 		prompt.alert(message, [
 			{
 				text: 'Yes',
@@ -146,10 +146,10 @@ function verifyCsv(data) {
 		proceed()
 	} else {
 		// first verify that the inputted data is correct, by asking the user
-		let message = 'Does this look okay?' +
+		let message = STRING['look-okay'] +
 			'<br /><br />' +
 			'<table>' +
-			'<tr class="header-row"><th>To address</th><th>Amount</th>'
+			`<tr class="header-row"><th>${STRING['table']['to-address']}</th><th>${STRING['table']['amount']}</th>`
 		for (let row of data) {
 			let to_address = row['to-address']
 			let amount = row['amount']
@@ -158,11 +158,11 @@ function verifyCsv(data) {
 		message += '</table>'
 		prompt.alert(message, [
 			{
-				text: 'Yes',
+				text: STRING['yes'],
 				callback: proceed,
 			},
 			{
-				text: 'No',
+				text: STRING['no'],
 				callback: _.noop,
 			},
 		])
@@ -192,9 +192,7 @@ function readCsvFile(event, paths) {
 }
 
 function importFile() {
-	console.log('before')
 	ipcRenderer.send('open-file-dialog')
-	console.log('after')
 }
 
 function toHistory() {
@@ -209,7 +207,7 @@ function initPrivateKey() {
 	$key.val('')
 	$key.prop('type', 'text')
 	let $button = $('.private-key-button')
-	$button.html('Hide private key')
+	$button.html(STRING['hide-private-key'])
 	// remove old click events if they exist
 	$button.off()
 	$button.click(hidePrivateKey)
@@ -219,7 +217,7 @@ function hidePrivateKey() {
 	let $key = $('.private-key')
 	$key.prop('type', 'password')
 	let $button = $('.private-key-button')
-	$button.html('Reset private key')
+	$button.html(STRING['reset-private-key'])
 	// remove old click events if they exist
 	$button.off()
 	$button.click(initPrivateKey)
@@ -228,10 +226,10 @@ function hidePrivateKey() {
 function exportHistory(event, path) {
 	// export the history to path
 	if (!path) {
-		let message = 'No file to export to was selected.  No action was taken.'
+		let message = STRING['no-file-selected']
 		prompt.alert(message, [
 			{
-				text: 'Okay',
+				text: STRING['ok'],
 				callback: _.noop,
 			},
 		])
@@ -240,10 +238,10 @@ function exportHistory(event, path) {
 	try {
 		let history_string = JSON.stringify(queue_history, null, 2)
 		fs.writeFileSync(path, history_string)
-		let message = `Successfully exported history log to "${path}".`
+		let message = format(STRING['export-success'], path)
 		prompt.alert(message, [
 			{
-				text: 'Okay',
+				text: STRING['ok'],
 				callback: _.noop,
 			},
 		])
@@ -253,7 +251,7 @@ function exportHistory(event, path) {
 		let message = 'An error occured.  Failed to export history.'
 		prompt.alert(message, [
 			{
-				text: 'Okay',
+				text: STRING['ok'],
 				callback: _.noop,
 			},
 		])
@@ -266,7 +264,7 @@ function clearHistory() {
 
 function requestClearHistory() {
 	// ask the user if they really do want to clear the history!
-	let message = 'Are you sure you want to clear the history?<br /><br />Your transaction history will be permanently removed from this application.  If you need a record of your history, it is recommended that you export your history to a file.  If you have already exported your history to a file, that file will remain intact.'
+	let message = STRING['clear-history-confirm']
 	prompt.alert(message, [
 		{
 			text: 'Yes',
@@ -299,22 +297,22 @@ function initTriggers() {
 		ipcRenderer.send('history-save-dialog')
 	})
 	// help messages
-	$('.help').click(function() {
-		let message = section_to_message['help']
+	$('.nav-help').click(function() {
+		let message = STRING['help']['help']
 		prompt.alert(message, [
 			{
-				text: 'Okay',
+				text: STRING['ok'],
 				callback: _.noop,
 			},
 		])
 	})
-	for (let section of sections) {
+	for (let section of SECTIONS) {
 		let identifier = `section.${section} h2`
 		$(identifier).click(function() {
-			let message = section_to_message[section]
+			let message = STRING['help'][section]
 			prompt.alert(message, [
 				{
-					text: 'Okay',
+					text: STRING['ok'],
 					callback: _.noop,
 				},
 			])
@@ -326,6 +324,7 @@ function initTriggers() {
 }
 
 $(document).ready(function(){
+	initStrings(SECTIONS)
 	license.init(prompt, payout)
 	initDateExtend()
 	tables.initMany(['queue-table', 'success-table', 'history-table'])

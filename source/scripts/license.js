@@ -7,6 +7,8 @@ const is = require('check-types')
 const {machineId} = require('node-machine-id')
 const Store = require('electron-store')
 
+const {STRING} = require('./locale.js')
+
 ////////////////// GLOBALS //////////////////
 const HOSTNAME = 'localhost' // learnnation.org
 let payout = undefined
@@ -34,15 +36,14 @@ function init(prompt_obj, payout_func) {
 
 function promptRequest() {
 	// form that user can fill out to request a new license
-	console.log('prompting user again')
-	let message = 'To request a license, input your email address and click \'Request\'.<br /><br />A license grants you usage of the Payout application on the particular computer that you request from.  If you need to use Payout on multiple computers or need assistance, feel free to email us at <a href="mailto:mvlancellotti+payout@gmail.com">mvlancellotti+payout@gmail.com</a>.'
+	let message = STRING['prompt-license-request']
 	prompt.alert(message, [
 		{
-			text: 'Request',
+			text: STRING['request'],
 			callback: requestNew,
 		},
 		{
-			text: 'Cancel',
+			text: STRING['cancel'],
 			callback: _.noop,
 		},
 	])
@@ -83,14 +84,14 @@ function respondToValidation(error, response, body) {
 		if (has_license) {
 			payout()
 		} else {
-			let message = 'You are either disconnected from the internet or you have not purchased a license.  Payout cannot proceed.'
+			let message = STRING['no-license']
 			prompt.alert(message, [
 				{
-					text: 'Okay',
+					text: STRING['ok'],
 					callback: _.noop,
 				},
 				{
-					text: 'Request a license',
+					text: STRING['request-a-license'],
 					callback: promptRequest,
 				},
 			])

@@ -20,7 +20,7 @@ class LicenseVerificationHandler (RequestHandler):
 		machine_id = self.get_argument('id', default='', strip=True)
 		license = self.get_argument('license', default='', strip=True)
 		# figure out if it's valid or not
-		is_valid = False
+		is_valid = True
 		# respond
 		response_string = '{}'.format(is_valid)
 		self.write(response_string)
