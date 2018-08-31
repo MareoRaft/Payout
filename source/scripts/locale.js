@@ -3,10 +3,15 @@ const osLocale = require('os-locale')
 const $ = require('jquery')
 
 ////////////////// GLOBALS //////////////////
+// if true, use locale 'en' instead of 'en_GB', for example
+const USE_LOCALE_FALLBACK = true
+
 /////////////////// MAIN ///////////////////
 // init the strings (STRING) based on the locale
 let locale = osLocale.sync()
-console.log(locale)
+if (USE_LOCALE_FALLBACK) {
+	locale = locale.split('_')[0]
+}
 let locale_path = `../assets/strings/${locale}.json`
 const STRING = require(locale_path)
 
