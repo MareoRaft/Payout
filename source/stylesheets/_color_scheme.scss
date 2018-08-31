@@ -1,0 +1,63 @@
+// This file contains COLORS ONLY.  Not even fonts.
+
+// COLORS
+$red: #ff553f;
+$slate: #2d2d2d;
+$white: #dddddd;
+$grey: #999999;
+$darkgrey: #555555;
+$sol: #FDF6E3;
+
+// MAIN
+.main-container-payout {
+	background-color: $slate;
+}
+.left-container {
+	color: $white;
+	background-color: $darkgrey;
+}
+.right-container {
+	background-color: $slate;
+}
+section:nth-child(1), section:nth-child(4), section:nth-child(5) {
+	color: $grey;
+ 	background-color: $slate;
+	button {
+		background-color: $grey;
+	}
+}
+section:nth-child(2), section:nth-child(3) {
+	color: $slate;
+	background-color: $sol;
+	button {
+		background-color: $red;
+	}
+}
+button {
+	color: white;
+	border-color: transparent;
+}
+input {
+	color: $red;
+	caret-color: white;
+	background-color: transparent;
+	border-color: transparent;
+}
+th {
+  border-color: #555;
+  color: #fff;
+  background-color: #555;
+}
+tr:nth-child(odd) {
+  background-color: #f1f1f1;
+}
+tr:nth-child(even) {
+  background-color: white;
+}
+.overlay {
+	background-color: rgba(255, 255, 255, 0.9);
+	color: #222;
+}
+.key {
+	color: $white;
+}

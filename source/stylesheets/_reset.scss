@@ -27,7 +27,11 @@ time, mark, audio, video {
 html, body {
     width: 100%;
 }
+button {
+    outline: none;
+}
 input, textarea {
+    outline: none;
     box-sizing: border-box;
 }
 article, aside, details, figcaption, figure,
