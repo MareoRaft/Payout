@@ -9,15 +9,6 @@
 	<!-- Main Container Payout -->
 	<div class="main-container-payout">
 		<div class="left-container">
-			<div class="left-spacer-1"></div>
-			<div class="logo">the ambia func</div>
-			<div class="left-spacer-2"></div>
-			<nav>
-				<div class="nav-item nav-payout"></div>
-				<div class="nav-item nav-history"></div>
-				<div class="nav-item nav-help"></div>
-			</nav>
-			<div class="left-spacer-3"></div>
 		</div>
 		<div class="right-container">
 
@@ -26,7 +17,7 @@
 				<h2>Settings</h2>
 				<div class="settings-flex-wrapper">
 					<div class="content-wrapper">
-						<span class="key">gas price:</span> <input class="gas-price" type="text" /> gwei. <!-- <button class="gas-price-button small">Use recommended price</button> -->
+						<span class="key">gas price:</span> <input class="gas-price" type="text" /> gwei <!-- <button class="gas-price-button small">Use recommended price</button> -->
 						<br /><span class="key">contract address:</span> <input class="contract-address" type="text" />
 						<div class="more-settings">
 							<span class="key">private key:</span> <input class="private-key" type="text" /> <!-- <button class="private-key-button hide-private-key small"></button> -->
@@ -46,8 +37,12 @@
 				</div>
 				<div class="table-flex-wrapper">
 					<div class="table-centerer"></div>
-					<table id="queue-table"></table>
+					<table id="before-table"></table>
 					<div class="table-centerer"></div>
+				</div>
+				<div class="generic-buttons-flex-wrapper">
+					<button class="export-queue-button"></button>
+					<button class="clear-queue-button"></button>
 				</div>
 			</section>
 
@@ -60,46 +55,6 @@
 				</div>
 			</section>
 
-			<!-- Success -->
-			<section class="success">
-				<div class="queue-flex-wrapper">
-					<h2></h2>
-				</div>
-				<div class="table-flex-wrapper">
-					<div class="table-centerer"></div>
-					<table id="success-table"></table>
-					<div class="table-centerer"></div>
-				</div>
-			</section>
-
-			<!-- Reset -->
-			<section class="reset">
-				<div class="payout-flex-wrapper">
-					<h2></h2>
-					<button class="reset-button-invisible reset-action"></button>
-					<button class="reset-button reset-action"></button>
-				</div>
-			</section>
-
-		</div>
-	</div>
-
-
-	<!-- Main Container History -->
-	<div class="main-container-history">
-		<div class="left-container">
-			<div class="left-spacer-1"></div>
-			<div class="logo">the ambia func</div>
-			<div class="left-spacer-2"></div>
-			<nav>
-				<div class="nav-item nav-payout"></div>
-				<div class="nav-item nav-history"></div>
-				<div class="nav-item nav-help"></div>
-			</nav>
-			<div class="left-spacer-3"></div>
-		</div>
-		<div class="right-container">
-
 			<!-- History -->
 			<section class="history">
 				<div class="queue-flex-wrapper">
@@ -107,10 +62,10 @@
 				</div>
 				<div class="table-flex-wrapper">
 					<div class="table-centerer"></div>
-					<table id="history-table"></table>
+					<table id="after-table"></table>
 					<div class="table-centerer"></div>
 				</div>
-				<div class="history-buttons-flex-wrapper">
+				<div class="generic-buttons-flex-wrapper">
 					<button class="export-history-button"></button>
 					<button class="clear-history-button"></button>
 				</div>

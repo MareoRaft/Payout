@@ -29,6 +29,7 @@ h2 {
 	padding-top: $buffer - 6px;
 	padding-left: $buffer;
 	font-size: 40px;
+	letter-spacing: 0;
 }
 h2:hover {
 	cursor: pointer;
@@ -74,6 +75,7 @@ ol {
 	list-style-type: decimal;
 }
 button {
+	margin-left: $buffer-button;
 	@include font();
 	text-align: center;
 	vertical-align: middle;
@@ -96,7 +98,6 @@ button.small {
 	height: 16px;
 }
 input {
-	height: 20px;
 	@include font();
 }
 
@@ -244,7 +245,7 @@ section.history {
 	// the buttons have a margin-bottom which we must subtract away
 	padding-bottom: $buffer - $buffer-button;
 }
-.history-buttons-flex-wrapper {
+.generic-buttons-flex-wrapper {
 	margin-top: $buffer-crash;
 	margin-left: $buffer;
 	margin-right: $buffer;
@@ -254,11 +255,8 @@ section.history {
 	align-items: flex-start;
 	align-content: flex-start;
 }
-.history-buttons-flex-wrapper button {
+.generic-buttons-flex-wrapper button {
 	margin-bottom: $buffer-button;
-}
-.clear-history-button {
-	margin-left: $buffer-crash;
 }
 
 

@@ -19,14 +19,14 @@ $sol: #FDF6E3;
 .right-container {
 	background-color: $slate;
 }
-section:nth-child(1), section:nth-child(4), section:nth-child(5) {
+section:nth-child(1) {
 	color: $grey;
  	background-color: $slate;
 	button {
 		background-color: $grey;
 	}
 }
-section:nth-child(2), section:nth-child(3) {
+section:nth-child(2), section:nth-child(3), section:nth-child(4), section:nth-child(5) {
 	color: $slate;
 	background-color: $sol;
 	button {
@@ -36,6 +36,9 @@ section:nth-child(2), section:nth-child(3) {
 button {
 	color: white;
 	border-color: transparent;
+}
+.export-queue-button, .clear-queue-button, .export-history-button, .clear-history-button {
+	background-color: $grey !important;
 }
 input {
 	color: $red;
@@ -55,7 +58,7 @@ tr:nth-child(even) {
   background-color: white;
 }
 .overlay {
-	background-color: rgba(255, 255, 255, 0.9);
+	background-color: rgba(255, 255, 255, 0.95);
 	color: #222;
 }
 .key {

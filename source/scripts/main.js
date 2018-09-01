@@ -26,17 +26,14 @@ const {STRING, format, initStrings} = require('./locale.js')
 const prompt = new Prompt('.buttons-flex-wrapper')
 const user_data = new Prefs()
 // the queue of transactions to-be-sent
-let queue = new Queue(onchange=function() {
-	tables.update('queue-table', queue)
+let queue_before = new Queue(onchange=function() {
+	tables.update('before-table', queue_before)
 })
-let queue_success = new Queue(onchange=function() {
-	tables.update('success-table', queue_success)
+let queue_after = new Queue(onchange=function() {
+	tables.update('after-table', queue_after)
+	user_data.set('history', queue_after)
 })
-let queue_history = new Queue(onchange=function() {
-	tables.update('history-table', queue_history)
-	user_data.set('history', queue_history)
-})
-const SECTIONS = ['settings', 'queue', 'payout', 'success', 'reset', 'history']
+const SECTIONS = ['settings', 'queue', 'payout', 'success', 'history']
 // the 'help' explanation for each section
 let SKIP_CONFIRM_CSV = true
 let SKIP_CONFIRM_PAYOUT = false
@@ -76,9 +73,9 @@ async function payout(num_tries=3) {
 	// since transactions sometimes fail, we attempt to send multiple times
 	for (let _ = 0; _ < num_tries; _++) {
 		// if you ever change the type of queue, you should also change the is.nonEmptyArray(queue) line too
-		is.assert.array(queue)
-		while (is.nonEmptyArray(queue)) {
-			let tx = queue.dequeue()
+		is.assert.array(queue_before)
+		while (is.nonEmptyArray(queue_before)) {
+			let tx = queue_before.dequeue()
 			try{
 				// let receipt = await sendTokens(contract_address, tx['to-address'], tx['amount'], options)
 				let receipt = {transactionHash: 'tx hash here'}
@@ -86,7 +83,7 @@ async function payout(num_tries=3) {
 				tx['time'] = getTimestamp()
 				tx['status'] = STRING['sent']
 				tx['info'] = receipt['transactionHash']
-				queue_success.enqueue(tx)
+				queue_after.enqueue(tx)
 			} catch(error) {
 				console.log(error)
 				tx['time'] = getTimestamp()
@@ -96,7 +93,7 @@ async function payout(num_tries=3) {
 				queue_fail.enqueue(tx)
 			}
 		}
-		queue.enqueueAll(queue_fail.dequeueAll())
+		queue_before.enqueueAll(queue_fail.dequeueAll())
 	}
 }
 
@@ -106,7 +103,7 @@ function requestPayout() {
 		proceed()
 	} else {
 		// give the user some info and ask if they with to proceed to payout
-		let amounts = _.map(queue, tx => BigNumber(tx['amount']))
+		let amounts = _.map(queue_before, tx => BigNumber(tx['amount']))
 		console.log(amounts)
 		let amount_total = _.reduce(amounts, (x, y) => x.plus(y))
 		let message = format(STRING['payout-confirm'], amount_total)
@@ -123,12 +120,6 @@ function requestPayout() {
 	}
 }
 
-function reset() {
-	// this function empties the queue and success queue, moving the transactions to the history queue
-	queue_history.enqueueAll(queue_success.dequeueAll())
-	queue_history.enqueueAll(queue.dequeueAll())
-}
-
 function populateQueue(data) {
 	// add the data to the queue
 	for (let row of data) {
@@ -136,7 +127,7 @@ function populateQueue(data) {
 		let tx = row
 		tx['status'] = 'not sent'
 		// add it to the queue
-		queue.enqueue(tx)
+		queue_before.enqueue(tx)
 	}
 }
 
@@ -195,13 +186,6 @@ function importFile() {
 	ipcRenderer.send('open-file-dialog')
 }
 
-function toHistory() {
-	$('.main-container-history').css('z-index', '1')
-}
-function toPayout() {
-	$('.main-container-history').css('z-index', '-1')
-}
-
 function initPrivateKey() {
 	let $key = $('.private-key')
 	$key.val('')
@@ -223,8 +207,10 @@ function hidePrivateKey() {
 	$button.click(initPrivateKey)
 }
 
-function exportHistory(event, path) {
-	// export the history to path
+function exportQueue(event, path, queue_id) {
+	// export the transactions to path
+	// we could pass in queue itself instead of queue id if main.js and index.js can share globals
+	let queue = (queue_id === 'before')? queue_before: queue_after;
 	if (!path) {
 		let message = STRING['no-file-selected']
 		prompt.alert(message, [
@@ -236,8 +222,8 @@ function exportHistory(event, path) {
 		return false
 	}
 	try {
-		let history_string = JSON.stringify(queue_history, null, 2)
-		fs.writeFileSync(path, history_string)
+		let string = JSON.stringify(queue, null, 2)
+		fs.writeFileSync(path, string)
 		let message = format(STRING['export-success'], path)
 		prompt.alert(message, [
 			{
@@ -248,7 +234,7 @@ function exportHistory(event, path) {
 	}
 	catch(error) {
 		console.log(error)
-		let message = 'An error occured.  Failed to export history.'
+		let message = STRING['export-failure']
 		prompt.alert(message, [
 			{
 				text: STRING['ok'],
@@ -258,17 +244,13 @@ function exportHistory(event, path) {
 	}
 }
 
-function clearHistory() {
-	queue_history.dequeueAll()
-}
-
-function requestClearHistory() {
+function requestClearQueue(queue) {
 	// ask the user if they really do want to clear the history!
-	let message = STRING['clear-history-confirm']
+	let message = STRING['clear-queue-confirm']
 	prompt.alert(message, [
 		{
 			text: 'Yes',
-			callback: clearHistory,
+			callback: () => queue.dequeueAll(),
 		},
 		{
 			text: 'No',
@@ -279,22 +261,27 @@ function requestClearHistory() {
 
 function initHistory() {
 	let history = user_data.get('history')
-	queue_history.enqueueAll(history)
+	queue_after.enqueueAll(history)
 }
 
 function initTriggers() {
 	// navigation
-	$('.nav-history').click(toHistory)
-	$('.nav-payout').click(toPayout)
 	// buttons
 	initPrivateKey()
 	$('.gas-price-button').click(requestRecommendedGasPrice)
 	$('.queue-button').click(importFile)
 	$('.payout-button').click(requestPayout)
-	$('.reset-button').click(reset)
-	$('.clear-history-button').click(requestClearHistory)
+	$('.clear-queue-button').click(function() {
+		requestClearQueue(queue_before)
+	})
+	$('.export-queue-button').click(function() {
+		ipcRenderer.send('before-save-dialog')
+	})
+	$('.clear-history-button').click(function() {
+		requestClearQueue(queue_after)
+	})
 	$('.export-history-button').click(function() {
-		ipcRenderer.send('history-save-dialog')
+		ipcRenderer.send('after-save-dialog')
 	})
 	// help messages
 	$('.nav-help').click(function() {
@@ -320,14 +307,14 @@ function initTriggers() {
 	}
 	// electron things
 	ipcRenderer.on('selected-file', readCsvFile)
-	ipcRenderer.on('history-path-chosen', exportHistory)
+	ipcRenderer.on('export-path-chosen', exportQueue)
 }
 
 $(document).ready(function(){
 	initStrings(SECTIONS)
 	license.init(prompt, payout)
 	initDateExtend()
-	tables.initMany(['queue-table', 'success-table', 'history-table'])
+	tables.initMany(['before-table', 'after-table'])
 	// settings.init(user_data)
 	initTriggers()
 	settings.init(user_data) // temporary, so we can store the private key

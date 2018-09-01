@@ -174,3 +174,6 @@ https://mozilla.github.io/nunjucks/
 https://github.com/mozilla/nunjucks
 https://www.npmjs.com/package/swig-templates
 
+input width as small as possible:
+https://stackoverflow.com/questions/773517/style-input-element-to-fill-remaining-width-of-its-container
+you could change from 'input' to a 'div' with contenteditable is True
