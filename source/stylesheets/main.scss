@@ -91,11 +91,13 @@ button {
 	letter-spacing: 0.025em;
 	box-sizing: border-box;
 }
+button.small {
+	padding: 0.625rem 0.625rem;
+	line-height: 0;
+	letter-spacing: 0;
+}
 button:not(:disabled):not(.disabled) {
 	cursor: pointer;
-}
-button.small {
-	height: 16px;
 }
 input {
 	@include font();
