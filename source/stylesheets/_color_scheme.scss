@@ -19,26 +19,24 @@ $sol: #FDF6E3;
 .right-container {
 	background-color: $slate;
 }
-section:nth-child(1) {
-	color: $grey;
- 	background-color: $slate;
+section {
+	color: $slate;
+	background-color: $sol;
 	button {
 		background-color: $grey;
 	}
 }
-section:nth-child(2), section:nth-child(3), section:nth-child(4), section:nth-child(5) {
-	color: $slate;
-	background-color: $sol;
-	button {
-		background-color: $red;
-	}
+section:nth-child(1) {
+	color: $grey;
+ 	background-color: $slate;
 }
 button {
 	color: white;
 	border-color: transparent;
 }
-.export-queue-button, .clear-queue-button, .export-history-button, .clear-history-button {
-	background-color: $grey !important;
+// make certain buttons accented
+.add-transactions-to-queue, .payout-action {
+	background-color: $red !important;
 }
 input {
 	color: $red;
@@ -56,6 +54,9 @@ tr:nth-child(odd) {
 }
 tr:nth-child(even) {
   background-color: white;
+}
+a {
+	color: $red;
 }
 .overlay {
 	background-color: rgba(255, 255, 255, 0.95);
