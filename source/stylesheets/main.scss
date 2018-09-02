@@ -168,6 +168,11 @@ section.settings {
 }
 .settings-content-wrapper {
 }
+.more-settings {
+	height: 0px;
+	transition: height 0.9s ease;
+	overflow: hidden;
+}
 .settings-button-invisible {
 	align-self: flex-end;
 	margin-left: 0;

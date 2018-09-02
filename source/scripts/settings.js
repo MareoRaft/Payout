@@ -63,12 +63,13 @@ function showMoreLess() {
 	// If just the basic settings are currently shown, show all settings.  If all the settings are shown, show only the basic settings.
 	let $more_settings = $('.more-settings')
 	let $button = $('.settings-button, .settings-button-invisible')
-	if ($more_settings.is(':visible')) {
-		$more_settings.hide()
-		$button.html(STRING['show-more-settings'])
-	} else {
-		$more_settings.show()
+	if ($more_settings.height() === 0) {
+		// need fixed height to get transition animation :(
+		$more_settings.height('429px')
 		$button.html(STRING['show-less-settings'])
+	} else {
+		$more_settings.height('0px')
+		$button.html(STRING['show-more-settings'])
 	}
 }
 
