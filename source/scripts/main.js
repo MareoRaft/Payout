@@ -254,10 +254,8 @@ function initHistory() {
 }
 
 function initTriggers() {
-	// navigation
 	// buttons
 	initPrivateKey()
-	$('.gas-price-button').click(requestRecommendedGasPrice)
 	$('.queue-button').click(importFile)
 	$('.payout-button').click(requestPayout)
 	$('.clear-queue-button').click(function() {
@@ -308,26 +306,6 @@ function initTriggers() {
 			])
 		})
 	}
-}
-
-function initTriggers() {
-	// navigation
-	$('.nav-history').click(toHistory)
-	$('.nav-payout').click(toPayout)
-	// buttons
-	initPrivateKey()
-	$('.queue-button').click(importFile)
-	$('.payout-button').click(requestPayout)
-	$('.reset-button').click(reset)
-	$('.clear-history-button').click(requestClearHistory)
-	$('.export-history-button').click(function() {
-		ipcRenderer.send('history-save-dialog')
-	})
-	// help messages
-	initHelpTriggers()
-	// electron things
-	ipcRenderer.on('selected-file', readCsvFile)
-	ipcRenderer.on('export-path-chosen', exportQueue)
 }
 
 $(document).ready(function(){
