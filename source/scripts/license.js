@@ -2,6 +2,7 @@
 
 ////////////////// IMPORTS //////////////////
 const _ = require('lodash')
+const $ = require('jquery')
 const request = require('request')
 const is = require('check-types')
 const {machineId} = require('node-machine-id')
@@ -52,10 +53,10 @@ function promptRequest() {
 async function requestNew() {
 	// request a new license
 	// retrieve their inputted email somehow
-	let email = undefined
+	let email = $('.email').val()
 	// make the request
 	let id = await machineId()
-	let url = `http://${HOSTNAME}/Payout/request-license?id=${id}`
+	let url = `http://${HOSTNAME}/Payout/request-new-license?id=${id}&email=${email}`
 	request(url, respondToRequest)
 }
 

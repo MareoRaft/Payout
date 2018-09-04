@@ -174,3 +174,15 @@ https://mozilla.github.io/nunjucks/
 https://github.com/mozilla/nunjucks
 https://www.npmjs.com/package/swig-templates
 
+email:
+py docs on sending email
+https://docs.python.org/3/library/email.examples.html
+stack overflow on starting an smtp server on your local machine
+https://stackoverflow.com/questions/5619914/sendmail-errno61-connection-refused#7422843
+special article on using python to send emails from gmail specifically
+https://stackoverflow.com/questions/778202/smtplib-and-gmail-python-script-problems
+https://myaccount.google.com/lesssecureapps
+maybe turn off this once we transfer to ambia fund gmail!
+to be cooler, let's use mailchimp:
+https://pypi.org/project/mailchimp3/
+
