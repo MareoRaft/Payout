@@ -7,8 +7,8 @@ from tornado.web import Application
 from tornado.web import url
 from tornado.ioloop import IOLoop
 from tornado.log import enable_pretty_logging
-import smtplib
-from email.message import EmailMessage
+
+import my_email
 
 # GLOBALS
 PORT_NUMBER = 80
@@ -22,18 +22,11 @@ class NewLicenseHandler (RequestHandler):
 		print('getting a new license')
 		machine_id = self.get_argument('id', default='', strip=True)
 		# email_address = self.get_argument('email', default='', strip=True)
+		email_address = 'mvlancellotti@icloud.com'
 		# create the license
 		license = 'newlicense'
 		# email the license
-		email_message = EmailMessage()
-		email_message['Subject'] = 'Your new Payout license.'
-		email_message['From'] = 'mvlancellotti@gmail.com'
-		# email_message['To'] = email_address
-		email_message['To'] = 'mvlancellotti@gmail.com'
-		email_message.set_content('Your new Payout license is "{}"!  Save this for your records in case you ever need to transfer the license to a new/different computer.'.format(license))
-		server = smtplib.SMTP('localhost', 8025)
-		server.send_message(email_message)
-		server.quit()
+		my_email.send(email_address, 'Your new Payout license is:\n\n{}\n\n!  Save this for your records in case you ever need to transfer the license to a new/different computer.'.format(license))
 		# respond
 		response_string = '{}'.format(license)
 		self.write(response_string)
