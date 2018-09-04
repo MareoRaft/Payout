@@ -105,6 +105,11 @@ button:not(:disabled):not(.disabled) {
 input {
 	@include font();
 }
+.email {
+	width: 100%;
+	border: 4px solid black;
+	caret-color: black;
+}
 
 
 /* OVERLAY */

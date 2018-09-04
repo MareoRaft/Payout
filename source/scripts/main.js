@@ -104,16 +104,15 @@ function requestPayout() {
 	} else {
 		// give the user some info and ask if they with to proceed to payout
 		let amounts = _.map(queue_before, tx => BigNumber(tx['amount']))
-		console.log(amounts)
 		let amount_total = _.reduce(amounts, (x, y) => x.plus(y))
 		let message = format(STRING['payout-confirm'], amount_total)
 		prompt.alert(message, [
 			{
-				text: 'Yes',
+				text: STRING['yes'],
 				callback: proceed,
 			},
 			{
-				text: 'No',
+				text: STRING['no'],
 				callback: _.noop,
 			},
 		])
@@ -249,11 +248,11 @@ function requestClearQueue(queue) {
 	let message = STRING['clear-queue-confirm']
 	prompt.alert(message, [
 		{
-			text: 'Yes',
+			text: STRING['yes'],
 			callback: () => queue.dequeueAll(),
 		},
 		{
-			text: 'No',
+			text: STRING['no'],
 			callback: _.noop,
 		},
 	])
@@ -315,9 +314,9 @@ $(document).ready(function(){
 	license.init(prompt, payout)
 	initDateExtend()
 	tables.initMany(['before-table', 'after-table'])
-	// settings.init(user_data)
 	initTriggers()
-	settings.init(user_data) // temporary, so we can store the private key
+	// AFTER triggers b/c triggers clears the private key field
+	settings.init(user_data)
 	initHistory()
 	readCsvFile(event, ['/Users/Matthew/programming/webwrap/Payout/test/test.csv'])
 })
