@@ -186,3 +186,7 @@ maybe turn off this once we transfer to ambia fund gmail!
 to be cooler, let's use mailchimp:
 https://pypi.org/project/mailchimp3/
 
+input width as small as possible:
+https://stackoverflow.com/questions/773517/style-input-element-to-fill-remaining-width-of-its-container
+you could change from 'input' to a 'div' with contenteditable is True
+https://www.brunildo.org/test/shrink-to-fit.html

@@ -90,21 +90,22 @@ function openFileDialog(event) {
 }
 ipcMain.on('open-file-dialog', openFileDialog)
 
-// open a save-dialog for the history log, a dialog to ask the user where to save a new file
-function saveHistoryDialog(event) {
+// open a save-dialog for the queue export, a dialog to ask the user where to save a new file
+function saveDialog(event, queue_id) {
   console.log('almost there...')
   let options = {
-    title: 'Choose location for history file.',
+    title: 'Choose location for file.',
     filters: [
       {name: 'Logs', extensions: ['json', 'txt']},
     ],
   }
   dialog.showSaveDialog(options, function(path) {
     console.log('sending message...')
-    event.sender.send('history-path-chosen', path)
+    event.sender.send('export-path-chosen', path, queue_id)
   })
 }
-ipcMain.on('history-save-dialog', saveHistoryDialog)
+ipcMain.on('before-save-dialog', (event) => saveDialog(event, 'before'))
+ipcMain.on('after-save-dialog', (event) => saveDialog(event, 'after'))
 
 // helper for opening links in a new window (used by `.webContents.on('will-navigate', handleRedirect)`)
 function handleRedirect(event, url) {

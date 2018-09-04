@@ -2,7 +2,7 @@
 "sections": {
 	"settings": "Settings",
 	"queue": "Queue",
-	"payout": "Payout",
+	"payout": "Send",
 	"success": "Success",
 	"reset": "Reset",
 	"history": "History"
@@ -16,8 +16,6 @@
 	"time": "time"
 },
 
-"nav-payout": "Payout",
-"nav-history": "History",
 "nav-help": "Help",
 
 "ok": "Okay",
@@ -48,21 +46,22 @@
 
 "add-transactions-to-queue": "Add transactions to queue",
 
-"payout-action": "Payout",
+"payout-action": "Send",
 
-"reset-action": "Reset",
+"export-queue-button": "Export queue",
+"clear-queue-button": "Clear queue",
 
-"export-history-button": "Export history to file",
-
+"export-history-button": "Export history",
 "clear-history-button": "Clear history",
 
 "no-file-selected": "No file to export to was selected.  No action was taken.",
 
-"export-success": "Successfully exported history log to '{}'.",
+"export-success": "Successfully exported transaction log to '{}'.",
+"export-failure": "An error occured.  Failed to export transactions.",
 
 "payout-confirm": "Payout will now attempt to send a total of {} tokens.<br /><br />Do you wish to proceed?",
 
-"clear-history-confirm": "Are you sure you want to clear the history?<br /><br />Your transaction history will be permanently removed from this application.  If you need a record of your history, it is recommended that you export your history to a file.  If you have already exported your history to a file, that file will remain intact.",
+"clear-queue-confirm": "Are you sure you want to clear the transaction list?<br /><br />It will be permanently removed from this application.  If you need a record of your history, it is recommended that you export your history to a file.  If you have already exported your history to a file, that file will remain intact.",
 
 "prompt-license-request": "To request a license, input your email address and click 'Request'.<br /><br />A license grants you usage of the Payout application on the particular computer that you request from.  If you need to use Payout on multiple computers or need assistance, feel free to email us at <a href='mailto:mvlancellotti+payout@gmail.com'>mvlancellotti+payout@gmail.com</a>.",
 

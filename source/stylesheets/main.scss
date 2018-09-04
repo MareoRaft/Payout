@@ -1,17 +1,6 @@
 @import 'reset';
-@import 'argon';
 @import 'layout';
-
-@font-face {
-  font-family: Lato;
-  src: url(../assets/Lato/Lato-Black.ttf);
-  font-weight: normal;
-}
-@font-face {
-  font-family: Pacifico;
-  src: url(../assets/Pacifico/Pacifico-Regular.ttf);
-  font-weight: normal;
-}
+@import 'color_scheme';
 
 /* GLOBAL VARIABLES */
 // The global 'margin' or 'buffer' for the left and right gutters of the page, and bottom of sections
@@ -25,18 +14,22 @@ $buffer-button: 8px;
 // other stuff
 $button-height: 43px;
 
+/* MIXINS */
+@mixin font() {
+	font-family: "Monaco", "Open Sans", sans-serif;
+	-webkit-font-smoothing: antialiased;
+	font-size: 16px;
+}
+
 /* GLOBAL STYLES */
 html {
-	// font-family: Lato, Pacifico, cursive;
-	// verdana,helvetica,arial,sans-serif;
-}
-body {
+	@include font();
 }
 h2 {
 	padding-top: $buffer - 6px;
 	padding-left: $buffer;
 	font-size: 40px;
-	background-color: pink;
+	letter-spacing: 0;
 }
 h2:hover {
 	cursor: pointer;
@@ -55,21 +48,12 @@ table {
 	margin-left: $buffer;
 	margin-right: $buffer;
 	border-collapse: collapse;
-	background-color: pink;
 }
 th {
   padding: 3px;
   vertical-align: top;
   text-align: center;
-  border: 1px solid #555;
-  color: #fff;
-  background-color: #555;
-}
-tr:nth-child(odd) {
-  background-color: #f1f1f1;
-}
-tr:nth-child(even) {
-  background-color: white;
+  border: 1px solid;
 }
 td {
   padding-left: 5px;
@@ -90,6 +74,38 @@ ul {
 ol {
 	list-style-type: decimal;
 }
+a {
+	text-decoration: none;
+}
+button {
+	margin-left: $buffer-button;
+	@include font();
+	text-align: center;
+	vertical-align: middle;
+	white-space: nowrap;
+	border: 1px solid transparent;
+	border-radius: 0.25rem;
+	padding: 0.625rem 1.25rem;
+	line-height: 1.5;
+	transition: all 0.15s ease;
+	will-change: transform;
+	font-size: 0.875rem;
+	// font-weight: 600;
+	letter-spacing: 0.025em;
+	box-sizing: border-box;
+}
+button.small {
+	padding: 0.625rem 0.625rem;
+	line-height: 0;
+	letter-spacing: 0;
+}
+button:not(:disabled):not(.disabled) {
+	cursor: pointer;
+}
+input {
+	@include font();
+}
+
 
 /* OVERLAY */
 // The overlay is what appears whenever there is an 'alert'.  If a user clicks on something for more info, the overlay basically darkens or brightens the screen and displays a message to them along with an OK button
@@ -112,8 +128,6 @@ ol {
 	pointer-events: none;
 	opacity: 0;
 	transition: opacity 0.4s linear;
-	background-color: rgba(255, 255, 255, 0.9);
-	color: #222;
 }
 .alert-flex-wrapper {
 	max-width: 80%;
@@ -122,7 +136,6 @@ ol {
 	flex-direction: column;
 	flex-wrap: nowrap;
 	justify-content: center;
-	background-color: lightgreen;
 }
 .message {
 	overflow: scroll;
@@ -136,7 +149,6 @@ ol {
 	justify-content: flex-end;
 	align-items: flex-start;
 	align-content: flex-start;
-	background-color: pink;
 }
 
 /* SETTINGS */
@@ -153,10 +165,13 @@ section.settings {
 	margin-top: 14px;
 	padding-left: $buffer + 20px;
 	padding-right: $buffer;
-	background-color: orange;
 }
 .settings-content-wrapper {
-	background-color: lightgreen;
+}
+.more-settings {
+	height: 0px;
+	transition: height 0.9s ease;
+	overflow: hidden;
 }
 .settings-button-invisible {
 	align-self: flex-end;
@@ -171,13 +186,11 @@ section.settings {
 }
 button:hover {
 	// argon button drop shadow should go here.  This should also fix hover glitch when clicking on 'show more settings'
-	background-color: blue;
 }
 
 /* QUEUE */
 section.queue {
 	padding-bottom: $buffer;
-	background-color: orange;
 }
 .queue-flex-wrapper {
 	min-height: $buffer + $button-height + $buffer;
@@ -203,7 +216,6 @@ section.queue {
 
 /* PAYOUT AND RESET */
 section.payout {
-	background-color: lime;
 }
 .payout-flex-wrapper {
 	min-height: $buffer + $button-height + $buffer;
@@ -214,7 +226,6 @@ section.payout {
 	justify-content: space-between;
 	align-content: flex-start;
 	padding-right: $buffer;
-	background-color: yellow;
 }
 .payout-button-invisible {
 	height: $button-height;
@@ -237,16 +248,14 @@ section.payout {
 /* SUCCESS */
 section.success {
 	padding-bottom: $buffer;
-	background-color: pink;
 }
 
 /* HISTORY */
 section.history {
 	// the buttons have a margin-bottom which we must subtract away
 	padding-bottom: $buffer - $buffer-button;
-	background-color: purple;
 }
-.history-buttons-flex-wrapper {
+.generic-buttons-flex-wrapper {
 	margin-top: $buffer-crash;
 	margin-left: $buffer;
 	margin-right: $buffer;
@@ -255,9 +264,9 @@ section.history {
 	flex-wrap: wrap;
 	align-items: flex-start;
 	align-content: flex-start;
-	background-color: yellow;
 }
-.history-buttons-flex-wrapper button {
+.generic-buttons-flex-wrapper button {
 	margin-bottom: $buffer-button;
 }
+
 

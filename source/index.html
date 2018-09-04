@@ -9,31 +9,39 @@
 	<!-- Main Container Payout -->
 	<div class="main-container-payout">
 		<div class="left-container">
-			<div class="left-spacer-1"></div>
-			<div class="logo">the ambia func</div>
-			<div class="left-spacer-2"></div>
-			<nav>
-				<div class="nav-item nav-payout"></div>
-				<div class="nav-item nav-history"></div>
-				<div class="nav-item nav-help"></div>
-			</nav>
-			<div class="left-spacer-3"></div>
 		</div>
 		<div class="right-container">
 
 			<!-- Settings -->
 			<section class="settings">
-				<h2></h2>
+				<h2>Settings</h2>
 				<div class="settings-flex-wrapper">
 					<div class="content-wrapper">
-						gas price: <input class="gas-price" type="text" /> gwei. <button class="gas-price-button btn">Use recommended price</button>
-						<br />contract address <input class="contract-address" type="text" />
-						<div class="more-settings">
-							private key: <input class="private-key" type="text" /> <button class="private-key-button btn hide-private-key"></button>
-						</div>
+<div class="some-settings">
+	<span class="gas-price"></span><input class="gas-price" type="text" /> gwei
+		<button class="gas-price-button small">Use recommended price</button><br />
+	<span class="key">contract address:</span> <input class="contract-address" type="text" />
+<div class="more-settings">
+	<span class="private-key">private key:</span> <input class="private-key" type="text" />
+		<button class="private-key-button hide-private-key small"></button><br />
+	<span class="decimals"></span><input class="decimals" type="text" /><br />
+	<span class="account"></span><input class="account" type="text" /><br />
+	<span class="mnemonic"></span><input class="mnemonic" type="text" /><br />
+	<span class="mnemonic-index"></span><input class="mnemonic-index" type="text" /><br />
+	<span class="keystore"></span><input class="keystore" type="text" /><br />
+	<span class="keystore-path"></span><input class="keystore-path" type="text" /><br />
+	<span class="keystore-path"></span><input class="keystore-path" type="text" /><br />
+	<span class="keystore-path"></span><input class="keystore-path" type="text" /><br />
+	<span class="keystore-password"></span><input class="keystore-password" type="text" /><br />
+	<span class="network"></span><input class="network" type="text" /><br />
+	<span class="confirmations"></span><input class="confirmations" type="text" /><br />
+	<span class="infura-key"></span><input class="infura-key" type="text" /><br />
+	<span class="provider"></span><input class="provider" type="text" /><br />
+	<span class="web3"></span><input class="web3" type="text" />
+</div>
 					</div>
-					<button class="settings-button-invisible btn show-more-settings"></button>
-					<button class="settings-button btn sticky show-more-settings"></button>
+					<button class="settings-button-invisible show-more-settings"></button>
+					<button class="settings-button sticky show-more-settings"></button>
 				</div>
 			</section>
 
@@ -41,13 +49,17 @@
 			<section class="queue">
 				<div class="queue-flex-wrapper">
 					<h2></h2>
-					<button class="queue-button-invisible btn add-transactions-to-queue"></button>
-					<button class="queue-button btn add-transactions-to-queue"></button>
+					<button class="queue-button-invisible add-transactions-to-queue"></button>
+					<button class="queue-button add-transactions-to-queue"></button>
 				</div>
 				<div class="table-flex-wrapper">
 					<div class="table-centerer"></div>
-					<table id="queue-table"></table>
+					<table id="before-table"></table>
 					<div class="table-centerer"></div>
+				</div>
+				<div class="generic-buttons-flex-wrapper">
+					<button class="export-queue-button"></button>
+					<button class="clear-queue-button"></button>
 				</div>
 			</section>
 
@@ -55,50 +67,10 @@
 			<section class="payout">
 				<div class="payout-flex-wrapper">
 					<h2></h2>
-					<button class="payout-button-invisible btn payout-action"></button>
-					<button class="payout-button btn payout-action"></button>
+					<button class="payout-button-invisible payout-action"></button>
+					<button class="payout-button payout-action"></button>
 				</div>
 			</section>
-
-			<!-- Success -->
-			<section class="success">
-				<div class="queue-flex-wrapper">
-					<h2></h2>
-				</div>
-				<div class="table-flex-wrapper">
-					<div class="table-centerer"></div>
-					<table id="success-table"></table>
-					<div class="table-centerer"></div>
-				</div>
-			</section>
-
-			<!-- Reset -->
-			<section class="reset">
-				<div class="payout-flex-wrapper">
-					<h2></h2>
-					<button class="reset-button-invisible btn reset-action"></button>
-					<button class="reset-button btn reset-action"></button>
-				</div>
-			</section>
-
-		</div>
-	</div>
-
-
-	<!-- Main Container History -->
-	<div class="main-container-history">
-		<div class="left-container">
-			<div class="left-spacer-1"></div>
-			<div class="logo">the ambia func</div>
-			<div class="left-spacer-2"></div>
-			<nav>
-				<div class="nav-item nav-payout"></div>
-				<div class="nav-item nav-history"></div>
-				<div class="nav-item nav-help"></div>
-			</nav>
-			<div class="left-spacer-3"></div>
-		</div>
-		<div class="right-container">
 
 			<!-- History -->
 			<section class="history">
@@ -107,12 +79,12 @@
 				</div>
 				<div class="table-flex-wrapper">
 					<div class="table-centerer"></div>
-					<table id="history-table"></table>
+					<table id="after-table"></table>
 					<div class="table-centerer"></div>
 				</div>
-				<div class="history-buttons-flex-wrapper">
-					<button class="export-history-button btn"></button>
-					<button class="clear-history-button btn"></button>
+				<div class="generic-buttons-flex-wrapper">
+					<button class="export-history-button"></button>
+					<button class="clear-history-button"></button>
 				</div>
 			</section>
 
