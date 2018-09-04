@@ -10,12 +10,14 @@ let locale = osLocale.sync()
 try {
 	// try loading the specific locale
 	const STRING = require(`../assets/strings/${locale}.json`)
-} catch try {
-	// try loading the generic locale
-	const STRING = require(`../assets/strings/${locale.split('_')[0]}.json`)
-} catch {
-	// fallback to english
-	const STRING = require('../assets/strings/en.json')
+} catch(error) {
+	try {
+		// try loading the generic locale
+		const STRING = require(`../assets/strings/${locale.split('_')[0]}.json`)
+	} catch(error) {
+		// fallback to english
+		const STRING = require('../assets/strings/en.json')
+	}
 }
 
 // define the format function, like python's "format", but dumber
