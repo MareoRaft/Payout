@@ -2,7 +2,7 @@
 
 ////////////////// IMPORTS //////////////////
 const $ = require('jquery')
-const request = require('request')
+const rp = require('request-promise-native')
 
 const {STRING} = require('./locale.js')
 
@@ -48,35 +48,21 @@ function save() {
 	user_data.set('settings', settings)
 }
 
-// function setRecommendedGasPrice(price) {
-// 	// given a price (in gwei), set it as the GWEI value in settings
-// 	// alternatively we could just put a box next to gwei that says the current recommendation
-// 	$('.gas-price').val(price)
-// }
-
-function respondToRecommendedGasPrice(error, response, body) {
-	if (error) {
-		throw error
-	} else {
-		let info = JSON.parse(body)
-		let recommended_gas_price_raw = info['average']
-		// add 1 because Tyler says it's a good rule of thumb
-		let recommended_gas_price_in_gwei = (recommended_gas_price_raw / 10) + 1
-		setRecommendedGasPrice(recommended_gas_price_in_gwei)
-	}
-}
-
-function requestRecommendedGasPrice() {
+async function getRecommendedGasPrice() {
 	// gets the recommended gas price from https://ethgasstation.info
-	request("https://ethgasstation.info/json/ethgasAPI.json", respondToRecommendedGasPrice)
+	let body = await rp("https://ethgasstation.info/json/ethgasAPI.json")
+	let info = JSON.parse(body)
+	let recommended_gas_price_raw = info['average']
+	// add 1 because Tyler says it's a good buffer
+	let recommended_gas_price_in_gwei = (recommended_gas_price_raw / 10) + 1
+	return recommended_gas_price_in_gwei
 }
 
-function getPayoutOptions() {
+async function getPayoutOptions() {
 	// retrieves the settings and re-organizes them into the correct inputs for send-tokens
 	let settings = get()
 	// if no gas price is specified, use a recommended price
-	// let gas_price = (settings['gas-price'] === '')? await requestRecommendedGasPrice(): settings['gas-price'];
-	let gas_price = '4'
+	let gas_price = (settings['gas-price'] === '')? await getRecommendedGasPrice(): settings['gas-price'];
 	// construct inputs for send-tokens
 	let options = {
 		gasPrice: gas_price,

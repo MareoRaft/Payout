@@ -47,7 +47,7 @@ let SKIP_CONFIRM_PAYOUT = false
 async function payout(num_tries=3) {
 	// attempt to pay out all transactions in queue using send-tokens
 	// get user input
-	let [contract_address, options] = settings.getPayoutOptions()
+	let [contract_address, options] = await settings.getPayoutOptions()
 	// feed into send-tokens
 	let queue_fail = new Queue()
 	// since transactions sometimes fail, we attempt to send multiple times
@@ -97,7 +97,6 @@ function requestPayout() {
 	} else {
 		// give the user some info and ask if they with to proceed to payout
 		let amounts = _.map(queue, tx => BigNumber(tx['amount']))
-		console.log(amounts)
 		let amount_total = _.reduce(amounts, (x, y) => x.plus(y))
 		let message = format(STRING['payout-confirm'], amount_total)
 		prompt.alert(message, [

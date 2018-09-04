@@ -87,6 +87,7 @@ to SLIM the application once finished:
   * use the 'exclude' option or whatever its called in the electron-forge package/make options to exclude all unnecessary files
   * seperate INIT things into initBeforeDomLoad and initAfterDomLoad.  Put as many things before as possible, to speed up application load.
   * try out some queue module if large spreadsheets lead to terrible performance due to shift operation
+  * consider using the library 'got' instead of 'request', since the latter is bloated.
 
 dealing with files:
 https://nodejs.org/docs/v0.3.1/api/fs.html#fs.readFile
