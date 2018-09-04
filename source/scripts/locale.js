@@ -3,22 +3,24 @@ const osLocale = require('os-locale')
 const $ = require('jquery')
 
 ////////////////// GLOBALS //////////////////
+// init the strings (STRING) based on the locale
+const STRING = (function() {
+	let locale = osLocale.sync()
+	try {
+		// try loading the specific locale
+		return require(`../assets/strings/${locale}.json`)
+	} catch(error) {
+		try {
+			// try loading the generic locale
+			return require(`../assets/strings/${locale.split('_')[0]}.json`)
+		} catch(error) {
+			// fallback to english
+			return require('../assets/strings/en.json')
+		}
+	}
+})()
 
 /////////////////// MAIN ///////////////////
-// init the strings (STRING) based on the locale
-let locale = osLocale.sync()
-try {
-	// try loading the specific locale
-	const STRING = require(`../assets/strings/${locale}.json`)
-} catch(error) {
-	try {
-		// try loading the generic locale
-		const STRING = require(`../assets/strings/${locale.split('_')[0]}.json`)
-	} catch(error) {
-		// fallback to english
-		const STRING = require('../assets/strings/en.json')
-	}
-}
 
 // define the format function, like python's "format", but dumber
 function format(string, ...inputs) {
