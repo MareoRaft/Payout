@@ -2,11 +2,13 @@
 
 ////////////////// IMPORTS //////////////////
 const $ = require('jquery')
+const rp = require('request-promise-native')
+
 const {STRING} = require('./locale.js')
 
 ////////////////// GLOBALS //////////////////
 let user_data = undefined
-let SETTINGS_NAMES = ['gas-price', 'contract-address', 'private-key']
+let SETTINGS_NAMES = ['gas-price', 'contract-address', 'private-key', 'decimals']
 
 /////////////////// MAIN ///////////////////
 function init(preferences) {
@@ -46,17 +48,29 @@ function save() {
 	user_data.set('settings', settings)
 }
 
-function getPayoutOptions() {
+async function getRecommendedGasPrice() {
+	// gets the recommended gas price from https://ethgasstation.info
+	let body = await rp("https://ethgasstation.info/json/ethgasAPI.json")
+	let info = JSON.parse(body)
+	let recommended_gas_price_raw = info['average']
+	// add 1 because Tyler says it's a good buffer
+	let recommended_gas_price_in_gwei = (recommended_gas_price_raw / 10) + 1
+	return recommended_gas_price_in_gwei
+}
+
+async function getPayoutOptions() {
 	// retrieves the settings and re-organizes them into the correct inputs for send-tokens
 	let settings = get()
-	let contract_address = settings['contract-address']
+	// if no gas price is specified, use a recommended price
+	let gas_price = (settings['gas-price'] === '')? await getRecommendedGasPrice(): settings['gas-price'];
 	// construct inputs for send-tokens
 	let options = {
-		gasPrice: settings['gas-price'],
+		gasPrice: gas_price,
 		key: settings['private-key'],
+		// decimals: settings['decimals'],
 		onTxId: console.log,
 	}
-	return [contract_address, options]
+	return [settings['contract-address'], options]
 }
 
 function showMoreLess() {

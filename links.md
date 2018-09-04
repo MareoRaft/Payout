@@ -87,6 +87,7 @@ to SLIM the application once finished:
   * use the 'exclude' option or whatever its called in the electron-forge package/make options to exclude all unnecessary files
   * seperate INIT things into initBeforeDomLoad and initAfterDomLoad.  Put as many things before as possible, to speed up application load.
   * try out some queue module if large spreadsheets lead to terrible performance due to shift operation
+  * consider using the library 'got' instead of 'request', since the latter is bloated.
 
 dealing with files:
 https://nodejs.org/docs/v0.3.1/api/fs.html#fs.readFile
@@ -185,6 +186,9 @@ https://myaccount.google.com/lesssecureapps
 maybe turn off this once we transfer to ambia fund gmail!
 to be cooler, let's use mailchimp:
 https://pypi.org/project/mailchimp3/
+
+repeated transactions:
+https://ethereum.stackexchange.com/questions/27256/error-replacement-transaction-underpriced
 
 input width as small as possible:
 https://stackoverflow.com/questions/773517/style-input-element-to-fill-remaining-width-of-its-container
