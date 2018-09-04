@@ -2,8 +2,10 @@
 
 ////////////////// IMPORTS //////////////////
 const Store = require('electron-store')
+const encryptor = require('simple-encryptor')(require('../assets/secrets.json')['encryption-key'])
 
 ////////////////// GLOBALS //////////////////
+////////////////// HELPERS //////////////////
 
 /////////////////// MAIN ///////////////////
 class Prefs {
@@ -25,18 +27,30 @@ class Prefs {
 		this.storage = new Store(options)
 	}
 
+	decrypt(key, value) {
+		// decrypt anything in the value if necessary
+		if (key === 'settings' && 'private-key' in value) {
+			value['private-key'] = encryptor.decrypt(value['private-key'])
+		}
+		return value
+	}
+
 	get(key) {
 		let value = this.storage.get(key)
-		if (key === 'private-key') {
-			// decrypt the private key
+		value = this.decrypt(key, value)
+		return value
+	}
+
+	encrypt(key, value) {
+		// encrypt anything in the value if necessary
+		if (key === 'settings' && 'private-key' in value) {
+			value['private-key'] = encryptor.encrypt(value['private-key'])
 		}
 		return value
 	}
 
 	set(key, value) {
-		if (key === 'private-key') {
-			// encrypt the private key
-		}
+		value = this.encrypt(key, value)
 		this.storage.set(key, value)
 	}
 }

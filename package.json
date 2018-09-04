@@ -50,6 +50,7 @@
     }
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "bignumber.js": "^7.2.1",
     "check-types": "^7.4.0",
     "csv-parse": "^2.5.0",
@@ -66,7 +67,8 @@
     "lodash": "^4.17.10",
     "node-machine-id": "^1.1.10",
     "request": "^2.88.0",
-    "send-tokens": "^1.5.1"
+    "send-tokens": "^2.0.2",
+    "simple-encryptor": "^2.0.0"
   },
   "devDependencies": {
     "babel-plugin-transform-async-to-generator": "^6.24.1",
