@@ -2,6 +2,7 @@
 
 ////////////////// IMPORTS //////////////////
 const _ = require('lodash')
+const $ = require('jquery')
 const request = require('request')
 const is = require('check-types')
 const {machineId} = require('node-machine-id')
@@ -35,7 +36,7 @@ function init(prompt_obj, payout_func) {
 function promptRequest() {
 	// form that user can fill out to request a new license
 	console.log('prompting user again')
-	let message = 'To request a license, input your email address and click \'Request\'.<br /><br />A license grants you usage of the Payout application on the particular computer that you request from.  If you need to use Payout on multiple computers or need assistance, feel free to email us at <a href="mailto:mvlancellotti+payout@gmail.com">mvlancellotti+payout@gmail.com</a>.'
+	let message = "To request a license, input your email address and click \'Request\'.<br /><br /><input class='email' /><br /><br />A license grants you usage of the Payout application on the particular computer that you request from.  If you need to use Payout on multiple computers or need assistance, feel free to email us at <a href='mailto:mvlancellotti+payout@gmail.com'>mvlancellotti+payout@gmail.com</a>."
 	prompt.alert(message, [
 		{
 			text: 'Request',
@@ -51,10 +52,10 @@ function promptRequest() {
 async function requestNew() {
 	// request a new license
 	// retrieve their inputted email somehow
-	let email = undefined
+	let email = $('.email').val()
 	// make the request
 	let id = await machineId()
-	let url = `http://${HOSTNAME}/Payout/request-new-license?id=${id}`
+	let url = `http://${HOSTNAME}/Payout/request-new-license?id=${id}&email=${email}`
 	request(url, respondToRequest)
 }
 

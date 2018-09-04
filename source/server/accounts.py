@@ -1,5 +1,7 @@
 import random
 
+import pymongo
+
 from mongo import Mongo
 
 ## Create global db object
@@ -29,5 +31,8 @@ def save(machine_id, license, email_address):
 		'license': license,
 		'email': email_address,
 	}
-	db.insert_one(dic)
+	try:
+		db.insert_one(dic)
+	except(pymongo.errors.DuplicateKeyError):
+		raise Exception('That machine already has a license.')
 

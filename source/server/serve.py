@@ -22,9 +22,8 @@ class NewLicenseHandler (RequestHandler):
 	def get(self):
 		print('getting a new license')
 		machine_id = self.get_argument('id', strip=True)
-		# email_address = self.get_argument('email', strip=True)
-		email_address = 'mvlancellotti@icloud.com'
-		# create the license
+		email_address = self.get_argument('email', strip=True)
+		# create new license
 		license = accounts.generate_license()
 		# save the license
 		accounts.save(machine_id, license, email_address)
