@@ -19,8 +19,7 @@ class TlsSMTPHandler(logging.handlers.SMTPHandler):
 def send(to_address, message):
 	# setup
 	from_address = 'mvlancellotti@gmail.com'
-	with open('password.txt', 'r') as file:
-		password = file.read()
+	password = open('password.txt').read().strip()
 	# prepare message
 	email_message = EmailMessage()
 	email_message['Subject'] = 'Your new Payout license.'

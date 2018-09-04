@@ -9,6 +9,7 @@ from tornado.ioloop import IOLoop
 from tornado.log import enable_pretty_logging
 
 import my_email
+import accounts
 
 # GLOBALS
 PORT_NUMBER = 80
@@ -20,11 +21,13 @@ class NewLicenseHandler (RequestHandler):
 
 	def get(self):
 		print('getting a new license')
-		machine_id = self.get_argument('id', default='', strip=True)
-		# email_address = self.get_argument('email', default='', strip=True)
+		machine_id = self.get_argument('id', strip=True)
+		# email_address = self.get_argument('email', strip=True)
 		email_address = 'mvlancellotti@icloud.com'
 		# create the license
-		license = 'newlicense'
+		license = accounts.generate_license()
+		# save the license
+		accounts.save(machine_id, license, email_address)
 		# email the license
 		my_email.send(email_address, 'Your new Payout license is:\n\n{}\n\n!  Save this for your records in case you ever need to transfer the license to a new/different computer.'.format(license))
 		# respond
@@ -40,7 +43,7 @@ class LicenseVerificationHandler (RequestHandler):
 		machine_id = self.get_argument('id', default='', strip=True)
 		license = self.get_argument('license', default='', strip=True)
 		# figure out if it's valid or not
-		is_valid = False
+		is_valid = accounts.is_valid(machine_id, license)
 		# respond
 		response_string = '{}'.format(is_valid)
 		self.write(response_string)

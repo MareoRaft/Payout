@@ -5,6 +5,7 @@ build
 package-lock.json
 ignore
 *.orig
+password.txt
 
 
 ### Sass ###
