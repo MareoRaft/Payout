@@ -104,6 +104,7 @@ button:not(:disabled):not(.disabled) {
 }
 input {
 	@include font();
+	background-color: gray;
 }
 .email {
 	width: 100%;

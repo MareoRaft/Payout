@@ -78,21 +78,21 @@ app.on('activate', () => {
 })
 
 // open a existing-file-chooser dialog when asked to
-function openFileDialog(event) {
+function openFileDialog(event, response_event_name) {
   let options = {
     properties: ['openFile'],
   }
   dialog.showOpenDialog(options, function(files) {
     if (files) {
-      event.sender.send('selected-file', files)
+      event.sender.send(response_event_name, files)
     }
   })
 }
-ipcMain.on('open-file-dialog', openFileDialog)
+ipcMain.on('open-file-dialog', (event) => openFileDialog(event, 'selected-file'))
+ipcMain.on('choose-key-path', (event) => openFileDialog(event, 'key-path-chosen'))
 
 // open a save-dialog for the queue export, a dialog to ask the user where to save a new file
 function saveDialog(event, queue_id) {
-  console.log('almost there...')
   let options = {
     title: 'Choose location for file.',
     filters: [
@@ -100,7 +100,6 @@ function saveDialog(event, queue_id) {
     ],
   }
   dialog.showSaveDialog(options, function(path) {
-    console.log('sending message...')
     event.sender.send('export-path-chosen', path, queue_id)
   })
 }

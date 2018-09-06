@@ -19,18 +19,37 @@
 					<div class="settings-content-wrapper">
 <div class="some-settings">
 	<span class="gas-price"></span><input class="gas-price" type="text"> gwei<br>
-	<span class="contract-address"></span><input class="contract-address" type="text">
-</div>
-<div class="more-settings">
-	<span class="private-key"></span><input class="private-key" type="text">
-		<button class="private-key-button hide-private-key small"></button><br>
-	<span class="decimals"></span><input class="decimals" type="text"><br>
-	<span class="account"></span><input class="account" type="text"><br>
-	<span class="mnemonic"></span><input class="mnemonic" type="text"><br>
+	<span class="contract-address"></span><input class="contract-address" type="text"><br>
+
+	<span class="key"></span>
+		<select class="key-type">
+			<option value="hex">hex</option>
+			<option value="mnemonic">mnemonic</option>
+		</select>
+		<select class="key-input-type">
+			<option value="text">direct input</option>
+			<option value="path">file path</option>
+		</select>
+		<input class="key" type="text">
+		<button class="key-button">choose file</button>
+		<span class="key-extra-wrapper">
+			<span class="key-extra">extra</span>: <input class="key-extra" type="text">
+		</span>
+
+
+
+		<!-- <button class="private-key-button hide-private-key small"></button> --><br>
+
+	<br>
 	<span class="mnemonic-index"></span><input class="mnemonic-index" type="text"><br>
 	<span class="keystore"></span><input class="keystore" type="text"><br>
 	<span class="keystore-path"></span><input class="keystore-path" type="text"><br>
 	<span class="keystore-password"></span><input class="keystore-password" type="text"><br>
+
+</div>
+<div class="more-settings">
+	<span class="decimals"></span><input class="decimals" type="text"><br>
+	<span class="account"></span><input class="account" type="text"><br>
 	<span class="network"></span><input class="network" type="text"><br>
 	<span class="confirmations"></span><input class="confirmations" type="text"><br>
 	<span class="infura-key"></span><input class="infura-key" type="text"><br>

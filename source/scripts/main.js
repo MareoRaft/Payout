@@ -317,6 +317,5 @@ $(document).ready(function(){
 	// AFTER triggers b/c triggers clears the private key field
 	settings.init(user_data)
 	initHistory()
-	readCsvFile(event, ['/Users/Matthew/programming/webwrap/Payout/test/test.csv'])
 })
 

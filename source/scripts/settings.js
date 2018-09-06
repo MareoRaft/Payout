@@ -3,6 +3,7 @@
 ////////////////// IMPORTS //////////////////
 const $ = require('jquery')
 const rp = require('request-promise-native')
+const {ipcRenderer} = require('electron')
 
 const {STRING} = require('./locale.js')
 
@@ -23,6 +24,34 @@ function init(preferences) {
 		// unfortunately this excludes changes from $().val(new_val)
 		$('.' + name).change(save)
 	}
+	// triggers to update private key input fields
+	$('.key-type, .key-input-type').change(updateKeyInputFields)
+	$('.key-button').click(() => ipcRenderer.send('choose-key-path'))
+}
+
+function updateKeyInputFields() {
+	let type = $('.key-type').val()
+	let input_type = $('.key-input-type').val()
+	let $button = $('.key-button')
+	let $extra_wrapper = $('.key-extra-wrapper')
+	let $extra_prompt = $('span.key-extra')
+	// deal with button
+	if (input_type === 'text') {
+		$button.hide()
+	}
+	else if (input_type === 'path') {
+		$button.show()
+	}
+	else throw 'bad input type'
+	// deal with extra inputs
+	if (type === 'hex') {
+		$extra_wrapper.hide()
+	}
+	else if (type === 'mnemonic') {
+		$extra_prompt.html('index')
+		$extra_wrapper.show()
+	}
+	else throw 'bad type'
 }
 
 function get() {
