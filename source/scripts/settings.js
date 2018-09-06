@@ -9,7 +9,7 @@ const {STRING} = require('./locale.js')
 
 ////////////////// GLOBALS //////////////////
 let user_data = undefined
-let SETTINGS_NAMES = ['gas-price', 'contract-address', 'private-key', 'decimals']
+let SETTINGS_NAMES = ['gas-price', 'contract-address', 'key', 'decimals']
 
 /////////////////// MAIN ///////////////////
 function init(preferences) {
@@ -25,8 +25,12 @@ function init(preferences) {
 		$('.' + name).change(save)
 	}
 	// triggers to update private key input fields
-	$('.key-type, .key-input-type').change(updateKeyInputFields)
+	$('.key-type, .key-input-type').change(function(){
+		updateKeyInputFields()
+		save()
+	})
 	$('.key-button').click(() => ipcRenderer.send('choose-key-path'))
+	$('input.key, input.key-extra').change(save)
 }
 
 function updateKeyInputFields() {
@@ -54,13 +58,61 @@ function updateKeyInputFields() {
 	else throw 'bad type'
 }
 
+function getKey() {
+	// retrieve the key settings that are currently inputted in the GUI
+	let type = $('.key-type').val()
+	let input_type = $('.key-input-type').val()
+	let value = $('input.key').val()
+	let key_settings = {}
+	key_settings['type'] = type
+	key_settings['input-type'] = input_type
+	key_settings['value'] = value
+	if (type === 'hex') {
+		// pass
+	}
+	else if (type === 'mnemonic') {
+		let value_extra = $('input.key-extra').val()
+		key_settings['value-extra'] = value_extra
+	}
+	else throw 'bad type'
+	return key_settings
+}
+
 function get() {
 	// retrieve the settings that are currently inputted in the GUI
 	let settings = {}
 	for (let name of SETTINGS_NAMES) {
 		settings[name] = $('.' + name).val()
 	}
+	// deal with key settings
+	settings['key'] = getKey()
+	// return
 	return settings
+}
+
+function setKey(key_settings) {
+	// retrieve the key settings that are currently inputted in the GUI
+	// setup
+	let $type = $('.key-type')
+	let $input_type = $('.key-input-type')
+	let $value = $('input.key')
+	let $value_extra = $('input.key-extra')
+	let type = key_settings['type']
+	let input_type = key_settings['input-type']
+	let value = key_settings['value']
+	// set things in common
+	$type.val(type)
+	$input_type.val(input_type)
+	$value.val(value)
+	// set things not in common
+	if (type === 'hex') {
+		// pass
+	}
+	else if (type === 'mnemonic') {
+		let value_extra = key_settings['value-extra']
+		$value_extra.val(value_extra)
+	}
+	else throw 'bad type'
 }
 
 function set() {
@@ -69,6 +121,8 @@ function set() {
 	for (let name of SETTINGS_NAMES) {
 		$('.' + name).val(settings[name])
 	}
+	// deal with key settings
+	setKey(settings['key'])
 }
 
 function save() {
