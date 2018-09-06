@@ -83,7 +83,7 @@
 
 	"confirmations": ["confirmations", "The number of confirmations to wait for after each transaction is mined<br><br>The maximum allowed value is 12. Defaults to 0 (no confirmations)."],
 
-	"infura-key": ["Infura API key", "The Infura API key to use."],
+	"infura-key": ["Infura key", "The Infura API key to use."],
 
 	"provider": ["provider", "A custom provider<br><br>May either be a URI (e.g., http://localhost:8545) or a Provider object from Web3."],
 

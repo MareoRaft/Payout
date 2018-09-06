@@ -30,7 +30,7 @@ const createWindow = () => {
     y: mainWindowState.y,
     width: mainWindowState.width,
     height: mainWindowState.height,
-    minWidth: 500,
+    minWidth: 540,
     minHeight: 300,
   })
 
