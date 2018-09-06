@@ -18,9 +18,8 @@
 				<div class="settings-flex-wrapper">
 					<div class="settings-content-wrapper">
 <div class="some-settings">
-	<span class="gas-price"></span><input class="gas-price" type="text"> gwei<br>
-	<span class="contract-address"></span><input class="contract-address" type="text"><br>
-
+	<span class="gas-price"></span>:&nbsp;<input class="input gas-price" type="text"> gwei<br>
+	<span class="contract-address"></span>:&nbsp;<input class="input contract-address" type="text"><br>
 	<span class="key"></span>
 		<select class="key-type">
 			<option value="hex">hex</option>
@@ -32,22 +31,29 @@
 			<option value="path">file path</option>
 		</select>
 		<button class="key-button small">choose file</button>
-		<input class="key" type="text">
+		<input class="input key" type="text">
 		<br>
 		<span class="key-extra-wrapper">
-			&nbsp;&nbsp;&nbsp;&nbsp;<span class="key-extra"></span>: <input class="key-extra" type="text"><br>
+			&nbsp;&nbsp;&nbsp;&nbsp;<span class="key-extra"></span>:&nbsp;<input class="input key-extra" type="text"><br>
 		</span>
-		<!-- <button class="private-key-button hide-private-key small"></button> --><br>
-
+		<!-- <button class="private-key-button hide-private-key small"></button> -->
+		<br>
 </div>
 <div class="more-settings">
-	<span class="decimals"></span><input class="decimals" type="text"><br>
-	<span class="account"></span><input class="account" type="text"><br>
-	<span class="network"></span><input class="network" type="text"><br>
-	<span class="confirmations"></span><input class="confirmations" type="text"><br>
-	<span class="infura-key"></span><input class="infura-key" type="text"><br>
-	<span class="provider"></span><input class="provider" type="text"><br>
-	<span class="web3"></span><input class="web3" type="text">
+	<span class="decimals"></span>:&nbsp;<input class="input decimals" type="text"><br>
+	<span class="account"></span>:&nbsp;<input class="input account" type="text"><br>
+	<span class="network"></span>:&nbsp;
+		<select class="input network">
+			<option value="main">main</option>
+			<option value="ropsten">ropsten</option>
+			<option value="rinkeby">rinkeby</option>
+			<option value="kovan">kovan</option>
+		</select>
+		<br>
+	<span class="confirmations"></span>:&nbsp;<input class="input confirmations" type="text"><br>
+	<span class="infura-key"></span>:&nbsp;<input class="input infura-key" type="text"><br>
+	<span class="provider"></span>:&nbsp;<input class="input provider" type="text"><br>
+	<span class="web3"></span>:&nbsp;<input class="input web3" type="text">
 </div>
 					</div>
 					<button class="settings-button-invisible show-more-settings"></button>

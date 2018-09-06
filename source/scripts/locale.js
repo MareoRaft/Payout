@@ -2,6 +2,8 @@
 const osLocale = require('os-locale')
 const $ = require('jquery')
 
+const {$key} = require('./helpers.js')
+
 ////////////////// GLOBALS //////////////////
 // init the strings (STRING) based on the locale
 const STRING = (function() {
@@ -40,9 +42,8 @@ function initStrings(section_keys) {
 	}
 	// init settings in Settings
 	for (let name in STRING['help-settings']) {
-		let content = STRING['help-settings'][name][0] + ': '
-		let identifier = `span.${name}`
-		$(identifier).html(content)
+		let content = STRING['help-settings'][name][0]
+		$key(name).html(content)
 	}
 	// init classed items whose class matches a root-level json key
 	for (let key in STRING) {

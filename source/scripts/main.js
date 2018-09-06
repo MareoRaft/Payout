@@ -20,7 +20,7 @@ const license = require('./license.js')
 const Prompt = require('./prompt.js')
 const Prefs = require('./prefs.js')
 const Queue = require('./queue.js')
-const {getPath} = require('./helpers.js')
+const {getPath, $key} = require('./helpers.js')
 const {STRING, format, initStrings} = require('./locale.js')
 
 //////////////////// GLOBALS ////////////////////
@@ -277,9 +277,8 @@ function initHelpTriggers() {
 	}
 	// help for each setting in Settings
 	for (let name in STRING['help-settings']) {
-		let identifier = `.help-${name}`
-		$(identifier).click(function() {
-			let message = STRING['help-settings'][name]
+		$key(name).click(function() {
+			let message = STRING['help-settings'][name][1]
 			prompt.alert(message, [
 				{
 					text: STRING['ok'],

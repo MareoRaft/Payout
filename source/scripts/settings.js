@@ -6,13 +6,14 @@ const _ = require('lodash')
 const rp = require('request-promise-native')
 const {ipcRenderer} = require('electron')
 
-const {getPath} = require('./helpers.js')
+const {getPath, $key, $value} = require('./helpers.js')
 const {STRING} = require('./locale.js')
 
 ////////////////// GLOBALS //////////////////
 let user_data = undefined
-let SETTINGS_NAMES = ['gas-price', 'contract-address', 'key', 'decimals']
+let SETTINGS_NAMES = Object.keys(require('../assets/strings/en.json')['help-settings'])
 
+////////////////// HELPERS //////////////////
 /////////////////// MAIN ///////////////////
 function init(preferences) {
 	// create pref handle
@@ -24,7 +25,7 @@ function init(preferences) {
 	for (let name of SETTINGS_NAMES) {
 		// when it's value is changed, save it
 		// unfortunately this excludes changes from $().val(new_val)
-		$('.' + name).change(save)
+		$value(name).change(save)
 	}
 	// triggers to update private key input fields
 	$('.key-type, .key-input-type').change(function(){
@@ -32,13 +33,14 @@ function init(preferences) {
 		save()
 	})
 	$('.key-button').click(() => ipcRenderer.send('choose-key-file'))
-	$('input.key, input.key-extra').change(save)
+	$value('key').change(save)
+	$value('key-extra').change(save)
 }
 
 function setKeyPath(event, paths) {
 	// populate the key field with the file PATH
 	let path = getPath(paths)
-	$('input.key').val(path)
+	$value('key').val(path)
 }
 
 function updateKeyInputFields() {
@@ -51,7 +53,7 @@ function updateKeyInputFields() {
 function setKeyInputFields(type, input_type) {
 	let $button = $('.key-button')
 	let $extra_wrapper = $('.key-extra-wrapper')
-	let $extra_prompt = $('span.key-extra')
+	let $extra_prompt = $key('key-extra')
 	// deal with button
 	if (input_type === 'text') {
 		$button.hide()
@@ -78,23 +80,19 @@ function setKeyInputFields(type, input_type) {
 function setKey(key_settings) {
 	// take the user's preferred *key* settings and set them into the GUI
 	// setup
-	let $type = $('.key-type')
-	let $input_type = $('.key-input-type')
-	let $value = $('input.key')
-	let $value_extra = $('input.key-extra')
 	let type = key_settings['type']
 	let input_type = key_settings['input-type']
 	let value = key_settings['value']
 	// update key area itself to show correct boxes
 	setKeyInputFields(type, input_type)
 	// set things in common
-	$type.val(type)
-	$input_type.val(input_type)
-	$value.val(value)
+	$('.key-type').val(type)
+	$('.key-input-type').val(input_type)
+	$value('key').val(value)
 	// set things not in common
 	if ('value-extra' in key_settings) {
 		let value_extra = key_settings['value-extra']
-		$value_extra.val(value_extra)
+		$value('key-extra').val(value_extra)
 	}
 }
 
@@ -102,7 +100,7 @@ function set() {
 	// take the user's preferred settings and set them into the GUI
 	let settings = user_data.get('settings')
 	for (let name of SETTINGS_NAMES) {
-		$('.' + name).val(settings[name])
+		$value(name).val(settings[name])
 	}
 	// deal with key settings
 	setKey(settings['key'])
@@ -112,8 +110,8 @@ function getKey() {
 	// retrieve the key settings that are currently inputted in the GUI
 	let type = $('.key-type').val()
 	let input_type = $('.key-input-type').val()
-	let value = $('input.key').val()
-	let value_extra = $('input.key-extra').val()
+	let value = $value('key').val()
+	let value_extra = $value('key-extra').val()
 	let key_settings = {}
 	key_settings['type'] = type
 	key_settings['input-type'] = input_type
@@ -126,7 +124,7 @@ function get() {
 	// retrieve the settings that are currently inputted in the GUI
 	let settings = {}
 	for (let name of SETTINGS_NAMES) {
-		settings[name] = $('.' + name).val()
+		settings[name] = $value(name).val()
 	}
 	// deal with key settings
 	settings['key'] = getKey()

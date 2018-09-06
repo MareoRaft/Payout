@@ -1,6 +1,7 @@
 /* A place for simple helper/utility functions */
 
 ////////////////// IMPORTS //////////////////
+const $ = require('jquery')
 const is = require('check-types')
 
 const {STRING} = require('./locale.js')
@@ -30,6 +31,18 @@ function getPath(paths) {
 	return path
 }
 
+function $key(name) {
+	// get a jQuery element for a settings key
+	let selector = `span.${name}`
+	return $(selector)
+}
+
+function $value(name) {
+	// get a jQuery element for a settings value
+	let selector = `.input.${name}`
+	return $(selector)
+}
+
 ////////////////// EXPORTS //////////////////
-module.exports = {getPath}
+module.exports = {getPath, $key, $value}
 
