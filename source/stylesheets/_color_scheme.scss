@@ -59,9 +59,11 @@ a {
 	color: $red;
 }
 .overlay {
-	background-color: rgba(255, 255, 255, 0.95);
+	background-color: rgba(255, 255, 255, 0.94);
 	color: #222;
 }
-.key {
+
+/* SETTINGS */
+.some-settings span, .more-settings span {
 	color: $white;
 }

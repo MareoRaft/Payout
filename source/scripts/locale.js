@@ -38,7 +38,13 @@ function initStrings(section_keys) {
 		let $el = $(`section.${key} h2`)
 		$el.html(STRING['sections'][key])
 	}
-	// init classed items whose class matches json key
+	// init settings in Settings
+	for (let name in STRING['help-settings']) {
+		let content = STRING['help-settings'][name][0] + ': '
+		let identifier = `span.${name}`
+		$(identifier).html(content)
+	}
+	// init classed items whose class matches a root-level json key
 	for (let key in STRING) {
 		$('.' + key).html(STRING[key])
 	}

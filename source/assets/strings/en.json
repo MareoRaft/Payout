@@ -35,14 +35,12 @@
 "request-a-license": "Request a license",
 
 "show-more-settings": "Show more settings",
-
 "show-less-settings": "Show less settings",
 
 "look-okay": "Does this look okay?",
 
 "hide-private-key": "Hide private key",
-
-"reset-private-key": "Reset private key",
+"reset-private-key": "Clear private key",
 
 "add-transactions-to-queue": "Add transactions to queue",
 
@@ -59,29 +57,57 @@
 "export-success": "Successfully exported transaction log to '{}'.",
 "export-failure": "An error occured.  Failed to export transactions.",
 
-"payout-confirm": "Payout will now attempt to send a total amount of {}.<br /><br />Do you wish to proceed?",
+"payout-confirm": "Payout will now attempt to send a total amount of {}.<br><br>Do you wish to proceed?",
 
-"clear-queue-confirm": "Are you sure you want to clear the transaction list?<br /><br />It will be permanently removed from this application.  If you need a record of your history, it is recommended that you export your history to a file.  If you have already exported your history to a file, that file will remain intact.",
+"clear-queue-confirm": "Are you sure you want to clear the transaction list?<br><br>It will be permanently removed from this application.  If you need a record of your history, it is recommended that you export your history to a file.  If you have already exported your history to a file, that file will remain intact.",
 
-"prompt-license-request": "To request a license, input your email address in the box, then click 'Request'.<br /><br /><input class='email'><br /><br />A license grants you usage of the Payout application on the particular computer that you request from.  If you need to use Payout on multiple computers or need assistance, feel free to email us at <a href='mailto:mvlancellotti+payout@gmail.com'>mvlancellotti+payout@gmail.com</a>.",
+"prompt-license-request": "To request a license, input your email address in the box, then click 'Request'.<br><br><input class='email'><br><br>A license grants you usage of the Payout application on the particular computer that you request from.  If you need to use Payout on multiple computers or need assistance, feel free to email us at <a href='mailto:mvlancellotti+payout@gmail.com'>mvlancellotti+payout@gmail.com</a>.",
 
 "no-license": "You have not purchased a license.  Payout cannot proceed.",
 
 "help-settings": {
-	"gas-price": "The gas price limit for each transaction, in gwei.<br /><br />If you leave this blank, a recommended gas price limit will be calculated from <a href='https://www.ethgasstation.info'>ETH Gas Station</a> and used automatically.  It is recommended to leave this blank."
+	"gas-price": ["gas price", "The gas price limit for each transaction, in gwei.<br><br>If you leave this blank, a recommended gas price limit will be calculated from <a href='https://www.ethgasstation.info'>ETH Gas Station</a> and used automatically.  It is recommended to leave this blank."],
+
+	"contract-address": ["contract address", "Also known as the 'token' address, this is the contract address for the specific ERC20 token you wish to send.<br><br>For example, if you are sending Bela tokens, the contract address is 0x2e98a6804e4b6c832ed0ca876a943abd3400b224."],
+
+	"private-key": ["private key", "This is the private key for the sending address.<br><br>This must be a Hex-encoded 32-byte private key, and it must start with '0x' to show that it is hex-encoded.  For example, 0xbc13b4d8a9b6df2862b1e1d26083c92ca6f5f4a37a5c86b49cc42dc085376dc1."],
+
+	"decimals": ["decimals", "Every token has a smallest possible unit, and 'decimals' is the number of times you multiply this unit by 10.<br><br>Therefore, 0 will give you the smallest possible unit your token supports.  If you leave this blank, it defaults to the number of decimals required to make the unit equal to 1 token exactly<br><br>For example, pretend that your currency is etherium.  The smallest unit that etherium supports is the wei, which equals 0.000000000000000001 ether.  Therefore, a 'decimals' value of 0 and an 'amount' of 2 will send 2 wei, or 0.000000000000000002 ether.<br><br>On the other hand, if you leave decimals blank, it will default to a value of 18.  A 'decimals' value of 18 and an 'amount' of 2 will send 2000000000000000000 wei, or 2 ether."],
+
+	"account": ["account address", "If connecting to a custom provider (e.g., a private node), this can be set to the address of an unlocked wallet on the provider from which to send the tokens."],
+
+	"mnemonic": ["mnemonic", "BIP39 mnemonic phrase of sender"],
+
+	"mnemonic-index": ["mnemonic index", "Sender's mnemonic account index.  Defaults to 0."],
+
+	"keystore": ["keystore", "Sender's JSON-encoded keystore file contents"],
+
+	"keystore-path": ["keystore file path", "The file path of the JSON-encoded keystore file"],
+
+	"keystore-password": ["keystore password", "The password for the keystore"],
+
+	"network": ["network", "Ethereum network to use<br><br>Acceptable values are 'main', 'ropsten', 'rinkeby', or 'kovan'.<br><br>Defaults to 'main'."],
+
+	"confirmations": ["number of confirmations", "The number of confirmations to wait for after each transaction is mined<br><br>The maximum allowed value is 12. Defaults to 0 (no confirmations)."],
+
+	"infura-key": ["Infura API key", "The Infura API key to use."],
+
+	"provider": ["provider", "A custom provider<br><br>May either be a URI (e.g., http://localhost:8545) or a Provider object from Web3."],
+
+	"web3": ["web3", "A custom web3 object"]
 },
 
 "help-sections": {
-	"help": "Payout is an application that allows you to pay out ERC20 tokens to many people at once.  We welcome you to view our <a href=''>video tutorial</a> on how to use Payout.<br /><br />Payout is built on the <a href='https://github.com/cluracan/send-tokens'>send-tokens</a> library.  It is basically a GUI for <a href='https://github.com/cluracan/send-tokens'>send-tokens</a>, with the following additional features:<ul><li>Payout can import a CSV file that contains a list of transactions.  This is useful if you keep a spreadsheet of people you need to pay, because you can pay them all in one go.</li><li>Payout has a history page where you can look up all of your previous transactions.</li><li>Payout remembers your transaction settings, so once you configure things to your needs, you won't need to worry about it again.</li></ul><br /><br />Each section in Payout has it's own 'help' message just like this one, so you can be in-the-know.  For example, if you click on the big 'Settings' section title, you will get details about the different settings available to you and how to use them.<br /><br />If you need further assistance, feel free to email me at <a href='mailto:mvlancellotti+payout@gmail.com'>mvlancellotti+payout@gmail.com</a>.  You can also raise an issue or report a bug on our GitHub <a href='https://github.com/MareoRaft/Payout/issues'>issue tracker</a>.",
+	"help": "Payout is an application that allows you to pay out ERC20 tokens to many people at once.  We welcome you to view our <a href=''>video tutorial</a> on how to use Payout.<br><br>Payout is built on the <a href='https://github.com/cluracan/send-tokens'>send-tokens</a> library.  It is basically a GUI for <a href='https://github.com/cluracan/send-tokens'>send-tokens</a>, with the following additional features:<ul><li>Payout can import a CSV file that contains a list of transactions.  This is useful if you keep a spreadsheet of people you need to pay, because you can pay them all in one go.</li><li>Payout has a history page where you can look up all of your previous transactions.</li><li>Payout remembers your transaction settings, so once you configure things to your needs, you won't need to worry about it again.</li></ul><br><br>Each section in Payout has it's own 'help' message just like this one, so you can be in-the-know.  For example, if you click on the big 'Settings' section title, you will get details about the different settings available to you and how to use them.<br><br>If you need further assistance, feel free to email me at <a href='mailto:mvlancellotti+payout@gmail.com'>mvlancellotti+payout@gmail.com</a>.  You can also raise an issue or report a bug on our GitHub <a href='https://github.com/MareoRaft/Payout/issues'>issue tracker</a>.",
 
-	"settings": "These are the transaction settings that will be used when attempting to execute your queue'd transactions (which occurs when you click the 'Payout' button).<br /><br />Payout runs on the <a href='https://github.com/cluracan/send-tokens'>send-tokens</a> library, so the settings here are exactly the same as the settings there.  Scroll down and read the 'All Options' section which explains the settings available to you briefly, and then scroll further down and read the 'Full sendTokens() Options' section which explains the settings in further detail.<br /><br />If you need further assistance, feel free to email me at <a href='mailto:mvlancellotti+payout@gmail.com'>mvlancellotti+payout@gmail.com</a>.",
+	"settings": "These are the transaction settings that will be used when attempting to execute your queue'd transactions (which occurs when you click the 'Send' button).<br><br>Payout runs on the <a href='https://github.com/cluracan/send-tokens'>send-tokens</a> library, so the settings here are exactly the same as the settings there.  Scroll down and read the 'All Options' section which explains the settings available to you briefly, and then scroll further down and read the 'Full sendTokens() Options' section which explains the settings in further detail.<br><br>If you need further assistance, feel free to email me at <a href='mailto:mvlancellotti+payout@gmail.com'>mvlancellotti+payout@gmail.com</a>.",
 
-	"queue": "This is where you queue up a list of the transactions you want to execute before actually executing them.<br /><br />If you are using a spreadsheet to record the transactions you want to execute, it should have a column that holds the destination addresses in hex format and a column that holds the amounts you want to send to those addresses.<ol><li>Start by exporting the spreadsheet to CSV format.</li><li>Next, in Payout, click the 'Add transactions to queue' button.</li><li>Use the file navigator to find the CSV-formatted file.</li><li>Payout will then show you a preview of the imported information and ask 'Does this look okay?'.  If Payout imported your file correctly, the addresses will appear in the 'to-address' column and the amounts will appear in the 'amount' column.  Click 'yes' or 'no' honestly.  If it does not look okay, your transactions will fail to send.  Your CSV file should have the addresses in the first column and the amounts in the second column.</li><li>If you clicked 'yes', it will load the transactions into the queue.  If you clicked 'no', it will abort the process.</ol>You may repeat this process as many times as you'd like to load more transactions into the queue.<br /><br />Once finished, you can click the 'Payout' button to actually execute the transactions (send the money).",
+	"queue": "This is where you queue up a list of the transactions you want to execute before actually executing them.<br><br>If you are using a spreadsheet to record the transactions you want to execute, it should have a column that holds the destination addresses in hex format and a column that holds the amounts you want to send to those addresses.<ol><li>Start by exporting the spreadsheet to CSV format.</li><li>Next, in Payout, click the 'Add transactions to queue' button.</li><li>Use the file navigator to find the CSV-formatted file.</li><li>Payout will then show you a preview of the imported information and ask 'Does this look okay?'.  If Payout imported your file correctly, the addresses will appear in the 'to-address' column and the amounts will appear in the 'amount' column.  Click 'yes' or 'no' honestly.  If it does not look okay, your transactions will fail to send.  Your CSV file should have the addresses in the first column and the amounts in the second column.</li><li>If you clicked 'yes', it will load the transactions into the queue.  If you clicked 'no', it will abort the process.</ol><br>You may repeat this process as many times as you'd like to load more transactions into the queue.<br><br>Once finished, you can click the 'Send' button to actually execute the transactions (send the money).",
 
-	"payout": "Click the 'Payout' button to execute all the transactions in the queue.This attempts to send the amount shown in each row of the queue to the address shown in that same row.<br /><br />Any settings specified in the 'Settings' section above are also applied to the transactions.  It is important to make sure the settings are correct before sending money.  In particular, be aware that the decimals setting has the power to adjust the amount sent.  For more information, read the help for the 'Settings' section.<br /><br />Each transaction that is successfully sent will change status to 'sent' and be moved from the queue to the 'success' list below.  Each transaction that fails to send will change status to 'failed' and remain in the queue, but move to the other end of it.",
+	"payout": "Click the 'Send' button to execute all the transactions in the queue.This attempts to send the amount shown in each row of the queue to the address shown in that same row.<br><br>Any settings specified in the 'Settings' section above are also applied to the transactions.  It is important to make sure the settings are correct before sending money.  In particular, be aware that the decimals setting has the power to adjust the amount sent.  For more information, read the help for the 'Settings' section.<br><br>Each transaction that is successfully sent will change status to 'sent' and be moved from the queue to the 'success' list below.  Each transaction that fails to send will change status to 'failed' and remain in the queue, but move to the other end of it.",
 
-	"reset": "Click the 'Reset' button to reset the 'queue' list and the 'success' list.<br /><br />All of the transactions in those two lists will be moved to the 'History' tab of the app, regardless of their status.<br /><br />Hitting the 'Reset' button will NOT reset your settings.  Those will remain the same.",
+	"reset": "Click the 'Reset' button to reset the 'queue' list and the 'success' list.<br><br>All of the transactions in those two lists will be moved to the 'History' tab of the app, regardless of their status.<br><br>Hitting the 'Reset' button will NOT reset your settings.  Those will remain the same.",
 
-	"history": "Your 'History' is a list of all previous transactions.<br /><br />This includes successfully sent transactions (status 'sent'), transactions that failed to send (status 'failed'), and transactions that were never attempted to send in the first place (status 'not sent').<br /><br />In the case of a 'sent' transaction, the timestamp displays the date and time that the transaction successfully went through.  In the case of a 'failed' transaction, the timestamp displays the date and time that the transaction was most recently attempted.  In the case of a 'not sent' transaction, the timestamp displays the date and time that the transaction was uploaded into Payout."
+	"history": "Your 'History' is a list of all previous transactions.<br><br>This includes successfully sent transactions (status 'sent'), transactions that failed to send (status 'failed'), and transactions that were never attempted to send in the first place (status 'not sent').<br><br>In the case of a 'sent' transaction, the timestamp displays the date and time that the transaction successfully went through.  In the case of a 'failed' transaction, the timestamp displays the date and time that the transaction was most recently attempted.  In the case of a 'not sent' transaction, the timestamp displays the date and time that the transaction was uploaded into Payout."
 }
 }

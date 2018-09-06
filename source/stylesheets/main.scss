@@ -171,12 +171,13 @@ section.settings {
 	padding-left: $buffer + 20px;
 	padding-right: $buffer;
 }
-.settings-content-wrapper {
-}
 .more-settings {
 	height: 0px;
 	transition: height 0.9s ease;
-	overflow: hidden;
+	overflow: scroll;
+}
+.some-settings span, .more-settings span {
+	cursor: pointer;
 }
 .settings-button-invisible {
 	align-self: flex-end;
@@ -191,6 +192,7 @@ section.settings {
 }
 button:hover {
 	// argon button drop shadow should go here.  This should also fix hover glitch when clicking on 'show more settings'
+	// now i think maybe i don't want the shadow...
 }
 
 /* QUEUE */

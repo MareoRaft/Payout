@@ -295,9 +295,9 @@ function initTriggers() {
 	}
 	// help for each setting in Settings
 	for (let name in STRING['help-settings']) {
-		let identifier = `.help-${name}`
+		let identifier = `span.${name}`
 		$(identifier).click(function() {
-			let message = STRING['help-settings'][name]
+			let message = STRING['help-settings'][name][1]
 			prompt.alert(message, [
 				{
 					text: STRING['ok'],
