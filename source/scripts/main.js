@@ -20,6 +20,7 @@ const license = require('./license.js')
 const Prompt = require('./prompt.js')
 const Prefs = require('./prefs.js')
 const Queue = require('./queue.js')
+const {getPath} = require('./helpers.js')
 const {STRING, format, initStrings} = require('./locale.js')
 
 //////////////////// GLOBALS ////////////////////
@@ -40,7 +41,6 @@ let SKIP_CONFIRM_PAYOUT = true
 let SKIP_SEND_TOKENS = true
 
 ///////////////// HELPERS /////////////////
-
 /////////////////// MAIN ///////////////////
 async function payout(num_tries=3) {
 	// attempt to pay out all transactions in queue using send-tokens
@@ -157,9 +157,9 @@ function verifyCsv(data) {
 	}
 }
 
-function parseCsv(err, file_content) {
-	if (err) {
-		throw err
+function parseCsv(error, file_content) {
+	if (error) {
+		throw error
 	} else {
 		let options = {
 			columns: ['to-address', 'amount'],
@@ -172,15 +172,14 @@ function parseCsv(err, file_content) {
 	}
 }
 
-function readCsvFile(event, paths) {
-	is.assert.array(paths)
-	is.assert(paths.length === 1)
-	let path = paths[0]
+function importCsvFile(event, paths) {
+	// read the csv file and populate the table
+	let path = getPath(paths)
 	fs.readFile(path, 'utf-8', parseCsv)
 }
 
-function importFile() {
-	ipcRenderer.send('open-file-dialog')
+function requestImportFile() {
+	ipcRenderer.send('choose-csv-file')
 }
 
 function initPrivateKey() {
@@ -204,20 +203,11 @@ function hidePrivateKey() {
 	$button.click(initPrivateKey)
 }
 
-function exportQueue(event, path, queue_id) {
+function exportQueue(event, paths, queue_id) {
 	// export the transactions to path
+	let path = getPath(paths)
 	// we could pass in queue itself instead of queue id if main.js and index.js can share globals
 	let queue = (queue_id === 'before')? queue_before: queue_after;
-	if (!path) {
-		let message = STRING['no-file-selected']
-		prompt.alert(message, [
-			{
-				text: STRING['ok'],
-				callback: _.noop,
-			},
-		])
-		return false
-	}
 	try {
 		let string = JSON.stringify(queue, null, 2)
 		fs.writeFileSync(path, string)
@@ -261,24 +251,8 @@ function initHistory() {
 	queue_after.enqueueAll(history)
 }
 
-function initTriggers() {
-	// buttons
-	initPrivateKey()
-	$('.queue-button').click(importFile)
-	$('.payout-button').click(requestPayout)
-	$('.clear-queue-button').click(function() {
-		requestClearQueue(queue_before)
-	})
-	$('.export-queue-button').click(function() {
-		ipcRenderer.send('before-save-dialog')
-	})
-	$('.clear-history-button').click(function() {
-		requestClearQueue(queue_after)
-	})
-	$('.export-history-button').click(function() {
-		ipcRenderer.send('after-save-dialog')
-	})
-	// help messages
+function initHelpTriggers() {
+	// 'help' navigation tab
 	$('.nav-help').click(function() {
 		let message = STRING['help-sections']['help']
 		prompt.alert(message, [
@@ -303,9 +277,9 @@ function initTriggers() {
 	}
 	// help for each setting in Settings
 	for (let name in STRING['help-settings']) {
-		let identifier = `span.${name}`
+		let identifier = `.help-${name}`
 		$(identifier).click(function() {
-			let message = STRING['help-settings'][name][1]
+			let message = STRING['help-settings'][name]
 			prompt.alert(message, [
 				{
 					text: STRING['ok'],
@@ -314,6 +288,31 @@ function initTriggers() {
 			])
 		})
 	}
+}
+
+function initTriggers() {
+	// buttons
+	initPrivateKey()
+	$('.queue-button').click(requestImportFile)
+	$('.payout-button').click(requestPayout)
+	$('.clear-queue-button').click(function() {
+		requestClearQueue(queue_before)
+	})
+	$('.export-queue-button').click(function() {
+		ipcRenderer.send('before-save-dialog')
+	})
+	$('.clear-history-button').click(function() {
+		requestClearQueue(queue_after)
+	})
+	$('.export-history-button').click(function() {
+		ipcRenderer.send('after-save-dialog')
+	})
+	// help messages
+	initHelpTriggers()
+	// electron things
+	ipcRenderer.on('csv-file-chosen', importCsvFile)
+	ipcRenderer.on('key-file-chosen', settings.setKeyPath)
+	ipcRenderer.on('export-path-chosen', exportQueue)
 }
 
 $(document).ready(function(){

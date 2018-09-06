@@ -88,8 +88,8 @@ function openFileDialog(event, response_event_name) {
     }
   })
 }
-ipcMain.on('open-file-dialog', (event) => openFileDialog(event, 'selected-file'))
-ipcMain.on('choose-key-path', (event) => openFileDialog(event, 'key-path-chosen'))
+ipcMain.on('choose-csv-file', (event) => openFileDialog(event, 'csv-file-chosen'))
+ipcMain.on('choose-key-file', (event) => openFileDialog(event, 'key-file-chosen'))
 
 // open a save-dialog for the queue export, a dialog to ask the user where to save a new file
 function saveDialog(event, queue_id) {

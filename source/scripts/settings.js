@@ -6,6 +6,7 @@ const _ = require('lodash')
 const rp = require('request-promise-native')
 const {ipcRenderer} = require('electron')
 
+const {getPath} = require('./helpers.js')
 const {STRING} = require('./locale.js')
 
 ////////////////// GLOBALS //////////////////
@@ -30,8 +31,14 @@ function init(preferences) {
 		updateKeyInputFields()
 		save()
 	})
-	$('.key-button').click(() => ipcRenderer.send('choose-key-path'))
+	$('.key-button').click(() => ipcRenderer.send('choose-key-file'))
 	$('input.key, input.key-extra').change(save)
+}
+
+function setKeyPath(event, paths) {
+	// populate the key field with the file PATH
+	let path = getPath(paths)
+	$('input.key').val(path)
 }
 
 function updateKeyInputFields() {
@@ -157,7 +164,7 @@ function getSendTokensKeyOptions(settings) {
 			options['key'] = value
 		}
 		else if (input_type === 'path') {
-			throw 'not yet supported'
+			options['key'] = fs.readFileSync(value)
 		}
 		else throw 'bad input type'
 	}
@@ -167,7 +174,7 @@ function getSendTokensKeyOptions(settings) {
 			options['mnemonic'] = value
 		}
 		else if (input_type === 'path') {
-			throw 'not yet supported'
+			options['key'] = fs.readFileSync(value)
 		}
 		else throw 'bad input type'
 		// mnemonic index
@@ -222,4 +229,4 @@ function showMoreLess() {
 }
 
 ////////////////// EXPORTS //////////////////
-module.exports = {init, get, set, save, getSendTokensOptions, showMoreLess}
+module.exports = {init, get, set, save, getSendTokensOptions, showMoreLess, setKeyPath}
