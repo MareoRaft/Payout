@@ -52,7 +52,7 @@
 "export-history-button": "Export history",
 "clear-history-button": "Clear history",
 
-"no-file-selected": "No file to export to was selected.  No action was taken.",
+"no-file-selected": "No file was selected.  No action will be taken.",
 
 "export-success": "Successfully exported transaction log to '{}'.",
 "export-failure": "An error occured.  Failed to export transactions.",
