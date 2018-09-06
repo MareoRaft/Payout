@@ -33,14 +33,14 @@ function init(preferences) {
 		save()
 	})
 	$('.key-button').click(() => ipcRenderer.send('choose-key-file'))
-	$value('key').change(save)
+	$value('private-key').change(save)
 	$value('key-extra').change(save)
 }
 
 function setKeyPath(event, paths) {
 	// populate the key field with the file PATH
 	let path = getPath(paths)
-	$value('key').val(path)
+	$value('private-key').val(path)
 }
 
 function updateKeyInputFields() {
@@ -88,7 +88,7 @@ function setKey(key_settings) {
 	// set things in common
 	$('.key-type').val(type)
 	$('.key-input-type').val(input_type)
-	$value('key').val(value)
+	$value('private-key').val(value)
 	// set things not in common
 	if ('value-extra' in key_settings) {
 		let value_extra = key_settings['value-extra']
@@ -110,7 +110,7 @@ function getKey() {
 	// retrieve the key settings that are currently inputted in the GUI
 	let type = $('.key-type').val()
 	let input_type = $('.key-input-type').val()
-	let value = $value('key').val()
+	let value = $value('private-key').val()
 	let value_extra = $value('key-extra').val()
 	let key_settings = {}
 	key_settings['type'] = type

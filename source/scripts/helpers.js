@@ -33,7 +33,7 @@ function getPath(paths) {
 
 function $key(name) {
 	// get a jQuery element for a settings key
-	let selector = `span.${name}`
+	let selector = `.key.${name}`
 	return $(selector)
 }
 

@@ -18,9 +18,9 @@
 				<div class="settings-flex-wrapper">
 					<div class="settings-content-wrapper">
 <div class="some-settings">
-	<span class="gas-price"></span>:&nbsp;<input class="input gas-price" type="text"> gwei<br>
-	<span class="contract-address"></span>:&nbsp;<input class="input contract-address" type="text"><br>
-	<span class="key"></span>
+	<span class="key gas-price"></span>:&nbsp;<input class="input gas-price" type="text"> gwei<br>
+	<span class="key contract-address"></span>:&nbsp;<input class="input contract-address" type="text"><br>
+	<span class="key private-key"></span>
 		<select class="key-type">
 			<option value="hex">hex</option>
 			<option value="mnemonic">mnemonic</option>
@@ -31,18 +31,18 @@
 			<option value="path">file path</option>
 		</select>
 		<button class="key-button small">choose file</button>
-		<input class="input key" type="text">
+		<input class="input private-key" type="text">
 		<br>
-		<span class="key-extra-wrapper">
-			&nbsp;&nbsp;&nbsp;&nbsp;<span class="key-extra"></span>:&nbsp;<input class="input key-extra" type="text"><br>
+		<span class="key key-extra-wrapper">
+			&nbsp;&nbsp;&nbsp;&nbsp;<span class="key key-extra"></span>:&nbsp;<input class="input key-extra" type="text"><br>
 		</span>
 		<!-- <button class="private-key-button hide-private-key small"></button> -->
 		<br>
 </div>
 <div class="more-settings">
-	<span class="decimals"></span>:&nbsp;<input class="input decimals" type="text"><br>
-	<span class="account"></span>:&nbsp;<input class="input account" type="text"><br>
-	<span class="network"></span>:&nbsp;
+	<span class="key decimals"></span>:&nbsp;<input class="input decimals" type="text"><br>
+	<span class="key account"></span>:&nbsp;<input class="input account" type="text"><br>
+	<span class="key network"></span>:&nbsp;
 		<select class="input network">
 			<option value="main">main</option>
 			<option value="ropsten">ropsten</option>
@@ -50,10 +50,10 @@
 			<option value="kovan">kovan</option>
 		</select>
 		<br>
-	<span class="confirmations"></span>:&nbsp;<input class="input confirmations" type="text"><br>
-	<span class="infura-key"></span>:&nbsp;<input class="input infura-key" type="text"><br>
-	<span class="provider"></span>:&nbsp;<input class="input provider" type="text"><br>
-	<span class="web3"></span>:&nbsp;<input class="input web3" type="text">
+	<span class="key confirmations"></span>:&nbsp;<input class="input confirmations" type="text"><br>
+	<span class="key infura-key"></span>:&nbsp;<input class="input infura-key" type="text"><br>
+	<span class="key provider"></span>:&nbsp;<input class="input provider" type="text"><br>
+	<span class="key web3"></span>:&nbsp;<input class="input web3" type="text">
 </div>
 					</div>
 					<button class="settings-button-invisible show-more-settings"></button>
