@@ -35,8 +35,13 @@ function init(preferences) {
 }
 
 function updateKeyInputFields() {
+	// update boxes in key area based on what the user selected in the dropdowns
 	let type = $('.key-type').val()
 	let input_type = $('.key-input-type').val()
+	setKeyInputFields(type, input_type)
+}
+
+function setKeyInputFields(type, input_type) {
 	let $button = $('.key-button')
 	let $extra_wrapper = $('.key-extra-wrapper')
 	let $extra_prompt = $('span.key-extra')
@@ -53,10 +58,47 @@ function updateKeyInputFields() {
 		$extra_wrapper.hide()
 	}
 	else if (type === 'mnemonic') {
-		$extra_prompt.html('index')
+		$extra_prompt.html(STRING['key-extra-mnemonic'])
+		$extra_wrapper.show()
+	}
+	else if (type === 'keystore') {
+		$extra_prompt.html(STRING['key-extra-keystore'])
 		$extra_wrapper.show()
 	}
 	else throw 'bad type'
+}
+
+function setKey(key_settings) {
+	// take the user's preferred *key* settings and set them into the GUI
+	// setup
+	let $type = $('.key-type')
+	let $input_type = $('.key-input-type')
+	let $value = $('input.key')
+	let $value_extra = $('input.key-extra')
+	let type = key_settings['type']
+	let input_type = key_settings['input-type']
+	let value = key_settings['value']
+	// update key area itself to show correct boxes
+	setKeyInputFields(type, input_type)
+	// set things in common
+	$type.val(type)
+	$input_type.val(input_type)
+	$value.val(value)
+	// set things not in common
+	if ('value-extra' in key_settings) {
+		let value_extra = key_settings['value-extra']
+		$value_extra.val(value_extra)
+	}
+}
+
+function set() {
+	// take the user's preferred settings and set them into the GUI
+	let settings = user_data.get('settings')
+	for (let name of SETTINGS_NAMES) {
+		$('.' + name).val(settings[name])
+	}
+	// deal with key settings
+	setKey(settings['key'])
 }
 
 function getKey() {
@@ -64,18 +106,12 @@ function getKey() {
 	let type = $('.key-type').val()
 	let input_type = $('.key-input-type').val()
 	let value = $('input.key').val()
+	let value_extra = $('input.key-extra').val()
 	let key_settings = {}
 	key_settings['type'] = type
 	key_settings['input-type'] = input_type
 	key_settings['value'] = value
-	if (type === 'hex') {
-		// pass
-	}
-	else if (type === 'mnemonic') {
-		let value_extra = $('input.key-extra').val()
-		key_settings['value-extra'] = value_extra
-	}
-	else throw 'bad type'
+	key_settings['value-extra'] = value_extra
 	return key_settings
 }
 
@@ -89,41 +125,6 @@ function get() {
 	settings['key'] = getKey()
 	// return
 	return settings
-}
-
-function setKey(key_settings) {
-	// retrieve the key settings that are currently inputted in the GUI
-	// setup
-	let $type = $('.key-type')
-	let $input_type = $('.key-input-type')
-	let $value = $('input.key')
-	let $value_extra = $('input.key-extra')
-	let type = key_settings['type']
-	let input_type = key_settings['input-type']
-	let value = key_settings['value']
-	// set things in common
-	$type.val(type)
-	$input_type.val(input_type)
-	$value.val(value)
-	// set things not in common
-	if (type === 'hex') {
-		// pass
-	}
-	else if (type === 'mnemonic') {
-		let value_extra = key_settings['value-extra']
-		$value_extra.val(value_extra)
-	}
-	else throw 'bad type'
-}
-
-function set() {
-	// take the user's preferred settings and set them into the GUI
-	let settings = user_data.get('settings')
-	for (let name of SETTINGS_NAMES) {
-		$('.' + name).val(settings[name])
-	}
-	// deal with key settings
-	setKey(settings['key'])
 }
 
 function save() {
@@ -203,7 +204,6 @@ async function getSendTokensOptions() {
 	let key_options = getSendTokensKeyOptions(settings['key'])
 	_.extend(options, key_options)
 	// return
-	console.log(options)
 	return [settings['contract-address'], options]
 }
 

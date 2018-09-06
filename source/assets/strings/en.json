@@ -65,24 +65,15 @@
 
 "no-license": "You have not purchased a license.  Payout cannot proceed.",
 
+"key-extra-mnemonic": "mnemonic index",
+"key-extra-keystore": "keystore password",
+
 "help-settings": {
 	"gas-price": ["gas price", "The gas price limit for each transaction, in gwei.<br><br>If you leave this blank, a recommended gas price limit will be calculated from <a href='https://www.ethgasstation.info'>ETH Gas Station</a> and used automatically.  It is recommended to leave this blank."],
 
 	"contract-address": ["contract address", "Also known as the 'token' address, this is the contract address for the specific ERC20 token you wish to send.<br><br>For example, if you are sending Bela tokens, the contract address is 0x2e98a6804e4b6c832ed0ca876a943abd3400b224."],
 
-	"key": ["private key", "many ways to enter key"],
-
-	"private-key": ["private key", "This is the private key for the sending address.<br><br>This must be a Hex-encoded 32-byte private key, and it must start with '0x' to show that it is hex-encoded.  For example, 0xbc13b4d8a9b6df2862b1e1d26083c92ca6f5f4a37a5c86b49cc42dc085376dc1."],
-
-	"mnemonic": ["mnemonic", "BIP39 mnemonic phrase of sender"],
-
-	"mnemonic-index": ["mnemonic index", "Sender's mnemonic account index.  Defaults to 0."],
-
-	"keystore": ["keystore", "Sender's JSON-encoded keystore file contents"],
-
-	"keystore-path": ["keystore file path", "The file path of the JSON-encoded keystore file"],
-
-	"keystore-password": ["keystore password", "The password for the keystore"],
+	"key": ["private key", "The private key for the sending address.  Currently, 3 types of private keys are supported:<br><br><h3>hex</h3>This is a hex-encoded 32-byte private key.  It must start with '0x' to show that it is hex-encoded.  For example, 0xbc13b4d8a9b6df2862b1e1d26083c92ca6f5f4a37a5c86b49cc42dc085376dc1<br><br><h3>mnemonic</h3>This is a BIP39 mnemonic phrase.  With this option selected, you may also input the mnemonic account index in the 'mnemonic index' field.  The mnemonic index defaults to 0.<br><br><h3>keystore</h3>JSON-encoded keystore file contents.  With this option selected, you may also input the password for the keystore in the 'keystore password' field."],
 
 	"decimals": ["decimals", "Every token has a smallest possible unit, and 'decimals' is the number of times you multiply this unit by 10.<br><br>Therefore, 0 will give you the smallest possible unit your token supports.  If you leave this blank, it defaults to the number of decimals required to make the unit equal to 1 token exactly<br><br>For example, pretend that your currency is etherium.  The smallest unit that etherium supports is the wei, which equals 0.000000000000000001 ether.  Therefore, a 'decimals' value of 0 and an 'amount' of 2 will send 2 wei, or 0.000000000000000002 ether.<br><br>On the other hand, if you leave decimals blank, it will default to a value of 18.  A 'decimals' value of 18 and an 'amount' of 2 will send 2000000000000000000 wei, or 2 ether."],
 
