@@ -28,10 +28,10 @@ const prompt = new Prompt('.buttons-flex-wrapper')
 const user_data = new Prefs()
 // the queue of transactions to-be-sent
 let queue_before = new Queue(onchange=function() {
-	tables.update('before-table', queue_before)
+	tables.update('before-queue', queue_before)
 })
 let queue_after = new Queue(onchange=function() {
-	tables.update('after-table', queue_after)
+	tables.update('after-queue', queue_after)
 	user_data.set('history', queue_after)
 })
 const SECTIONS = ['settings', 'queue', 'payout', 'success', 'history']
@@ -61,13 +61,13 @@ async function payout(num_tries=3) {
 					tx['time'] = getTimestamp()
 					tx['status'] = STRING['fake sent']
 					tx['info'] = receipt['transactionHash']
-					queue_success.enqueue(tx)
+					queue_after.enqueue(tx)
 				} else {
 					sendTokens(contract_address, tx['to-address'], tx['amount'], options).then(function(receipt) {
 						tx['time'] = getTimestamp()
 						tx['status'] = STRING['sent']
 						tx['info'] = receipt['transactionHash']
-						queue_success.enqueue(tx)
+						queue_after.enqueue(tx)
 					})
 				}
 			} catch(error) {
@@ -308,7 +308,10 @@ $(document).ready(function(){
 	initStrings(SECTIONS)
 	license.init(prompt, payout)
 	initDateExtend()
-	tables.initMany(['before-table', 'after-table'])
+	tables.initMany([
+		['before-queue', queue_before],
+		['after-queue', queue_after],
+	])
 	initTriggers()
 	// AFTER triggers b/c triggers clears the private key field
 	settings.init(user_data)

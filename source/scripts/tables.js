@@ -1,9 +1,10 @@
 /* In the UI, there are multiple tables that get populated with transactions.  This includes the 'queue' table, the 'success' table, and the 'history' table.  The purpose of this module is to bind the javascript transaction data to the html tables. */
 
 ////////////////// IMPORTS //////////////////
+const $ = require('jquery')
+const _ = require('lodash')
 const d3 = require('d3')
 const is = require('check-types')
-const _ = require('lodash')
 
 const {STRING} = require('./locale.js')
 
@@ -19,29 +20,19 @@ function generateTxId(tx) {
 	return `${tx['to_address']}--${tx['amount']}--${tx['status']}--${tx['info']}`
 }
 
-function initHeader(table_id){
-	let thead = d3.select('#' + table_id).select('thead')
-	// populate the header
-	let header_row = thead.append('tr')
-	let header_cells = header_row.selectAll('th')
-	// enter data into header
-	let bound_header_cells = header_cells.data(COLUMNS)
-	bound_header_cells.enter()
-		.append('th')
-		.text(function(col){ return col })
-}
-
-function init(table_id) {
-	// get handles
-	let table = d3.select('#' + table_id)
-	table.append('thead')
-	table.append('tbody')
-	initHeader(table_id)
-}
-
-function initMany(table_ids) {
-	for (let table_id of table_ids) {
-		init(table_id)
+function updateEmpty(table_id, tx_queue) {
+	let $table = $('#' + table_id)
+	let $placeholder = $('#' + table_id + '-empty')
+	// detect if a table is empty.  If it is, hide it and show an image instead
+	is.assert.array(tx_queue)
+	if (is.nonEmptyArray(tx_queue)) {
+		// table is not empty
+		$placeholder.hide()
+		$table.show()
+	} else {
+		// table is empty
+		$table.hide()
+		$placeholder.show()
 	}
 }
 
@@ -77,12 +68,43 @@ function update(table_id, tx_queue) {
 		.text(tx => tx['time'])
 	// how to remove a row
 	bound_rows.exit().remove()
+	// finally, if the table is empty, show an image instead
+	updateEmpty(table_id, tx_queue)
 }
 
 function updateMany(list) {
 	is.assert.array(list)
 	for (let [table_id, tx_queue] of list) {
 		update(table_id, tx_queue)
+	}
+}
+
+function initHeader(table_id){
+	let thead = d3.select('#' + table_id).select('thead')
+	// populate the header
+	let header_row = thead.append('tr')
+	let header_cells = header_row.selectAll('th')
+	// enter data into header
+	let bound_header_cells = header_cells.data(COLUMNS)
+	bound_header_cells.enter()
+		.append('th')
+		.text(function(col){ return col })
+}
+
+function init(table_id, tx_queue) {
+	// get handles
+	let table = d3.select('#' + table_id)
+	table.append('thead')
+	table.append('tbody')
+	initHeader(table_id)
+	update(table_id, tx_queue)
+}
+
+function initMany(lists) {
+	for (let lis of lists) {
+		let table_id = lis[0]
+		let tx_queue = lis[1]
+		init(table_id, tx_queue)
 	}
 }
 

@@ -65,6 +65,8 @@
 
 "no-license": "You have not purchased a license.  Payout cannot proceed.",
 
+"queue-empty": "No transactions here!",
+
 "key-extra-mnemonic": "mnemonic index",
 "key-extra-keystore": "keystore password",
 
