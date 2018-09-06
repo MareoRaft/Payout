@@ -36,7 +36,8 @@ let queue_after = new Queue(onchange=function() {
 const SECTIONS = ['settings', 'queue', 'payout', 'success', 'history']
 // the 'help' explanation for each section
 let SKIP_CONFIRM_CSV = true
-let SKIP_CONFIRM_PAYOUT = false
+let SKIP_CONFIRM_PAYOUT = true
+let SKIP_SEND_TOKENS = true
 
 ///////////////// HELPERS /////////////////
 
@@ -44,7 +45,7 @@ let SKIP_CONFIRM_PAYOUT = false
 async function payout(num_tries=3) {
 	// attempt to pay out all transactions in queue using send-tokens
 	// get user input
-	let [contract_address, options] = await settings.getPayoutOptions()
+	let [contract_address, options] = await settings.getSendTokensOptions()
 	// feed into send-tokens
 	let queue_fail = new Queue()
 	// since transactions sometimes fail, we attempt to send multiple times
@@ -55,13 +56,20 @@ async function payout(num_tries=3) {
 			let tx = queue_before.dequeue()
 			try{
 				// sendTokens returns a Promise
-				sendTokens(contract_address, tx['to-address'], tx['amount'], options).then(function(receipt) {
-					// let receipt = {transactionHash: 'tx hash here'}
+				if (SKIP_SEND_TOKENS) {
+					let receipt = {transactionHash: 'tx hash here'}
 					tx['time'] = getTimestamp()
-					tx['status'] = STRING['sent']
+					tx['status'] = STRING['fake sent']
 					tx['info'] = receipt['transactionHash']
 					queue_success.enqueue(tx)
-				})
+				} else {
+					sendTokens(contract_address, tx['to-address'], tx['amount'], options).then(function(receipt) {
+						tx['time'] = getTimestamp()
+						tx['status'] = STRING['sent']
+						tx['info'] = receipt['transactionHash']
+						queue_success.enqueue(tx)
+					})
+				}
 			} catch(error) {
 				console.log(error)
 				tx['time'] = getTimestamp()

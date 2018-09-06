@@ -2,6 +2,7 @@
 
 ////////////////// IMPORTS //////////////////
 const $ = require('jquery')
+const _ = require('lodash')
 const rp = require('request-promise-native')
 const {ipcRenderer} = require('electron')
 
@@ -141,7 +142,53 @@ async function getRecommendedGasPrice() {
 	return recommended_gas_price_in_gwei
 }
 
-async function getPayoutOptions() {
+function getSendTokensKeyOptions(settings) {
+	// retrieves the *key* settings and re-organizes them into the correct inputs for send-tokens
+	// setup
+	let options = {}
+	let type = settings['type']
+	let input_type = settings['input-type']
+	let value = settings['value']
+	let value_extra = settings['value-extra']
+	// cases
+	if (type === 'hex') {
+		if (input_type === 'text') {
+			options['key'] = value
+		}
+		else if (input_type === 'path') {
+			throw 'not yet supported'
+		}
+		else throw 'bad input type'
+	}
+	else if (type === 'mnemonic') {
+		// mnemonic
+		if (input_type === 'text') {
+			options['mnemonic'] = value
+		}
+		else if (input_type === 'path') {
+			throw 'not yet supported'
+		}
+		else throw 'bad input type'
+		// mnemonic index
+		options['mnemonicIndex'] = value_extra
+	}
+	else if (type === 'keystore') {
+		// keystore
+		if (input_type === 'text') {
+			options['keystore'] = value
+		}
+		else if (input_type === 'path') {
+			options['keystoreFile'] = value
+		}
+		else throw 'bad input type'
+		// keystore password
+		options['password'] = value_extra
+	}
+	else throw 'bad type'
+	return options
+}
+
+async function getSendTokensOptions() {
 	// retrieves the settings and re-organizes them into the correct inputs for send-tokens
 	let settings = get()
 	// if no gas price is specified, use a recommended price
@@ -149,10 +196,14 @@ async function getPayoutOptions() {
 	// construct inputs for send-tokens
 	let options = {
 		gasPrice: gas_price,
-		key: settings['private-key'],
 		// decimals: settings['decimals'],
 		onTxId: console.log,
 	}
+	// deal with key options
+	let key_options = getSendTokensKeyOptions(settings['key'])
+	_.extend(options, key_options)
+	// return
+	console.log(options)
 	return [settings['contract-address'], options]
 }
 
@@ -171,4 +222,4 @@ function showMoreLess() {
 }
 
 ////////////////// EXPORTS //////////////////
-module.exports = {init, get, set, save, getPayoutOptions, showMoreLess}
+module.exports = {init, get, set, save, getSendTokensOptions, showMoreLess}
