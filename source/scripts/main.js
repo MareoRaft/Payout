@@ -20,7 +20,7 @@ const license = require('./license.js')
 const Prompt = require('./prompt.js')
 const Prefs = require('./prefs.js')
 const Queue = require('./queue.js')
-const {getPath, $key} = require('./helpers.js')
+const {getPath, $key, $value} = require('./helpers.js')
 const {STRING, format, initStrings} = require('./locale.js')
 
 //////////////////// GLOBALS ////////////////////
@@ -183,9 +183,9 @@ function requestImportFile() {
 }
 
 function initPrivateKey() {
-	let $key = $('.private-key')
-	$key.val('')
-	$key.prop('type', 'text')
+	let $val = $value('private-key')
+	$val.val('')
+	$val.prop('type', 'text')
 	let $button = $('.private-key-button')
 	$button.html(STRING['hide-private-key'])
 	// remove old click events if they exist
@@ -194,8 +194,8 @@ function initPrivateKey() {
 }
 
 function hidePrivateKey() {
-	let $key = $('.private-key')
-	$key.prop('type', 'password')
+	let $val = $value('private-key')
+	$val.prop('type', 'password')
 	let $button = $('.private-key-button')
 	$button.html(STRING['reset-private-key'])
 	// remove old click events if they exist
@@ -252,16 +252,6 @@ function initHistory() {
 }
 
 function initHelpTriggers() {
-	// 'help' navigation tab
-	$('.nav-help').click(function() {
-		let message = STRING['help-sections']['help']
-		prompt.alert(message, [
-			{
-				text: STRING['ok'],
-				callback: _.noop,
-			},
-		])
-	})
 	// help for each section
 	for (let section in STRING['help-sections']) {
 		let identifier = `section.${section} h2`

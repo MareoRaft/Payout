@@ -218,7 +218,7 @@ function showMoreLess() {
 	let $button = $('.settings-button, .settings-button-invisible')
 	if ($more_settings.height() === 0) {
 		// need fixed height to get transition animation :(
-		$more_settings.height('396px')
+		$more_settings.height('206px')
 		$button.html(STRING['show-less-settings'])
 	} else {
 		$more_settings.height('0px')

@@ -109,7 +109,6 @@ button:not(:disabled):not(.disabled) {
 }
 input {
 	@include font();
-	background-color: gray;
 }
 .email {
 	width: 100%;
@@ -184,6 +183,15 @@ section.settings {
 }
 .some-settings span, .more-settings span {
 	cursor: pointer;
+}
+.input {
+	width: 60%;
+}
+.input.gas-price {
+	max-width: 44px;
+}
+.input.network {
+	width: auto;
 }
 .settings-button-invisible {
 	align-self: flex-end;
