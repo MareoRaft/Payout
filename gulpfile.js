@@ -7,8 +7,6 @@ const gulp = require('gulp')
 
 const compass = require('gulp-for-compass')
 const autoprefixer = require('gulp-autoprefixer')
-// const exec = require('child_process').exec
-
 
 /////////////////// GLOBALS ///////////////////
 const src_assets = 'source/assets'
@@ -27,7 +25,6 @@ const bld_img = 'build/images'
 const log_standard = function(event) {
 	console.log('File ' + event.path + ' was ' + event.type + ', running tasks...')
 }
-
 
 ///////////////////// MAIN /////////////////////
 gulp.task('css', function() {

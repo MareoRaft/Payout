@@ -6,13 +6,6 @@ if (require('electron-squirrel-startup')) { // eslint-disable-line global-requir
   app.quit()
 }
 
-// This SHOULD be removed in the make process
-// This enabled automatic reload for dev convenience
-require('electron-reload')(__dirname, {
-  // uncomment for hard resets
-  // electron: require(`${__dirname}/../node_modules/electron`)
-})
-
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow

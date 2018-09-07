@@ -1,6 +1,8 @@
 /* Our custom settings module.  Mainly just for organization purposes, to put all settings things in one place */
 
 ////////////////// IMPORTS //////////////////
+const fs = require('fs')
+
 const $ = require('jquery')
 const _ = require('lodash')
 const rp = require('request-promise-native')

@@ -1,7 +1,6 @@
 /* This is not the 'main' electron javascript process, but rather the 'main' point of entry for all javascript files that I wrote in this app. */
 
 //////////////////// IMPORTS ////////////////////
-const exec = require('child_process').exec
 const fs = require('fs')
 
 const {ipcRenderer} = require('electron')
