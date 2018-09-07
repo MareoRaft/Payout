@@ -33,18 +33,19 @@ let queue_after = new Queue(onchange=function() {
 	tables.update('after-queue', queue_after)
 	user_data.set('history', queue_after)
 })
-const SECTIONS = ['settings', 'queue', 'payout', 'success', 'history']
+const SECTIONS = ['settings', 'queue', 'payout', 'history']
 // the 'help' explanation for each section
 let SKIP_CONFIRM_CSV = true
 let SKIP_CONFIRM_PAYOUT = true
 let SKIP_SEND_TOKENS = true
 
-///////////////// HELPERS /////////////////
 /////////////////// MAIN ///////////////////
 async function payout(num_tries=3) {
 	// attempt to pay out all transactions in queue using send-tokens
 	// get user input
-	let [contract_address, options] = await settings.getSendTokensOptions()
+	if (!SKIP_SEND_TOKENS) {
+		let [contract_address, options] = await settings.getSendTokensOptions()
+	}
 	// feed into send-tokens
 	let queue_fail = new Queue()
 	// since transactions sometimes fail, we attempt to send multiple times
@@ -173,7 +174,7 @@ function parseCsv(error, file_content) {
 
 function importCsvFile(event, paths) {
 	// read the csv file and populate the table
-	let path = getPath(paths)
+	let path = getPath(paths, prompt)
 	fs.readFile(path, 'utf-8', parseCsv)
 }
 
@@ -204,7 +205,7 @@ function hidePrivateKey() {
 
 function exportQueue(event, paths, queue_id) {
 	// export the transactions to path
-	let path = getPath(paths)
+	let path = getPath(paths, prompt)
 	// we could pass in queue itself instead of queue id if main.js and index.js can share globals
 	let queue = (queue_id === 'before')? queue_before: queue_after;
 	try {
@@ -313,7 +314,7 @@ $(document).ready(function(){
 	])
 	initTriggers()
 	// AFTER triggers b/c triggers clears the private key field
-	settings.init(user_data)
+	settings.init(user_data, prompt)
 	initHistory()
 })
 

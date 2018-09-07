@@ -8,7 +8,7 @@ const {STRING} = require('./locale.js')
 
 ////////////////// GLOBALS //////////////////
 /////////////////// MAIN ///////////////////
-function promptNoFileSelected() {
+function promptNoFileSelected(prompt) {
 	let message = STRING['no-file-selected']
 	prompt.alert(message, [
 		{
@@ -18,13 +18,13 @@ function promptNoFileSelected() {
 	])
 }
 
-function getPath(paths) {
+function getPath(paths, prompt) {
 	try {
 		is.assert.array(paths)
 		is.assert(paths.length === 1)
 	}
 	catch(error) {
-		promptNoFileSelected()
+		promptNoFileSelected(prompt)
 		throw 'no file selected'
 	}
 	let path = paths[0]

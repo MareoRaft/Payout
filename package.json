@@ -55,6 +55,7 @@
     "csv-parse": "^3.0.0",
     "d3": "^5.7.0",
     "datejs": "^1.0.0-rc3",
+    "electron-compile": "^6.4.3",
     "electron-squirrel-startup": "^1.0.0",
     "electron-store": "^2.0.0",
     "electron-window-state": "^5.0.0",

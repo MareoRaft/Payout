@@ -13,13 +13,14 @@ const {STRING} = require('./locale.js')
 
 ////////////////// GLOBALS //////////////////
 let user_data = undefined
+let prompt = undefined
 let SETTINGS_NAMES = Object.keys(require('../assets/strings/en.json')['help-settings'])
 
-////////////////// HELPERS //////////////////
 /////////////////// MAIN ///////////////////
-function init(preferences) {
+function init(preferences, theprompt) {
 	// create pref handle
 	user_data = preferences
+	prompt = theprompt
 	// restore saved settings to GUI
 	set()
 	// init triggers
@@ -41,7 +42,7 @@ function init(preferences) {
 
 function setKeyPath(event, paths) {
 	// populate the key field with the file PATH
-	let path = getPath(paths)
+	let path = getPath(paths, prompt)
 	$value('private-key').val(path)
 }
 

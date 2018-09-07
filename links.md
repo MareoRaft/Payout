@@ -79,8 +79,8 @@ and you can find examples of usage if you scroll down on:
 https://stackoverflow.com/questions/23080413/nodejs-reading-csv-file#23085938
 
 to SLIM the application once finished:
+  * adding ELECTRON-COMPILE now for dist
   * remove simple-encryptor if it's not needed
-  * module 'csv' is not needed.  'csv-parse' is enough
   * use the 'exclude' option or whatever its called in electron-forge package/make options to exclude all unnecessary files
   * may need to delete everything in node_modules and reinstall via npm install before making dist
 OPTIONAL SLIM if the application is slow:
